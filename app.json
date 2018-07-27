@@ -1,0 +1,21 @@
+{
+  "name": "football-stuff",
+  "description": "Football results of the 5 major leagues",
+  "scripts": {
+  },
+  "env": {
+  },
+  "formation": {
+    "web": {
+      "quantity": 1
+    }
+  },
+  "addons": [
+
+  ],
+  "buildpacks": [
+    {
+      "url": "heroku/nodejs"
+    }
+  ]
+}

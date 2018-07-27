@@ -1,0 +1,61 @@
+#root {
+  font-family: 'Roboto', sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 3%
+}
+
+.table-content {
+	font-size: 14px;
+	border-top: 0px;
+}
+
+.sortable span {
+	display: none
+}
+
+.nav-tab.active{
+	border-bottom: 1px solid #ddd;
+}
+
+.loader {
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.main-container{
+  width: 80%
+}
+
+.nav.nav-pills.nav-stacked {
+    width: 15%;
+    float: left;
+    margin-top: 31px;
+}
+.my_table {
+    margin-left: 20%;
+}
+
+.nav.nav-pills li{
+  width: 100%
+}
+
+.table {
+  margin-bottom: 0px;
+}
+
+th {
+  text-align: center;
+}
+
+table {
+  text-align: center;
+}
+
+.align-left{
+  text-align: left;
+}

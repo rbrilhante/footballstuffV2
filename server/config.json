@@ -1,0 +1,85 @@
+{
+	"competitions":
+	[
+		{
+		"year": "2016",
+		"leagues": [
+			{ 
+				"name": "Spain",
+				"web_id": "98390"
+			},
+			{ 
+				"name": "England",
+				"web_id": "97911"
+			},
+			{ 
+				"name": "Germany",
+				"web_id": "98149"
+			},
+			{ 
+				"name": "Italy",
+				"web_id": "98469"
+			},
+			{ 
+				"name": "France",
+				"web_id": "97814"
+			}
+		]},
+		{
+		"year": "2017",
+		"leagues": [
+			{ 
+				"name": "Spain",
+				"web_id": "111542"
+			},
+			{ 
+				"name": "England",
+				"web_id": "107414"
+			},
+			{ 
+				"name": "Germany",
+				"web_id": "108189"
+			},
+			{ 
+				"name": "Italy",
+				"web_id": "112001"
+			},
+			{ 
+				"name": "France",
+				"web_id": "107441"
+			}
+		]},
+		{
+		"year": "2018",
+		"leagues": [
+			{ 
+				"name": "Spain",
+				"web_id": ""
+			},
+			{ 
+				"name": "England",
+				"web_id": "124917"
+			},
+			{ 
+				"name": "Germany",
+				"web_id": "125129"
+			},
+			{ 
+				"name": "Italy",
+				"web_id": ""
+			},
+			{ 
+				"name": "France",
+				"web_id": "124875"
+			}
+		]}
+	],
+	"web_scrapper":
+	{
+		"base_url": "http://www.zerozero.pt",
+		"league_page": "/edicao.php?id_edicao=",
+		"table_id": "edition_table",
+		"team_form": "team_games",
+		"result_id": "form"
+	}
+}
