@@ -10,7 +10,7 @@ class TableComponent extends Component {
   componentWillReceiveProps(nextProps) {
     if(nextProps.league_id){
       this.loadTable(nextProps.league_id);
-    } else if(nextProps.league){
+    } if(nextProps.league){
       this.setState({league: nextProps.league});
     }
   }
