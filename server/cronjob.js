@@ -2,7 +2,7 @@ var dbHelper = require('./db/db_helper.js');
 var webScrapper = require('./webscrapper/webscrapper.js');
 var fs = require('fs');
 var configs;
-fs.readFile('./config.json', 'utf8', function (err, data) {
+fs.readFile('./server/config.json', 'utf8', function (err, data) {
   if (err) throw err;
   configs = JSON.parse(data);
 });
@@ -23,7 +23,7 @@ function cronJob(){
 
   var datetime = new Date();
   var current_year = datetime.getFullYear();
-  var month = datetime.getMonth();
+  var month = datetime.getMonth() + 1;
 
   if(month <= 7){
       current_year = current_year - 1;
