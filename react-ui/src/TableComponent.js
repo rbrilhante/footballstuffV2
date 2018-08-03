@@ -51,7 +51,8 @@ class TableComponent extends Component {
                     return(
                       <tr>
                         <td className="align-left">{team.league_pos}</td>
-                        <td className="align-left">{team.name}</td>
+                        <td className="align-left">
+                        <a href={team.form_link} target="_blank">{team.name}</a></td>
                         <td>{team.points}</td>
                         <td>{team.games}</td>
                         <td>{team.wins}</td>

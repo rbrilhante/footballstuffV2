@@ -32,11 +32,10 @@ function loadLeague(league_id, callback){
 
 function loadTeamFormPage(team_form_page_url, callback){
 	var j = request.jar();
-	var url = configs.base_url + team_form_page_url;
 	var cookie = request.cookie("jcenable=1");
-	j.setCookie(cookie, url);
+	j.setCookie(cookie, team_form_page_url);
 	var options = {
-  		url: url,
+  		url: team_form_page_url,
   		jar: j,
   		encoding: 'binary'
 	}
@@ -63,7 +62,7 @@ function getTeamInfo(league_page, team){
 	name = team_page.eq(2).children().first().text();
 	points = team_page.eq(3).children().first().text(); 
 	games = team_page.eq(4).children().first().text();
-	form_page_url = team_page.eq(4).children().last().attr('href');
+	form_page_url = configs.base_url + team_page.eq(4).children().last().attr('href');
  	wins = team_page.eq(5).children().first().text();
   	draws = team_page.eq(6).children().first().text();
  	losses = team_page.eq(7).children().first().text();

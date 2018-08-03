@@ -12,6 +12,7 @@ var TeamSchema = new Schema({
  draws: Number,
  goals_scored: Number,
  goals_against: Number,
+ form_link: String,
  form: Array
 });
 

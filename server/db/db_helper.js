@@ -105,6 +105,7 @@ function saveTeam(team, league_id, team_info, team_form){
 	    draws : team_info.draws,
 	    goals_scored : team_info.goals_scored, 
 	    goals_against : team_info.goals_against,
+	    form_link : team_info.form_page,
 		form : team_form
 	});
     team.save(function (err, db_team) {
