@@ -46,7 +46,7 @@ function getCompetitions(callback){
 			callback(err);
 		}
 		callback(null, competition);
-	});
+	}).sort({year:-1});
 }
 
 function getCompetitionByYear(year, callback){
