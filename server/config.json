@@ -2,54 +2,6 @@
 	"competitions":
 	[
 		{
-		"year": "2016",
-		"leagues": [
-			{ 
-				"name": "Spain",
-				"web_id": "98390"
-			},
-			{ 
-				"name": "England",
-				"web_id": "97911"
-			},
-			{ 
-				"name": "Germany",
-				"web_id": "98149"
-			},
-			{ 
-				"name": "Italy",
-				"web_id": "98469"
-			},
-			{ 
-				"name": "France",
-				"web_id": "97814"
-			}
-		]},
-		{
-		"year": "2017",
-		"leagues": [
-			{ 
-				"name": "Spain",
-				"web_id": "111542"
-			},
-			{ 
-				"name": "England",
-				"web_id": "107414"
-			},
-			{ 
-				"name": "Germany",
-				"web_id": "108189"
-			},
-			{ 
-				"name": "Italy",
-				"web_id": "112001"
-			},
-			{ 
-				"name": "France",
-				"web_id": "107441"
-			}
-		]},
-		{
 		"year": "2018",
 		"leagues": [
 			{ 
@@ -72,6 +24,15 @@
 				"name": "France",
 				"web_id": "124875"
 			}
+			{ 
+				"name": "Portugal",
+				"web_id": "125220"
+			}
+			{ 
+				"name": "Netherlands",
+				"web_id": "124903"
+			}
+
 		]}
 	],
 	"web_scrapper":
