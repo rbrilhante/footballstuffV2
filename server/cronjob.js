@@ -69,20 +69,24 @@ function updateLeague(league){
       console.log('Could not get league of ' + league.name + ' due to '+ error);
     } else {
       var teams = webScrapper.getTeams(league_page);
+      var counter = 0;
       teams.each(function(){
-        var web_team = webScrapper.getTeamInfo(league_page, this);
-        dbHelper.getTeam(web_team.name, league.league_id, function(team){
-          if(team.games != web_team.games || team.league_pos != web_team.league_pos || team.form[0] == ""){
-            webScrapper.loadTeamFormPage(web_team.form_page, function(error, form_page){
-              if(error){
-                console.log('Could not get form of ' + web_team.name + ' due to '+ error);
-              } else {
-                var form = webScrapper.getTeamForm(form_page);
-                dbHelper.saveTeam(team, league.league_id, web_team, form);
-              }
-            });
-          }
-        });
+        if(counter <= 0){
+          var web_team = webScrapper.getTeamInfo(league_page, this);
+          dbHelper.getTeam(web_team.name, league.league_id, function(team){
+            if((team.games != web_team.games || team.league_pos != web_team.league_pos || team.form[0] == "") && counter == 0){
+              counter = 1;
+              webScrapper.loadTeamFormPage(web_team.form_page, function(error, form_page){
+                if(error){
+                  console.log('Could not get form of ' + web_team.name + ' due to '+ error);
+                } else {
+                  var form = webScrapper.getTeamForm(form_page);
+                  dbHelper.saveTeam(team, league.league_id, web_team, form);
+                }
+              });
+            }
+          });
+        }
       });
     }
   });
