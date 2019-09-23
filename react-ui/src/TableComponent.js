@@ -62,7 +62,7 @@ class TableComponent extends Component {
                         <td>{team.losses}</td>
                         <td>{team.goals_scored}</td>
                         <td>{team.goals_against}</td>
-                        <td>{team.goals_avg}</td>
+                        <td>{goal_avg}</td>
                         <td>
                           {
                             team.form.map(game => {
