@@ -42,12 +42,14 @@ class TableComponent extends Component {
                     <th>D</th>
                     <th>GM</th>
                     <th>GS</th>
+                    <th>AVG</th>
                     <th>F</th>
                   </tr>
                 </thead>
                 <tbody>
                 {
                   teams.map(team => {
+                    var goal_avg = ((team.goals_scored + team.goals_against)/team.games).toFixed(2);
                     return(
                       <tr>
                         <td className="align-left">{team.league_pos}</td>
@@ -60,6 +62,7 @@ class TableComponent extends Component {
                         <td>{team.losses}</td>
                         <td>{team.goals_scored}</td>
                         <td>{team.goals_against}</td>
+                        <td>{team.goals_avg}</td>
                         <td>
                           {
                             team.form.map(game => {
