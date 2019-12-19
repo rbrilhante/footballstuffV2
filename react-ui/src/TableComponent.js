@@ -37,13 +37,20 @@ class TableComponent extends Component {
                     <th></th>
                     <th>P</th>
                     <th>J</th>
-                    <th>V</th>
-                    <th>E</th>
-                    <th>D</th>
-                    <th>GM</th>
-                    <th>GS</th>
-                    <th>AVG</th>
-                    <th>F</th>
+                    <th>VC</th>
+                    <th>EC</th>
+                    <th>DC</th>
+                    <th>GMC</th>
+                    <th>GSC</th>
+                    <th>AVGC</th>
+                    <th>FC</th>
+                    <th>VF</th>
+                    <th>EF</th>
+                    <th>DF</th>
+                    <th>GMF</th>
+                    <th>GSF</th>
+                    <th>AVGF</th>
+                    <th>FF</th>
                   </tr>
                 </thead>
                 <tbody>
