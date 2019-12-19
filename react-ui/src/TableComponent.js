@@ -37,6 +37,7 @@ class TableComponent extends Component {
                     <th></th>
                     <th>P</th>
                     <th>J</th>
+                    <th>JC</th>
                     <th>VC</th>
                     <th>EC</th>
                     <th>DC</th>
@@ -44,6 +45,7 @@ class TableComponent extends Component {
                     <th>GSC</th>
                     <th>AVGC</th>
                     <th>FC</th>
+                    <th>JF</th>
                     <th>VF</th>
                     <th>EF</th>
                     <th>DF</th>
@@ -61,10 +63,10 @@ class TableComponent extends Component {
                     return(
                       <tr>
                         <td className="align-left">{team.league_pos}</td>
-                        <td className="align-left">
-                        <a href={team.form_link} target="_blank">{team.name}</a></td>
+                        <td className="align-left">{team.name}</td>
                         <td>{team.points}</td>
                         <td>{team.games}</td>
+                        <td><a href={team.home_form_link} target="_blank">{team.home_games}</a></td>
                         <td>{team.home_wins}</td>
                         <td>{team.home_draws}</td>
                         <td>{team.home_losses}</td>
@@ -88,6 +90,7 @@ class TableComponent extends Component {
                             })
                           }
                         </td>
+                        <td><a href={team.away_form_link} target="_blank">{team.away_games}</a></td>
                         <td>{team.away_wins}</td>
                         <td>{team.away_draws}</td>
                         <td>{team.away_losses}</td>
