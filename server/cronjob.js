@@ -2,7 +2,7 @@ var dbHelper = require('./db/db_helper.js');
 var webScrapper = require('./webscrapper/webscrapper.js');
 var fs = require('fs');
 var configs;
-fs.readFile('./server/config.json', 'utf8', function (err, data) {
+fs.readFile('../server/config.json', 'utf8', function (err, data) {
   if (err) throw err;
   configs = JSON.parse(data);
 });
@@ -74,14 +74,21 @@ function updateLeague(league){
         if(counter <= 0){
           var web_team = webScrapper.getTeamInfo(league_page, this);
           dbHelper.getTeam(web_team.name, league.league_id, function(team){
-            if((team.games != web_team.games || team.league_pos != web_team.league_pos || team.form[0] == "") && counter == 0){
+            if((team.games != web_team.games || team.league_pos != web_team.league_pos || (team.home_form[0] == "" && team.away_form[0] == "")) && counter == 0){
               counter = 1;
-              webScrapper.loadTeamFormPage(web_team.form_page, function(error, form_page){
+              webScrapper.loadTeamFormPage(web_team.home_form_page, function(error, form_page){
                 if(error){
-                  console.log('Could not get form of ' + web_team.name + ' due to '+ error);
+                  console.log('Could not get home form of ' + web_team.name + ' due to '+ error);
                 } else {
-                  var form = webScrapper.getTeamForm(form_page);
-                  dbHelper.saveTeam(team, league.league_id, web_team, form);
+                  var home_form = webScrapper.getTeamForm(form_page);
+                  webScrapper.loadTeamFormPage(web_team.away_form_page, function(error, form_page){
+                    if(error){
+                      console.log('Could not get away form of ' + web_team.name + ' due to '+ error);
+                    } else {
+                      var away_form = webScrapper.getTeamForm(form_page);
+                      dbHelper.saveTeam(team, league.league_id, web_team, home_form, away_form);
+                    }
+                  });
                 }
               });
             }

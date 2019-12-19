@@ -93,20 +93,27 @@ function saveLeague(name, id, competition_id, callback){
     });
 }
 
-function saveTeam(team, league_id, team_info, team_form){
+function saveTeam(team, league_id, team_info, team_home_form, team_away_form){
 	team.set({
 		league_id : league_id,
 		name : team_info.name,
 		league_pos : team_info.league_pos,
 		games : team_info.games,
 		points : team_info.points,
-	    wins : team_info.wins,
-	    losses : team_info.losses,
-	    draws : team_info.draws,
-	    goals_scored : team_info.goals_scored, 
-	    goals_against : team_info.goals_against,
-	    form_link : team_info.form_page,
-		form : team_form
+	    home_wins : team_info.home_wins,
+	    home_losses : team_info.home_losses,
+	    home_draws : team_info.home_draws,
+	    home_goals_scored : team_info.home_goals_scored, 
+	    home_goals_against : team_info.home_goals_against,
+	    home_form_link : team_info.home_form_page,
+		home_form : team_home_form,
+		away_wins : team_info.away_wins,
+	    away_losses : team_info.away_losses,
+	    away_draws : team_info.away_draws,
+	    away_goals_scored : team_info.away_goals_scored, 
+	    away_goals_against : team_info.away_goals_against,
+	    away_form_link : team_info.form_away_page,
+		away_form : team_away_form
 	});
     team.save(function (err, db_team) {
 		if (err) console.log(err);

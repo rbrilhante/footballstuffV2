@@ -49,7 +49,8 @@ class TableComponent extends Component {
                 <tbody>
                 {
                   teams.map(team => {
-                    var goal_avg = ((team.goals_scored + team.goals_against)/team.games).toFixed(2);
+                    var home_goal_avg = ((team.home_goals_scored + team.home_goals_against)/team.games).toFixed(2);
+                    var away_goal_avg = ((team.away_goals_scored + team.away_goals_against)/team.games).toFixed(2);
                     return(
                       <tr>
                         <td className="align-left">{team.league_pos}</td>
@@ -57,15 +58,38 @@ class TableComponent extends Component {
                         <a href={team.form_link} target="_blank">{team.name}</a></td>
                         <td>{team.points}</td>
                         <td>{team.games}</td>
-                        <td>{team.wins}</td>
-                        <td>{team.draws}</td>
-                        <td>{team.losses}</td>
-                        <td>{team.goals_scored}</td>
-                        <td>{team.goals_against}</td>
-                        <td>{goal_avg}</td>
+                        <td>{team.home_wins}</td>
+                        <td>{team.home_draws}</td>
+                        <td>{team.home_losses}</td>
+                        <td>{team.home_goals_scored}</td>
+                        <td>{team.home_goals_against}</td>
+                        <td>{home_goal_avg}</td>
                         <td>
                           {
-                            team.form.map(game => {
+                            team.home_form.map(game => {
+                              var color;
+                              switch(game){
+                                case 'V': color = '#009966'; break;
+                                case 'E': color = '#777777'; break;
+                                case 'D': color = '#D20000'; break;
+                              }
+                              var gameStyle = {
+                                color: color
+                              };
+                              return(<span style={gameStyle}>{game}</span>)
+                              
+                            })
+                          }
+                        </td>
+                        <td>{team.away_wins}</td>
+                        <td>{team.away_draws}</td>
+                        <td>{team.away_losses}</td>
+                        <td>{team.away_goals_scored}</td>
+                        <td>{team.away_goals_against}</td>
+                        <td>{away_goal_avg}</td>
+                        <td>
+                          {
+                            team.away_form.map(game => {
                               var color;
                               switch(game){
                                 case 'V': color = '#009966'; break;
