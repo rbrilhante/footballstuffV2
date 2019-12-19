@@ -62,6 +62,7 @@ function getTeamInfo(league_page, team){
 	name = team_page.eq(2).children().first().text();
 	points = team_page.eq(3).children().first().text(); 
 	games = team_page.eq(4).children().first().text();
+	form_page_url = configs.base_url + team_page.eq(4).children().last().attr('href');
 	home_form_page_url = configs.base_url + team_page.eq(12).children().last().attr('href');
  	home_wins = team_page.eq(13).children().first().text();
   	home_draws = team_page.eq(14).children().first().text();
@@ -74,7 +75,7 @@ function getTeamInfo(league_page, team){
  	away_losses = team_page.eq(22).children().first().text();
  	away_goals_scored = team_page.eq(23).children().first().text();
  	away_goals_against = team_page.eq(24).children().first().text();
-	return {'league_pos' : league_pos, 'name': name, 'points': points, 'games':games,
+	return {'league_pos' : league_pos, 'name': name, 'points': points, 'games':games, 'form_page':form_page_url,
 			'home_form_page': home_form_page_url, 'home_wins': home_wins, 'home_draws': home_draws, 'home_losses': home_losses, 
 			'home_goals_scored': home_goals_scored, 'home_goals_against': home_goals_against,
 			'away_form_page': away_form_page_url, 'away_wins': away_wins, 'away_draws': away_draws, 'away_losses': away_losses, 

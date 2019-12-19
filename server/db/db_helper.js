@@ -99,6 +99,7 @@ function saveTeam(team, league_id, team_info, team_home_form, team_away_form){
 		name : team_info.name,
 		league_pos : team_info.league_pos,
 		games : team_info.games,
+		form_link: team_info.form_page,
 		points : team_info.points,
 	    home_wins : team_info.home_wins,
 	    home_losses : team_info.home_losses,

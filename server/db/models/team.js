@@ -7,6 +7,7 @@ var TeamSchema = new Schema({
  league_pos: Number,
  games: Number,
  points: Number,
+ form_link: String,
  home_wins: Number,
  home_losses: Number,
  home_draws: Number,
