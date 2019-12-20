@@ -118,7 +118,7 @@ function saveTeam(team, league_id, team_info, team_home_form, team_away_form){
 	});
     team.save(function (err, db_team) {
 		if (err) console.log(err);
-		else console.log('Saved ' + db_team.name + ' in Mongo with form: ' + db_team.form);
+		else console.log('Saved ' + db_team.name);
 	});
 }
 
