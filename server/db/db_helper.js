@@ -115,7 +115,7 @@ function saveTeam(team, league_id, team_info, team_home_form, team_away_form){
 	    away_draws : team_info.away_draws,
 	    away_goals_scored : team_info.away_goals_scored, 
 	    away_goals_against : team_info.away_goals_against,
-	    away_form_link : team_info.form_away_page,
+	    away_form_link : team_info.away_form_page,
 		away_form : team_away_form
 	});
     team.save(function (err, db_team) {
