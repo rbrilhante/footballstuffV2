@@ -2,7 +2,7 @@ var dbHelper = require('./db/db_helper.js');
 var webScrapper = require('./webscrapper/webscrapper.js');
 var fs = require('fs');
 var configs;
-fs.readFile('./server/config.json', 'utf8', function (err, data) {
+fs.readFile('../server/config.json', 'utf8', function (err, data) {
   if (err) throw err;
   configs = JSON.parse(data);
 });

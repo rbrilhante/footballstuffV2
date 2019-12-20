@@ -64,21 +64,23 @@ function getTeamInfo(league_page, team){
 	games = team_page.eq(4).children().first().text();
 	form_page_url = configs.base_url + team_page.eq(4).children().last().attr('href');
 	home_form_page_url = configs.base_url + team_page.eq(12).children().last().attr('href');
+	home_games = team_page.eq(12).children().first().text();
  	home_wins = team_page.eq(13).children().first().text();
   	home_draws = team_page.eq(14).children().first().text();
  	home_losses = team_page.eq(15).children().first().text();
  	home_goals_scored = team_page.eq(16).children().first().text();
  	home_goals_against = team_page.eq(17).children().first().text();
  	away_form_page_url = configs.base_url + team_page.eq(19).children().last().attr('href');
+ 	away_games = team_page.eq(19).children().first().text();
  	away_wins = team_page.eq(20).children().first().text();
   	away_draws = team_page.eq(21).children().first().text();
  	away_losses = team_page.eq(22).children().first().text();
  	away_goals_scored = team_page.eq(23).children().first().text();
  	away_goals_against = team_page.eq(24).children().first().text();
 	return {'league_pos' : league_pos, 'name': name, 'points': points, 'games':games, 'form_page':form_page_url,
-			'home_form_page': home_form_page_url, 'home_wins': home_wins, 'home_draws': home_draws, 'home_losses': home_losses, 
+			'home_games': home_games, 'home_form_page': home_form_page_url, 'home_wins': home_wins, 'home_draws': home_draws, 'home_losses': home_losses, 
 			'home_goals_scored': home_goals_scored, 'home_goals_against': home_goals_against,
-			'away_form_page': away_form_page_url, 'away_wins': away_wins, 'away_draws': away_draws, 'away_losses': away_losses, 
+			'away_games': away_games, 'away_form_page': away_form_page_url, 'away_wins': away_wins, 'away_draws': away_draws, 'away_losses': away_losses, 
 			'away_goals_scored': away_goals_scored, 'away_goals_against': away_goals_against};
 }
 
