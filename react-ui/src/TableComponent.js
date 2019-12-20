@@ -58,8 +58,8 @@ class TableComponent extends Component {
                 <tbody>
                 {
                   teams.map(team => {
-                    var home_goal_avg = ((team.home_goals_scored + team.home_goals_against)/team.games).toFixed(2);
-                    var away_goal_avg = ((team.away_goals_scored + team.away_goals_against)/team.games).toFixed(2);
+                    var home_goal_avg = ((team.home_goals_scored + team.home_goals_against)/team.home_games).toFixed(2);
+                    var away_goal_avg = ((team.away_goals_scored + team.away_goals_against)/team.away_games).toFixed(2);
                     return(
                       <tr>
                         <td className="align-left">{team.league_pos}</td>
