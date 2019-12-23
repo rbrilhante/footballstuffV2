@@ -37,6 +37,7 @@ class TableComponent extends Component {
                     <th></th>
                     <th>P</th>
                     <th>J</th>
+                    <th>F</th>
                     <th>JC</th>
                     <th>VC</th>
                     <th>EC</th>
@@ -66,6 +67,23 @@ class TableComponent extends Component {
                         <td className="align-left"><a href={team.form_link} target="_blank">{team.name}</a></td>
                         <td>{team.points}</td>
                         <td>{team.games}</td>
+                        <td>
+                          {
+                            team.form.map(game => {
+                              var color;
+                              switch(game){
+                                case 'V': color = '#009966'; break;
+                                case 'E': color = '#777777'; break;
+                                case 'D': color = '#D20000'; break;
+                              }
+                              var gameStyle = {
+                                color: color
+                              };
+                              return(<span style={gameStyle}>{game}</span>)
+                              
+                            })
+                          }
+                        </td>
                         <td><a href={team.home_form_link} target="_blank">{team.home_games}</a></td>
                         <td>{team.home_wins}</td>
                         <td>{team.home_draws}</td>

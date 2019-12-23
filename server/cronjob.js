@@ -86,7 +86,14 @@ function updateLeague(league){
                       console.log('Could not get away form of ' + web_team.name + ' due to '+ error);
                     } else {
                       var away_form = webScrapper.getTeamForm(form_page);
-                      dbHelper.saveTeam(team, league.league_id, web_team, home_form, away_form);
+                      webScrapper.loadTeamFormPage(web_team.form_page, function(error, form_page){
+                        if(error){
+                          console.log('Could not get form of ' + web_team.name + ' due to '+ error);
+                        } else {
+                          var form = webScrapper.getTeamForm(form_page);
+                          dbHelper.saveTeam(team, league.league_id, web_team, home_form, away_form, form);
+                        }
+                      });
                     }
                   });
                 }

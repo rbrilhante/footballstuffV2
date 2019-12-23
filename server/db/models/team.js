@@ -8,6 +8,7 @@ var TeamSchema = new Schema({
  games: Number,
  points: Number,
  form_link: String,
+ form: Array,
  home_games: Number,
  home_wins: Number,
  home_losses: Number,

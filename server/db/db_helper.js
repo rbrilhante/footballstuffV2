@@ -93,7 +93,7 @@ function saveLeague(name, id, competition_id, callback){
     });
 }
 
-function saveTeam(team, league_id, team_info, team_home_form, team_away_form){
+function saveTeam(team, league_id, team_info, team_home_form, team_away_form, team_form){
 	team.set({
 		league_id : league_id,
 		name : team_info.name,
@@ -101,6 +101,7 @@ function saveTeam(team, league_id, team_info, team_home_form, team_away_form){
 		games : team_info.games,
 		form_link: team_info.form_page,
 		points : team_info.points,
+		form : team_form,
 		home_games: team_info.home_games,
 	    home_wins : team_info.home_wins,
 	    home_losses : team_info.home_losses,
