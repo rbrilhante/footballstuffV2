@@ -24,7 +24,8 @@ var TeamSchema = new Schema({
  away_goals_scored: Number,
  away_goals_against: Number,
  away_form_link: String,
- away_form: Array
+ away_form: Array,
+ avg_goal_win: Number
 });
 
 module.exports = mongoose.model('Team', TeamSchema);

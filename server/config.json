@@ -2,27 +2,27 @@
 	"competitions":
 	[
 		{
-		"year": "2019",
+		"year": "2020",
 		"leagues": [
 			{ 
 				"name": "Spain",
-				"web_id": "135635"
+				"web_id": "147433"
 			},
 			{ 
 				"name": "England",
-				"web_id": "134539"
+				"web_id": "147227"
 			},
 			{ 
 				"name": "Germany",
-				"web_id": "135598"
+				"web_id": "146951"
 			},
 			{ 
 				"name": "Italy",
-				"web_id": "135636"
+				"web_id": "147479"
 			},
 			{ 
 				"name": "France",
-				"web_id": "134565"
+				"web_id": "146062"
 			}
 
 		]}
