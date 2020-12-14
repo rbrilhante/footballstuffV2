@@ -71,36 +71,44 @@ function updateLeague(league){
       var teams = webScrapper.getTeams(league_page);
       var counter = 0;
       teams.each(function(){
-        if(counter <= 0){
+        if(counter = 0){
           var web_team = webScrapper.getTeamInfo(league_page, this);
           dbHelper.getTeam(web_team.name, league.league_id, function(team){
-            if((team.games != web_team.games || team.league_pos != web_team.league_pos || (team.home_form[0] == "" && team.away_form[0] == "")) && counter == 0){
+            if(team.home_games != web_team.home_games || team.home_form[0] == ""){
               counter = 1;
-              webScrapper.loadTeamFormPage(web_team.home_form_page, function(error, form_page){
+              webScrapper.loadTeamFormPage(web_team.home_results_link, function(error, form_page){
                 if(error){
                   console.log('Could not get home form of ' + web_team.name + ' due to '+ error);
                 } else {
-                  var home_form = webScrapper.getTeamForm(form_page);
-                  webScrapper.loadTeamFormPage(web_team.away_form_page, function(error, form_page){
-                    if(error){
-                      console.log('Could not get away form of ' + web_team.name + ' due to '+ error);
-                    } else {
-                      var away_form = webScrapper.getTeamForm(form_page);
-                      webScrapper.loadTeamFormPage(web_team.form_page, function(error, form_page){
-                        if(error){
-                          console.log('Could not get form of ' + web_team.name + ' due to '+ error);
-                        } else {
-                          var form = webScrapper.getTeamForm(form_page);
-                          dbHelper.saveTeam(team, league.league_id, web_team, home_form, away_form, form);
-                        }
-                      });
-                    }
-                  });
+                  var home_stats = webScrapper.getTeamStats(form_page);
+                  dbHelper.saveTeamHomeStats(team, web_team, home_stats);
+                }
+              });
+            }
+            if(team.away_games != web_team.away_games || team.home_form[0] == ""){
+              counter = 1;
+              webScrapper.loadTeamFormPage(web_team.away_results_link, function(error, form_page){
+                if(error){
+                  console.log('Could not get away form of ' + web_team.name + ' due to '+ error);
+                } else {
+                  var away_stats = webScrapper.getTeamStats(form_page);
+                  dbHelper.saveTeamAwayStats(team, web_team, home_stats);
+                }
+              });
+            }
+            if(team.games != web_team.games || team.league_pos != web_team.league_pos || team.form[0] == ""){
+              counter = 1;
+              webScrapper.loadTeamFormPage(web_team.results_link, function(error, form_page){
+                if(error){
+                  console.log('Could not get form of ' + web_team.name + ' due to '+ error);
+                } else {
+                  var form = webScrapper.getTeamGeneralStats(form_page);
+                  dbHelper.saveTeam(team, league.league_id, web_team, home_form, away_form, form);
                 }
               });
             }
           });
-        }
+        }       
       });
     }
   });
