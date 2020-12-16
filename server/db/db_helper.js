@@ -93,7 +93,7 @@ function saveLeague(name, id, competition_id, callback){
     });
 }
 
-function saveTeam(team, league_id, team_info, team_stats){
+function saveTeam(team, league_id, team_info, stats, home_stats, away_stats){
 	team.set({
 		league_id : league_id,
 		name : team_info.name,
@@ -103,50 +103,30 @@ function saveTeam(team, league_id, team_info, team_stats){
 		draws : team_info.draws,
 		losses : team_info.losses,
 		results_link: team_info.results_link,
-		form : team_stats.form,
-		avg_goals_last_5: teams_stats.avg_goals_last_5
-	});
-    team.save(function (err, db_team) {
-		if (err) console.log(err);
-		else console.log('Saved ' + db_team.name);
-	});
-}
-
-function saveTeamHomeStats(team, team_info, team_stats){
-	team.set({
-		name : team_info.name,
+		form : stats.form,
+		avg_goals_last_5: stats.avg_goals_last_5,
 		home_games: team_info.home_games,
  		home_wins: team_info.home_wins,
 		home_draws: team_info.home_draws,
 		home_losses: team_info.home_losses,
-		home_wins_plus_2: team_stats.home_wins_plus_2,
-		home_wins_plus_3: team_stats.home_wins_plus_3,
-		home_wins_minus_5: team_stats.home_wins_minus_5,
+		home_wins_plus_2: home_stats.home_wins_plus_2,
+		home_wins_plus_3: home_stats.home_wins_plus_3,
+		home_wins_minus_5: home_stats.home_wins_minus_5,
 		home_results_link: team_info.home_results_link,
-		home_form: team_stats.form
-	});
-    team.save(function (err, db_team) {
-		if (err) console.log(err);
-		else console.log('Saved home states of ' + db_team.name);
-	});
-}
-
-function saveTeamAwayStats(team, team_info, team_stats){
-	team.set({
-		name : team_info.name,
+		home_form: home_stats.form,
 		away_games: team_info.away_games,
  		away_wins: team_info.away_wins,
 		away_draws: team_info.away_draws,
 		away_losses: team_info.away_losses,
-		away_wins_plus_2: team_stats.away_wins_plus_2,
-		away_wins_plus_3: team_stats.away_wins_plus_3,
-		away_wins_minus_5: team_stats.away_wins_minus_5,
+		away_wins_plus_2: away_stats.away_wins_plus_2,
+		away_wins_plus_3: away_stats.away_wins_plus_3,
+		away_wins_minus_5: away_stats.away_wins_minus_5,
 		away_results_link: team_info.away_results_link,
-		away_form: team_stats.form
+		away_form: away_stats.form
 	});
     team.save(function (err, db_team) {
 		if (err) console.log(err);
-		else console.log('Saved away stats of ' + db_team.name);
+		else console.log('Saved ' + db_team.name);
 	});
 }
 
@@ -160,6 +140,4 @@ module.exports.getCompetitions = getCompetitions;
 module.exports.saveCompetition = saveCompetition;
 module.exports.saveLeague = saveLeague;
 module.exports.saveTeam = saveTeam;
-module.exports.saveTeamHomeStats = saveTeamHomeStats;
-module.exports.saveTeamAwayStats = saveTeamAwayStats;
 
