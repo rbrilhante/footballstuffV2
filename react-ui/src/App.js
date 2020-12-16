@@ -7,7 +7,7 @@ import TableComponent from './TableComponent'
 import ReactLoading from 'react-loading';
 import './styles/react-router-tabs.css';
 import './styles/styles.css';
-import { DropdownButton, MenuItem, Nav, NavItem } from 'react-bootstrap';
+import { DropdownButton, Dropdown, Nav } from 'react-bootstrap';
 
 class App extends Component {
 
@@ -52,17 +52,17 @@ class App extends Component {
                   {this.state.competitions.map((competition, index) => {
                     var activeClass;
                     if(this.state.year === competition.year) activeClass='active';
-                    return <MenuItem className={activeClass} onSelect={()=>this.onChangedCompetition(competition._id, competition.year)}>{competition.year}</MenuItem>
+                    return <Dropdown.Item onSelect={()=>this.onChangedCompetition(competition._id, competition.year)}>{competition.year}</Dropdown.Item>
                     })
                   }
                </DropdownButton>
     }
     if(this.state && this.state.leagues && !this.state.loading){
-      tabs = <Nav bsStyle="pills" stacked onSelect={this.onChangedLeague}>
+      tabs = <Nav className="flex-column" variant="pills" onSelect={this.onChangedLeague}>
               {this.state.leagues.map(league => {
                 var activeClass;
                 if(this.state.league === league.league_id) activeClass='active';
-                return <NavItem className={activeClass} eventKey={league.league_id}>{league.name}</NavItem>})}
+                return <Nav.Item className={activeClass}><Nav.Link eventKey={league.league_id}>{league.name}</Nav.Link></Nav.Item>})}
              </Nav>
     }
 

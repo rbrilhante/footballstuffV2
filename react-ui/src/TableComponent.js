@@ -30,43 +30,30 @@ class TableComponent extends Component {
     if(this.props.loading){
       table = <ReactLoading className="loader" type="spin" color="#444" height='50px' width='50px'/>;
     } else if(teams && teams.length > 0){
-      table = <Table striped condensed hover>
+      table = <Table responsive striped condensed hover>
                 <thead>
                   <tr>
                     <th></th>
                     <th></th>
-                    <th>P</th>
                     <th>J</th>
+                    <th>V</th>
+                    <th>E</th>
+                    <th>D</th>
                     <th>F</th>
-                    <th>JC</th>
-                    <th>VC</th>
-                    <th>EC</th>
-                    <th>DC</th>
-                    <th>GMC</th>
-                    <th>GSC</th>
-                    <th>AVGC</th>
-                    <th>FC</th>
-                    <th>JF</th>
-                    <th>VF</th>
-                    <th>EF</th>
-                    <th>DF</th>
-                    <th>GMF</th>
-                    <th>GSF</th>
-                    <th>AVGF</th>
-                    <th>FF</th>
+                    <th>Avg Goals Last 5</th>
                   </tr>
                 </thead>
                 <tbody>
                 {
                   teams.map(team => {
-                    var home_goal_avg = ((team.home_goals_scored + team.home_goals_against)/team.home_games).toFixed(2);
-                    var away_goal_avg = ((team.away_goals_scored + team.away_goals_against)/team.away_games).toFixed(2);
                     return(
                       <tr>
                         <td className="align-left">{team.league_pos}</td>
-                        <td className="align-left"><a href={team.form_link} target="_blank">{team.name}</a></td>
-                        <td>{team.points}</td>
+                        <td className="align-left"><a href={team.results_link} target="_blank">{team.name}</a></td>
                         <td>{team.games}</td>
+                        <td>{team.wins}</td>
+                        <td>{team.draws}</td>
+                        <td>{team.losses}</td>
                         <td>
                           {
                             team.form.map(game => {
@@ -84,54 +71,7 @@ class TableComponent extends Component {
                             })
                           }
                         </td>
-                        <td><a href={team.home_form_link} target="_blank">{team.home_games}</a></td>
-                        <td>{team.home_wins}</td>
-                        <td>{team.home_draws}</td>
-                        <td>{team.home_losses}</td>
-                        <td>{team.home_goals_scored}</td>
-                        <td>{team.home_goals_against}</td>
-                        <td>{home_goal_avg}</td>
-                        <td>
-                          {
-                            team.home_form.map(game => {
-                              var color;
-                              switch(game){
-                                case 'V': color = '#009966'; break;
-                                case 'E': color = '#777777'; break;
-                                case 'D': color = '#D20000'; break;
-                              }
-                              var gameStyle = {
-                                color: color
-                              };
-                              return(<span style={gameStyle}>{game}</span>)
-                              
-                            })
-                          }
-                        </td>
-                        <td><a href={team.away_form_link} target="_blank">{team.away_games}</a></td>
-                        <td>{team.away_wins}</td>
-                        <td>{team.away_draws}</td>
-                        <td>{team.away_losses}</td>
-                        <td>{team.away_goals_scored}</td>
-                        <td>{team.away_goals_against}</td>
-                        <td>{away_goal_avg}</td>
-                        <td>
-                          {
-                            team.away_form.map(game => {
-                              var color;
-                              switch(game){
-                                case 'V': color = '#009966'; break;
-                                case 'E': color = '#777777'; break;
-                                case 'D': color = '#D20000'; break;
-                              }
-                              var gameStyle = {
-                                color: color
-                              };
-                              return(<span style={gameStyle}>{game}</span>)
-                              
-                            })
-                          }
-                        </td>
+                        <td>{team.avg_goals_last_5}</td>
                       </tr>
                     )
                   })

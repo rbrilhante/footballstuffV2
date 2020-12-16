@@ -6,7 +6,7 @@ var Team = require('./models/team.js');
 var db;
 
 function connect(callback){
-	mongoose.connect('mongodb://scoresdb:sc0res@ds129321.mlab.com:29321/standings');
+	mongoose.connect('mongodb+srv://scoresdb:sc0res@standings.sw9pe.mongodb.net/standings?retryWrites=true&w=majority');
 	db = mongoose.connection;
 	var result;
 	db.on('error', console.error.bind(console, 'MongoDB connection error:'));
