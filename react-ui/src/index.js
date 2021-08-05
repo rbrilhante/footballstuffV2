@@ -5,6 +5,7 @@ import { Provider } from 'react-redux';
 import resultsstore from './stores/resultsStore.js';
 import './index.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/js/src/collapse.js';
 
 
 const store = resultsstore();

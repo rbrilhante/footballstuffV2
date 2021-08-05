@@ -24,13 +24,13 @@ class TableComponent extends Component {
     }
   }
 
-	render() {
+  render() {
     var teams = this.state ? this.state.league : null;
     var table;
     if(this.props.loading){
       table = <ReactLoading className="loader" type="spin" color="#444" height='50px' width='50px'/>;
     } else if(teams && teams.length > 0){
-      table = <Table responsive striped condensed hover>
+      table = <Table responsive striped hover>
                 <thead>
                   <tr>
                     <th></th>
@@ -47,7 +47,10 @@ class TableComponent extends Component {
                 {
                   teams.map(team => {
                     return(
-                      <tr>
+                      <React.Fragment>
+                      <tr data-toggle="collapse"
+                          data-target={'.' + team.name.replace(/[^A-Z0-9]/ig, "")}
+                          aria-controls={team.name.replace(/[^A-Z0-9]/ig, "")}>
                         <td className="align-left">{team.league_pos}</td>
                         <td className="align-left"><a href={team.results_link} target="_blank">{team.name}</a></td>
                         <td>{team.games}</td>
@@ -73,17 +76,32 @@ class TableComponent extends Component {
                         </td>
                         <td>{team.avg_goals_last_5}</td>
                       </tr>
+                      <td colspan='8' className={'collapse ' + team.name.replace(/[^A-Z0-9]/ig, "")} id={team.name.replace(/[^A-Z0-9]/ig, "")}>
+                        <div style={{display:"flex"}}>
+                          <div style={{width:"50%"}} className="align-left">
+                            <p style={{"margin-bottom":"0.5em"}}>{'Home wins +2: ' + team.home_win_plus_2}</p>
+                            <p style={{"margin-bottom":"0.5em"}}>{'Home wins +3: ' + team.home_win_plus_3}</p>
+                            <p style={{"margin-bottom":"0.5em"}}>{'Home wins -5: ' + team.home_win_minus_5}</p>
+                          </div>
+                          <div style={{width:"50%"}} className="align-left">                           
+                            <p style={{"margin-bottom":"0.5em"}}>{'Away wins +2: ' + team.away_win_plus_2}</p>
+                            <p style={{"margin-bottom":"0.5em"}}>{'Away wins +3: ' + team.away_win_plus_3}</p>
+                            <p style={{"margin-bottom":"0.5em"}}>{'Away wins -5: ' + team.away_win_minus_5}</p>
+                          </div>
+                        </div>
+                      </td>
+                    </React.Fragment>
                     )
                   })
                 }
                 </tbody>
               </Table>
     }
-  	return (
-    	<div className="my_table">
+    return (
+      <div className="my_table">
         {table}
-    	</div>
-  	);
+      </div>
+    );
   }
 }
 

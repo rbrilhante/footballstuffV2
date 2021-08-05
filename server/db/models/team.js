@@ -25,9 +25,9 @@ var TeamSchema = new Schema({
  away_wins: Number,
  away_draws: Number,
  away_losses: Number,
- home_wins_plus_2: Number,
- home_wins_plus_3: Number,
- home_wins_minus_5: Number,
+ away_wins_plus_2: Number,
+ away_wins_plus_3: Number,
+ away_wins_minus_5: Number,
  away_results_link: String,
  away_form: Array,
 });
