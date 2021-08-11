@@ -79,14 +79,16 @@ class TableComponent extends Component {
                       <td colspan='8' className={'collapse ' + team.name.replace(/[^A-Z0-9]/ig, "")} id={team.name.replace(/[^A-Z0-9]/ig, "")}>
                         <div style={{display:"flex"}}>
                           <div style={{width:"50%"}} className="align-left">
-                            <p style={{"margin-bottom":"0.5em"}}>{'Home wins +2: ' + team.home_win_plus_2}</p>
-                            <p style={{"margin-bottom":"0.5em"}}>{'Home wins +3: ' + team.home_win_plus_3}</p>
-                            <p style={{"margin-bottom":"0.5em"}}>{'Home wins -5: ' + team.home_win_minus_5}</p>
+                            <p style={{"margin-bottom":"0.5em"}}>Home games: <a href={team.home_results_link} target="_blank">{team.home_games}</a></p>
+                            <p style={{"margin-bottom":"0.5em"}}>{'Home wins +2: ' + team.home_wins_plus_2}</p>
+                            <p style={{"margin-bottom":"0.5em"}}>{'Home wins +3: ' + team.home_wins_plus_3}</p>
+                            <p style={{"margin-bottom":"0.5em"}}>{'Home wins -5: ' + team.home_wins_minus_5}</p>
                           </div>
-                          <div style={{width:"50%"}} className="align-left">                           
-                            <p style={{"margin-bottom":"0.5em"}}>{'Away wins +2: ' + team.away_win_plus_2}</p>
-                            <p style={{"margin-bottom":"0.5em"}}>{'Away wins +3: ' + team.away_win_plus_3}</p>
-                            <p style={{"margin-bottom":"0.5em"}}>{'Away wins -5: ' + team.away_win_minus_5}</p>
+                          <div style={{width:"50%"}} className="align-left">
+                            <p style={{"margin-bottom":"0.5em"}}>Away games: <a href={team.away_results_link} target="_blank">{team.away_games}</a></p>
+                            <p style={{"margin-bottom":"0.5em"}}>{'Away wins +2: ' + team.away_wins_plus_2}</p>
+                            <p style={{"margin-bottom":"0.5em"}}>{'Away wins +3: ' + team.away_wins_plus_3}</p>
+                            <p style={{"margin-bottom":"0.5em"}}>{'Away wins -5: ' + team.away_wins_minus_5}</p>
                           </div>
                         </div>
                       </td>

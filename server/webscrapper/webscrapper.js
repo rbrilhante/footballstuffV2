@@ -65,16 +65,16 @@ function getTeamInfo(league_page, team){
 	wins = team_page.eq(5).children().first().text();
 	draws = team_page.eq(6).children().first().text();
 	losses = team_page.eq(7).children().first().text();
-	home_games = team_page.eq(13).children().first().text();
-	home_results_page_url = configs.base_url + team_page.eq(13).children().last().attr('href');
+	home_games = team_page.eq(12).children().first().text();
+	home_results_page_url = configs.base_url + team_page.eq(12).children().last().attr('href');
  	home_wins = team_page.eq(13).children().first().text();
   	home_draws = team_page.eq(15).children().first().text();
  	home_losses = team_page.eq(16).children().first().text();
- 	away_games = team_page.eq(21).children().first().text();
- 	away_results_page_url = configs.base_url + team_page.eq(21).children().last().attr('href');
- 	away_wins = team_page.eq(22).children().first().text();
-  	away_draws = team_page.eq(23).children().first().text();
- 	away_losses = team_page.eq(24).children().first().text();
+ 	away_games = team_page.eq(19).children().first().text();
+ 	away_results_page_url = configs.base_url + team_page.eq(19).children().last().attr('href');
+ 	away_wins = team_page.eq(20).children().first().text();
+  	away_draws = team_page.eq(21).children().first().text();
+ 	away_losses = team_page.eq(22).children().first().text();
 	return {'league_pos' : league_pos, 'name': name,
 			'games':games, 'results_link':results_page_url, 'wins': wins, 'draws': draws, 'losses': losses,
 			'home_games': home_games, 'home_results_link': home_results_page_url, 'home_wins': home_wins, 'home_draws': home_draws, 'home_losses': home_losses, 
