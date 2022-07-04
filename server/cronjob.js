@@ -25,7 +25,7 @@ function cronJob(){
   var current_year = datetime.getFullYear();
   var month = datetime.getMonth() + 1;
 
-  if(month <= 7){
+  if(month <= 6){
       current_year = current_year - 1;
   }
 
