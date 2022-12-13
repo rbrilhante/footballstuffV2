@@ -6,9 +6,7 @@
     "node": "8.9.x"
   },
   "scripts": {
-    "start": "node index.bundle.js",
-    "build": "webpack",
-    "dev": "nodemon ./index.js localhost 3080"
+    "start": "node index.js"
   },
   "cacheDirectories": [
     "node_modules",
