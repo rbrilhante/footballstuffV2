@@ -24,7 +24,7 @@
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   },
-  "proxy": "https://rbrilhante.herokuapp.com/",
+  "proxy": "https://footballstuffv2-production.up.railway.app",
   "browserslist": {
     "production": [
       ">0.2%",
