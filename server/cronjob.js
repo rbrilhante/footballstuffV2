@@ -1,23 +1,26 @@
+var cron = require('node-cron');
 var dbHelper = require('./db/db_helper.js');
 var webScrapper = require('./webscrapper/webscrapper.js');
 var fs = require('fs');
 var configs;
-fs.readFile('./server/config.json', 'utf8', function (err, data) {
+fs.readFile('../server/config.json', 'utf8', function (err, data) {
   if (err) throw err;
   configs = JSON.parse(data);
 });
 
 // Priority serve any static files.
-console.log('Running ChronJob');
 dbHelper.connect(function(isConnected){
-  if(!isConnected){
-    console.log('Not Connected...');
-  } else {
-    console.log('Connected!!!');
-    webScrapper.init(configs.web_scrapper);
-    cronJob();
-  }
-});
+  cron.schedule(`*/1 * * * *`, async () => {
+    console.log('Running ChronJob');
+    if(!isConnected){
+      console.log('Not Connected...');
+    } else {
+      console.log('Connected!!!');
+      webScrapper.init(configs.web_scrapper);
+      cronJob();
+    }
+  })
+})
 
 function cronJob(){
 
