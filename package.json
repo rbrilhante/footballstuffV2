@@ -1,0 +1,24 @@
+{
+    "name": "football-stuff",
+    "version": "1.0.0",
+    "description": "How to use create-react-app with a custom Node API on Heroku",
+    "engines": {
+      "node": "8.9.x"
+    },
+    "cacheDirectories": [
+      "node_modules",
+      "react-ui/node_modules"
+    ],
+    "repository": {
+      "type": "git",
+      "url": "https://github.com/rbrilhante/footballstuff.git"
+    },
+    "keywords": [
+      "node",
+      "heroku",
+      "create-react-app",
+      "react"
+    ],
+    "license": "MIT",
+    "devDependencies": {}
+  }
