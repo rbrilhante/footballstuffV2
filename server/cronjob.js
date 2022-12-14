@@ -10,7 +10,7 @@ fs.readFile('./config.json', 'utf8', function (err, data) {
 
 // Priority serve any static files.
 dbHelper.connect(function(isConnected){
-  cron.schedule(`*/1 * * * *`, async () => {
+  cron.schedule(`0 * * * *`, async () => {
     console.log('Running ChronJob');
     if(!isConnected){
       console.log('Not Connected...');
