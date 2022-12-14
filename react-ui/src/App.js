@@ -18,7 +18,7 @@ class App extends Component {
   }
 
   componentWillMount() {
-    this.props.dispatch(getCompetitions());
+    //this.props.dispatch(getCompetitions());
   }
 
   componentWillReceiveProps(nextProps) {
@@ -46,7 +46,7 @@ class App extends Component {
     var dropdown = "";
     var homeRoute = "";
 
-    if(this.state && this.state.competitions && !this.state.loading){
+    /* if(this.state && this.state.competitions && !this.state.loading){
       dropdown = <DropdownButton 
                 title={this.state.year}>
                   {this.state.competitions.map((competition, index) => {
@@ -64,15 +64,13 @@ class App extends Component {
                 if(this.state.league === league.league_id) activeClass='active';
                 return <Nav.Item className={activeClass}><Nav.Link eventKey={league.league_id}>{league.name}</Nav.Link></Nav.Item>})}
              </Nav>
-    }
+    } */
 
     return (  
         <div className='main-container'>
-          {dropdown}
           <BrowserRouter>
             <div>
-              {tabs}
-              <TableComponent league_id={this.state ? this.state.league : null}/>
+              Hello world!!!
             </div>
           </BrowserRouter>
         </div>
