@@ -6,7 +6,8 @@
       "node": "8.9.x"
     },
     "scripts": {
-      "start": "node server && cd react-ui && npm start"
+        "start": "node server/index.js",
+        "build": "cd ../react-ui && npm install && npm run build"
     },
     "cacheDirectories": [
       "node_modules",
