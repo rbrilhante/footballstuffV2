@@ -9,7 +9,6 @@ function init(init_configs){
 function loadLeague(league_id, callback){
 	var j = request.jar();
 	var url = configs.base_url + configs.league_page + league_id;
-	console.log(url);
 	var cookie = request.cookie("jcenable=1");
 	j.setCookie(cookie, url);
 	var options = {
@@ -59,23 +58,23 @@ function getTeams(league_page){
 
 function getTeamInfo(league_page, team){
 	var team_page = league_page(team).children();
-	league_pos = team_page.eq(0).text();
-	name = team_page.eq(2).children().first().text();
-	games = team_page.eq(4).children().first().text();
-	results_page_url = configs.base_url + team_page.eq(4).children().last().attr('href');
-	wins = team_page.eq(5).children().first().text();
-	draws = team_page.eq(6).children().first().text();
-	losses = team_page.eq(7).children().first().text();
-	home_games = team_page.eq(13).children().first().text();
-	home_results_page_url = configs.base_url + team_page.eq(13).children().last().attr('href');
- 	home_wins = team_page.eq(14).children().first().text();
-  	home_draws = team_page.eq(15).children().first().text();
- 	home_losses = team_page.eq(16).children().first().text();
- 	away_games = team_page.eq(21).children().first().text();
- 	away_results_page_url = configs.base_url + team_page.eq(21).children().last().attr('href');
- 	away_wins = team_page.eq(22).children().first().text();
-  	away_draws = team_page.eq(23).children().first().text();
- 	away_losses = team_page.eq(24).children().first().text();
+	var league_pos = team_page.eq(0).text();
+	var name = team_page.eq(2).children().first().text();
+	var games = team_page.eq(4).children().first().text();
+	var results_page_url = configs.base_url + team_page.eq(4).children().last().attr('href');
+	var wins = team_page.eq(5).children().first().text();
+	var draws = team_page.eq(6).children().first().text();
+	var losses = team_page.eq(7).children().first().text();
+	var home_games = team_page.eq(13).children().first().text();
+	var home_results_page_url = configs.base_url + team_page.eq(13).children().last().attr('href') + 'C';
+ 	var home_wins = team_page.eq(14).children().first().text();
+  	var home_draws = team_page.eq(15).children().first().text();
+ 	var home_losses = team_page.eq(16).children().first().text();
+ 	var away_games = team_page.eq(21).children().first().text();
+ 	var away_results_page_url = configs.base_url + team_page.eq(21).children().last().attr('href') + 'F';
+ 	var away_wins = team_page.eq(22).children().first().text();
+  	var away_draws = team_page.eq(23).children().first().text();
+ 	var away_losses = team_page.eq(24).children().first().text();
 	return {'league_pos' : league_pos, 'name': name,
 			'games':games, 'results_link':results_page_url, 'wins': wins, 'draws': draws, 'losses': losses,
 			'home_games': home_games, 'home_results_link': home_results_page_url, 'home_wins': home_wins, 'home_draws': home_draws, 'home_losses': home_losses, 
