@@ -77,9 +77,9 @@ function updateLeague(league){
       teams.each(function(){
         var web_team = webScrapper.getTeamInfo(league_page, this);
         dbHelper.getTeam(web_team.name, league.league_id, function(team){
-          if(counter == 0 && (team.games != web_team.games || team.league_pos != web_team.league_pos || team.form[0] == "")){
+          if(counter < 2 && (team.games != web_team.games || team.league_pos != web_team.league_pos || team.form[0] == "")){
             console.log('Updating ' + team.name);
-            counter = 1;
+            counter++;
             webScrapper.loadTeamFormPage(web_team.results_link, function(error, form_page){
               if(error){
                 console.log('Could not get form of ' + web_team.name + ' due to '+ error);
