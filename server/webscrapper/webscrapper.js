@@ -116,14 +116,16 @@ function getTeamStats(team_form_page){
 		if(index >= start_index){
 			form.push(result);
 		}
+		/*This piece of code has an hack to not be necessary a migration of db.
+		The variables of the + goals have wrong names  */
 		if(result == 'V'){
 			var goals_string = team_page.eq(index).children().eq(4).text()
 			var num_goals = parseInt(goals_string.charAt(0)) + parseInt(goals_string.slice(-1));
 			if(num_goals < 5)
 				win_minus_5++;
-			if(num_goals > 2)
+			if(num_goals > 1)
 				win_plus_2++;
-			if(num_goals > 3)
+			if(num_goals > 2)
 				win_plus_3++;
 		}
 	}
