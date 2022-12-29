@@ -3,6 +3,7 @@ var dbHelper = require('./db/db_helper.js');
 var webScrapper = require('./webscrapper/webscrapper.js');
 var fs = require('fs');
 var configs;
+var connected;
 fs.readFile('./config.json', 'utf8', function (err, data) {
   if (err) throw err;
   configs = JSON.parse(data);
@@ -12,15 +13,21 @@ fs.readFile('./config.json', 'utf8', function (err, data) {
 cron.schedule(`0 * * * *`, async () => {
   var now = new Date();
   console.log('Running ChronJob at ' + now);
-  dbHelper.connect(function(isConnected){
-    if(!isConnected){
-      console.log('Not Connected...');
-    } else {
-      console.log('Connected!!!');
-      webScrapper.init(configs.web_scrapper);
-      cronJob();
-    }
-  })
+  if(connected){
+    cronJob();
+  }
+  else {
+    dbHelper.connect(function(isConnected){
+      connected = isConnected;
+      if(!isConnected){
+        console.log('Not Connected...');
+      } else {
+        console.log('Connected!!!');
+        webScrapper.init(configs.web_scrapper);
+        cronJob();
+      }
+    })
+  }
 })
 
 function cronJob(){
