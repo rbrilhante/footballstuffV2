@@ -91,22 +91,8 @@ function updateLeague(league){
               if(error){
                 console.log('Could not get form of ' + web_team.name + ' due to '+ error);
               } else {
-                var stats = webScrapper.getTeamGeneralStats(form_page);
-                webScrapper.loadTeamFormPage(web_team.away_results_link, function(error, form_page){
-                  if(error){
-                    console.log('Could not get away form of ' + web_team.name + ' due to '+ error);
-                  } else {
-                    var away_stats = webScrapper.getTeamStats(form_page);
-                    webScrapper.loadTeamFormPage(web_team.home_results_link, function(error, form_page){
-                      if(error){
-                        console.log('Could not get home form of ' + web_team.name + ' due to '+ error);
-                      } else {
-                        var home_stats = webScrapper.getTeamStats(form_page);
-                        dbHelper.saveTeam(team, league.league_id, web_team, stats, home_stats, away_stats);
-                      }
-                    });
-                  }
-                });
+                var stats = webScrapper.getTeamStats(form_page, web_team.name);
+                dbHelper.saveTeam(team, league.league_id, web_team, stats);
               }
             });
           }

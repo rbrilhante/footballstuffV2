@@ -81,8 +81,14 @@ function getTeamInfo(league_page, team){
 			'away_games': away_games, 'away_results_link': away_results_page_url, 'away_wins': away_wins, 'away_draws': away_draws, 'away_losses': away_losses};
 }
 
-function getTeamGeneralStats(team_form_page){
+function getTeamStats(team_form_page, team_name){
 	var form = [];
+	var home_wins_plus_2 = 0;
+	var home_wins_plus_3 = 0;
+	var home_wins_minus_5 = 0;
+	var away_wins_plus_2 = 0;
+	var away_wins_plus_3 = 0;
+	var away_wins_minus_5 = 0;
 	var team_page = team_form_page('#'+configs.team_form+' table tbody tr');
 	var total_goals = 0;
 	var last_match_index = team_page.length - 2;
@@ -90,47 +96,34 @@ function getTeamGeneralStats(team_form_page){
 	if(start_index < 0){
 		start_index = 0;
 	}
-	for(; start_index <= last_match_index; start_index++){
-		form.push(team_page.eq(start_index).children().eq(0).text());
-		var goals_string = team_page.eq(start_index).children().eq(4).text();
-		var num_goals = parseInt(goals_string.charAt(0)) + parseInt(goals_string.slice(-1));
-		total_goals += num_goals;
-	}
-	var avg_goals_last_5 = (total_goals/5).toFixed(2)
-	return {'form' : form, 'avg_goals_last_5' : avg_goals_last_5};
-}
 
-function getTeamStats(team_form_page){
-	var form = [];
-	var win_plus_2 = 0;
-	var win_plus_3 = 0;
-	var win_minus_5 = 0;
-	var team_page = team_form_page('#'+configs.team_form+' table tbody tr');
-	var last_match_index = team_page.length - 2;
-	var start_index = last_match_index - 4;
-	if(start_index < 0){
-		start_index = 0;
-	}
 	for(index=0; index <= last_match_index; index++){
 		var result = team_page.eq(index).children().eq(0).text();
 		if(index >= start_index){
 			form.push(result);
+			var goals_string = team_page.eq(index).children().eq(4).text();
+			var num_goals = parseInt(goals_string.charAt(0)) + parseInt(goals_string.slice(-1));
+			total_goals += num_goals;
 		}
-		/*This piece of code has an hack to not be necessary a migration of db.
+		/*This piece of code has an hack so that a migration of db is not needed.
 		The variables of the + goals have wrong names  */
 		if(result == 'V'){
 			var goals_string = team_page.eq(index).children().eq(4).text()
 			var num_goals = parseInt(goals_string.charAt(0)) + parseInt(goals_string.slice(-1));
+			var isHome = team_page.eq(index).children().eq(3).text() === team_name;
 			if(num_goals < 5)
-				win_minus_5++;
+				isHome ? home_wins_minus_5++ : away_wins_minus_5++;
 			if(num_goals > 1)
-				win_plus_2++;
+				isHome ? home_wins_plus_2++ : away_wins_plus_2++;
 			if(num_goals > 2)
-				win_plus_3++;
+				isHome ? home_wins_plus_3++ : away_wins_plus_3++;
 		}
+
 	}
-	
-	return {'win_plus_2' : win_plus_2, 'win_plus_3' : win_plus_3, 'win_minus_5' : win_minus_5, 'form' : form};
+	var avg_goals_last_5 = (total_goals/5).toFixed(2);
+	return {'form' : form, 'avg_goals_last_5' : avg_goals_last_5, 
+			'home_wins_plus_2' : home_wins_plus_2, 'home_wins_plus_3' : home_wins_plus_3, 'home_wins_minus_5' : home_wins_minus_5,
+			'away_wins_plus_2' : away_wins_plus_2, 'away_wins_plus_3' : away_wins_plus_3, 'away_wins_minus_5' : away_wins_minus_5};
 }
 
 module.exports.init = init;
@@ -138,5 +131,4 @@ module.exports.loadLeague = loadLeague;
 module.exports.loadTeamFormPage = loadTeamFormPage;
 module.exports.getTeams = getTeams;
 module.exports.getTeamInfo = getTeamInfo;
-module.exports.getTeamGeneralStats = getTeamGeneralStats;
 module.exports.getTeamStats = getTeamStats;

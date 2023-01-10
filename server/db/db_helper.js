@@ -91,7 +91,7 @@ function saveLeague(name, id, competition_id, callback){
     });
 }
 
-function saveTeam(team, league_id, team_info, stats, home_stats, away_stats){
+function saveTeam(team, league_id, team_info, stats){
 	team.set({
 		league_id : league_id,
 		name : team_info.name,
@@ -107,20 +107,18 @@ function saveTeam(team, league_id, team_info, stats, home_stats, away_stats){
  		home_wins: team_info.home_wins,
 		home_draws: team_info.home_draws,
 		home_losses: team_info.home_losses,
-		home_wins_plus_2: home_stats.win_plus_2,
-		home_wins_plus_3: home_stats.win_plus_3,
-		home_wins_minus_5: home_stats.win_minus_5,
+		home_wins_plus_2: stats.home_wins_plus_2,
+		home_wins_plus_3: stats.home_wins_plus_3,
+		home_wins_minus_5: stats.home_wins_minus_5,
 		home_results_link: team_info.home_results_link,
-		home_form: home_stats.form,
 		away_games: team_info.away_games,
  		away_wins: team_info.away_wins,
 		away_draws: team_info.away_draws,
 		away_losses: team_info.away_losses,
-		away_wins_plus_2: away_stats.win_plus_2,
-		away_wins_plus_3: away_stats.win_plus_3,
-		away_wins_minus_5: away_stats.win_minus_5,
+		away_wins_plus_2: stats.away_wins_plus_2,
+		away_wins_plus_3: stats.away_wins_plus_3,
+		away_wins_minus_5: stats.away_wins_minus_5,
 		away_results_link: team_info.away_results_link,
-		away_form: away_stats.form
 	});
     team.save(function (err, db_team) {
 		if (err) console.log(err);
