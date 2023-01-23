@@ -10,7 +10,7 @@ function runCron(dbHelper_init){
     configs = JSON.parse(data);
     webScrapper.init(configs.web_scrapper);
   });
-  cron.schedule(`* * * * *`, async () => {
+  cron.schedule(`0 * * * *`, async () => {
     var now = new Date();
     console.log('Running ChronJob at ' + now);
     cronJob();
