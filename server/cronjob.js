@@ -3,10 +3,9 @@ var webScrapper = require('./webscrapper/webscrapper.js');
 var fs = require('fs');
 var configs;
 
-// Priority serve any static files.
 function runCron(dbHelper_init){
   dbHelper = dbHelper_init;
-  fs.readFile('../config.json', 'utf8', function (err, data) {
+  fs.readFile('./server/config.json', 'utf8', function (err, data) {
     if (err) throw err;
     configs = JSON.parse(data);
     webScrapper.init(configs.web_scrapper);
