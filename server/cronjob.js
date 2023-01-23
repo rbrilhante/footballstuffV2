@@ -1,34 +1,22 @@
 var cron = require('node-cron');
-var dbHelper = require('./db/db_helper.js');
 var webScrapper = require('./webscrapper/webscrapper.js');
 var fs = require('fs');
 var configs;
-var connected;
-fs.readFile('./config.json', 'utf8', function (err, data) {
-  if (err) throw err;
-  configs = JSON.parse(data);
-});
 
 // Priority serve any static files.
-cron.schedule(`0 * * * *`, async () => {
-  var now = new Date();
-  console.log('Running ChronJob at ' + now);
-  if(connected){
+function runCron(dbHelper_init){
+  dbHelper = dbHelper_init;
+  fs.readFile('./config.json', 'utf8', function (err, data) {
+    if (err) throw err;
+    configs = JSON.parse(data);
+    webScrapper.init(configs.web_scrapper);
+  });
+  cron.schedule(`* * * * *`, async () => {
+    var now = new Date();
+    console.log('Running ChronJob at ' + now);
     cronJob();
-  }
-  else {
-    dbHelper.connect(function(isConnected){
-      connected = isConnected;
-      if(!isConnected){
-        console.log('Not Connected...');
-      } else {
-        console.log('Connected!!!');
-        webScrapper.init(configs.web_scrapper);
-        cronJob();
-      }
-    })
-  }
-})
+  })
+}
 
 function cronJob(){
 
@@ -101,3 +89,5 @@ function updateLeague(league){
     }
   });
 }
+
+module.exports.runCron = runCron;

@@ -1,6 +1,6 @@
 const express = require('express');
 const path = require('path');
-var request = require('request');
+var cronJob = require('./cronjob.js');
 
 const PORT = process.env.PORT || 4000;
 
@@ -16,6 +16,7 @@ dbHelper.connect(function(isConnected){
     console.log('Not Connected...');
   } else {
     console.log('Connected!!!');
+    cronJob.runCron(dbHelper);
   }
 });
 
