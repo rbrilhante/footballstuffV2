@@ -16,7 +16,6 @@ dbHelper.connect(function(isConnected){
     console.log('Not Connected...');
   } else {
     console.log('Connected!!!');
-    cronJob.runCron(dbHelper);
   }
 });
 
@@ -57,7 +56,8 @@ app.get('/api/teams', function (req, res) {
         }
         //return the results of the competition
         res.send(result);
-    });   
+    });
+    cronJob.cronJob();
 })
 
 // Answer API requests.

@@ -3,22 +3,18 @@ var webScrapper = require('./webscrapper/webscrapper.js');
 var fs = require('fs');
 var configs;
 
-function runCron(dbHelper_init){
+function init(dbHelper_init){
+  console.log("Initalizing Cron...")
   dbHelper = dbHelper_init;
   fs.readFile('./server/config.json', 'utf8', function (err, data) {
     if (err) throw err;
     configs = JSON.parse(data);
     webScrapper.init(configs.web_scrapper);
   });
-  cron.schedule(`0 * * * *`, async () => {
-    var now = new Date();
-    console.log('Running ChronJob at ' + now);
-    cronJob();
-  })
 }
 
 function cronJob(){
-
+  console.log('Running ChronJob');
   var datetime = new Date();
   var current_year = datetime.getFullYear();
   var month = datetime.getMonth() + 1;
@@ -89,4 +85,5 @@ function updateLeague(league){
   });
 }
 
-module.exports.runCron = runCron;
+module.exports.cronJob = cronJob;
+module.exports.init = init;
