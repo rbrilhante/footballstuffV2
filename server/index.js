@@ -16,6 +16,7 @@ dbHelper.connect(function(isConnected){
     console.log('Not Connected...');
   } else {
     console.log('Connected!!!');
+    cronJob.init(dbHelper);
   }
 });
 
