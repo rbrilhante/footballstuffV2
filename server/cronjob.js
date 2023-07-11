@@ -26,6 +26,7 @@ function cronJob(){
 
   dbHelper.getCompetitionByYear(current_year, function(competition){
     if(competition){
+      console.log(competition)
       dbHelper.getLeagues(competition._id, function(err, leagues){
         if(err){
           console.log(err);
@@ -36,6 +37,7 @@ function cronJob(){
         }
       });
     } else {
+      console.log("adding " + current_year)
       insertCompetition(current_year);
     }
   });
