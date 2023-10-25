@@ -1,9 +1,23 @@
 const express = require('express');
 const path = require('path');
+var cron = require('node-cron');
+var axios = require('axios');
 var cronJob = require('./cronjob.js');
 
 const PORT = process.env.PORT || 4000;
 
+const http = axios.create({
+  baseURL: 'https://keep-alive-fwct.onrender.com'
+});
+
+function keepAlive() {
+  return http.get('/api').then((response) => console.log(response.data));
+}
+
+cron.schedule(`*/10 * * * *`, async () => {
+  console.log("Keeping alive")
+  keepAlive();
+})
 
 const app = express();
 // Priority serve any static files.
@@ -62,8 +76,7 @@ app.get('/api/teams', function (req, res) {
 
 // Answer API requests.
 app.get('/api', function (req, res) {
-  console.log('I\'m alive!!!');
-  res.send('{"message":"Hello from the custom server!"}');
+  res.send('Server is alive');
 });
 
 // All remaining requests return the React app, so it can handle routing.
