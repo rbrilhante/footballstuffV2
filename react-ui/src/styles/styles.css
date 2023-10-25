@@ -1,39 +1,19 @@
 #root {
-  font-family: 'Roboto', sans-serif;
   display: flex;
   justify-content: center;
-  align-items: center;
   padding: 3%;
   font-size: 14px;
 }
 
-.table-content {
-	font-size: 14px;
-	border-top: 0px;
-}
-
-.sortable span {
-	display: none
-}
-
-.nav-link:hover{
+.nav-pills .nav-link:hover{
   text-decoration: none;
   background-color: #eee;
-}
-
-.nav-tab.active{
-	border-bottom: 1px solid #ddd;
 }
 
 .flex-column.nav.nav-pills {
     width: 15%;
     float: left;
     margin-top: 31px;
-}
-
-.nav-pills.nav-link.active {
-  color: #fff;
-  background-color: #337ab7;
 }
 
 .loader {
@@ -57,19 +37,11 @@
 }
 
 .table {
-  margin-bottom: 0px !important;
+  text-align: center;
 }
 
 .table td, .table th{
   padding: .4rem !important;
-}
-
-th {
-  text-align: center;
-}
-
-table {
-  text-align: center;
 }
 
 .align-left{

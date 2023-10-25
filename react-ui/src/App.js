@@ -1,11 +1,10 @@
 import React , { Component } from 'react';
 import { connect } from 'react-redux';
-import { Route, Redirect, BrowserRouter } from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
 import { getCompetitions, getLeaguesById } from './actions/resultsActions';
 import PropTypes from 'prop-types';
 import TableComponent from './TableComponent'
 import ReactLoading from 'react-loading';
-import './styles/react-router-tabs.css';
 import './styles/styles.css';
 import { DropdownButton, Dropdown, Nav } from 'react-bootstrap';
 
