@@ -11,11 +11,14 @@ function init(dbHelper_init){
     configs = JSON.parse(data);
     webScrapper.init(configs.web_scrapper);
   });
+  cron.schedule(`0 */2 * * *`, async () => {
+    cronJob();
+  })
 }
 
 function cronJob(){
-  console.log('Running ChronJob');
   var datetime = new Date();
+  console.log('Running ChronJob at ' + datetime);
   var current_year = datetime.getFullYear();
   var month = datetime.getMonth() + 1;
 
