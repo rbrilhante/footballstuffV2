@@ -6,7 +6,7 @@ var configs;
 function init(dbHelper_init){
   console.log("Initalizing Cron...")
   dbHelper = dbHelper_init;
-  fs.readFile('./server/config.json', 'utf8', function (err, data) {
+  fs.readFile('./config.json', 'utf8', function (err, data) {
     if (err) throw err;
     configs = JSON.parse(data);
     webScrapper.init(configs.web_scrapper);
