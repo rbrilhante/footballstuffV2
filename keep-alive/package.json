@@ -2,9 +2,6 @@
   "name": "football-stuff",
   "version": "1.0.0",
   "description": "How to use create-react-app with a custom Node API on Heroku",
-  "engines": {
-    "node": "8.9.x"
-  },
   "scripts": {
     "start": "node index.js"
   },
