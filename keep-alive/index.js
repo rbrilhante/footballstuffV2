@@ -2,7 +2,7 @@ var cron = require('node-cron');
 var axios = require('axios');
 
 const http = axios.create({
-  baseURL: 'http://localhost:4000'
+  baseURL: 'https://rbrilhante.onrender.com'
 });
 
 function keepAlive() {
