@@ -63,7 +63,7 @@ app.get('/api/teams', function (req, res) {
 
 // Answer API requests.
 app.get('/api', function (req, res) {
-  res.set('Content-Type', 'application/json');
+  console.log('I\'m alive!!!');
   res.send('{"message":"Hello from the custom server!"}');
 });
 
