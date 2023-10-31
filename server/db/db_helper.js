@@ -78,7 +78,7 @@ function saveCompetition(year, num_leagues, callback){
 
 }
 
-function saveLeague(name, id, competition_id, callback){
+function saveLeague(name, id, competition_id){
 	var league = new League();
 	league.set({
 		name : name,
@@ -87,7 +87,6 @@ function saveLeague(name, id, competition_id, callback){
 	});
 	league.save(function (err, db_league) {
 		if (err) return err;
-		else callback(db_league);
     });
 }
 
