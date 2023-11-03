@@ -73,13 +73,17 @@ async function updateLeague(league){
         resolve(RESULT.LOGIN_ERROR);
       } else {
         var teams = webScrapper.getTeams(league_page);
+        var result;
         for (var i = 0; i < teams.length; i++){
-          var result = await updateTeam(teams[i], league_page, league.league_id);
+          result = await updateTeam(teams[i], league_page, league.league_id);
           if(result == RESULT.LOGIN_ERROR){
-            resolve(result)
-          };
+            resolve(result);
+            break;
+          }   
         }
-        resolve(RESULT.SUCCESS);    
+        if(result != RESULT.LOGIN_ERROR){
+          resolve(RESULT.SUCCESS);
+        }
       }
     });
   });
@@ -90,7 +94,7 @@ async function updateTeam(team, league_page, league_id){
     var web_team = webScrapper.getTeamInfo(league_page, team);
     dbHelper.getTeam(web_team.name, league_id, function(team){
       if(team.games != web_team.games || team.league_pos != web_team.league_pos || team.form[0] == ""){
-        console.log('Updating ' + team.name);
+        console.log('Updating ' + web_team.name);
         webScrapper.loadTeamFormPage(web_team.results_link, function(error, form_page){
           if(error){
             console.log('Could not get form of ' + web_team.name + ' due to '+ error);
@@ -98,10 +102,13 @@ async function updateTeam(team, league_page, league_id){
           } else {
             var stats = webScrapper.getTeamStats(form_page, web_team.name);
             dbHelper.saveTeam(team, league_id, web_team, stats);
+            resolve(RESULT.SUCCESS);
           }
         });
+      } else {
+        console.log("No update needed for " + web_team.name);
+        resolve(RESULT.SUCCESS);
       }
-      resolve(RESULT.SUCCESS);
     });
   })
   
