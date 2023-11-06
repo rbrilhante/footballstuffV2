@@ -5,8 +5,11 @@ var configs;
 
 const RESULT = {
   SUCCESS : "success",
-  LOGIN_ERROR : "login error"
+  LOGIN_ERROR : "login error",
+  NO_UPDATE : "no update"
 }
+
+const MAX_COUNTER = 5;
 
 function init(dbHelper_init){
   console.log("Initalizing Cron...")
@@ -16,7 +19,7 @@ function init(dbHelper_init){
     configs = JSON.parse(data);
     webScrapper.init(configs.web_scrapper);
   });
-  cron.schedule(`0 */3 * * *`, async () => {
+  cron.schedule(`0 */2 * * *`, async () => {
     cronJob();
   })
 }
@@ -37,10 +40,12 @@ function cronJob(){
         if(err){
           console.log(err);
         } else {
-          for(var i = 0; i < leagues.length; i++){
-            var result = await updateLeague(leagues[i]);
-            if(result == RESULT.LOGIN_ERROR)
+          counter = 0;
+          for(var i = 0; i < leagues.length && counter < MAX_COUNTER; i++){
+            var result = await updateLeague(leagues[i], counter);
+            if(result.msg == RESULT.LOGIN_ERROR)
               break;
+            counter = result.counter;
           }
         }
       });
@@ -65,25 +70,25 @@ function insertCompetition(current_year){
   }
 }
 
-async function updateLeague(league){
+async function updateLeague(league, counter){
   return new Promise(function(resolve) {
+    var result = {
+      msg : "",
+      counter : counter
+    } 
     webScrapper.loadLeague(league.league_id, async function(error, league_page){
       if(error){
         console.log('Could not get league of ' + league.name + ' due to '+ error);
-        resolve(RESULT.LOGIN_ERROR);
+        result.msg = RESULT.LOGIN_ERROR
+        resolve(result);
       } else {
         var teams = webScrapper.getTeams(league_page);
-        var result;
-        for (var i = 0; i < teams.length; i++){
-          result = await updateTeam(teams[i], league_page, league.league_id);
-          if(result == RESULT.LOGIN_ERROR){
-            resolve(result);
-            break;
-          }   
+        for (var i = 0; i < teams.length && result.counter < MAX_COUNTER; i++){
+          result.msg = await updateTeam(teams[i], league_page, league.league_id);
+          if(result.msg == RESULT.LOGIN_ERROR) break;
+          else if(result.msg == RESULT.SUCCESS) result.counter = result.counter + 1;
         }
-        if(result != RESULT.LOGIN_ERROR){
-          resolve(RESULT.SUCCESS);
-        }
+        resolve(result);
       }
     });
   });
@@ -107,7 +112,7 @@ async function updateTeam(team, league_page, league_id){
         });
       } else {
         console.log("No update needed for " + web_team.name);
-        resolve(RESULT.SUCCESS);
+        resolve(RESULT.NO_UPDATE);
       }
     });
   })
