@@ -88,6 +88,7 @@ async function updateLeague(league, counter){
           if(result.msg == RESULT.LOGIN_ERROR) break;
           else if(result.msg == RESULT.SUCCESS) result.counter = result.counter + 1;
         }
+        if(counter == result.counter && result.msg != RESULT.LOGIN_ERROR) console.log("No update needed for " + league.name);
         resolve(result);
       }
     });
@@ -111,7 +112,6 @@ async function updateTeam(team, league_page, league_id){
           }
         });
       } else {
-        console.log("No update needed for " + web_team.name);
         resolve(RESULT.NO_UPDATE);
       }
     });
