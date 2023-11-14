@@ -9,7 +9,7 @@ const RESULT = {
   NO_UPDATE : "no update"
 }
 
-const MAX_COUNTER = 5;
+const MAX_COUNTER = 8;
 
 function init(dbHelper_init){
   console.log("Initalizing Cron...")
