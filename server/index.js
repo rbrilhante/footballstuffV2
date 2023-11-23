@@ -14,7 +14,7 @@ function keepAlive() {
   return http.get('/api').then((response) => console.log(response.data));
 }
 
-cron.schedule(`*/10 * * * *`, async () => {
+cron.schedule(`*/14 * * * *`, async () => {
   console.log("Keeping alive")
   keepAlive();
 })
