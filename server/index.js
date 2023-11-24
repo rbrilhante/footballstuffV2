@@ -7,15 +7,15 @@ var cronJob = require('./cronjob.js');
 const PORT = process.env.PORT || 4000;
 
 const http = axios.create({
-  baseURL: 'https://keep-alive-fwct.onrender.com'
+  baseURL: 'https://rbrilhante.onrender.com'
 });
 
 function keepAlive() {
-  return http.get('/api').then((response) => console.log(response.data));
+  return http.get('/api/keepalive').then((response) => console.log(response.data));
 }
 
-cron.schedule(`*/14 * * * *`, async () => {
-  console.log("Keeping alive")
+cron.schedule(`*/10 * * * *`, async () => {
+  console.log("Am I dead?")
   keepAlive();
 })
 
@@ -74,9 +74,9 @@ app.get('/api/teams', function (req, res) {
     });
 })
 
-// Answer API requests.
-app.get('/api', function (req, res) {
-  res.send('Server is alive');
+// Keep alive answer
+app.get('/api/keepalive', function (req, res) {
+  res.send('Nop, I\'m still alive');
 });
 
 // All remaining requests return the React app, so it can handle routing.
