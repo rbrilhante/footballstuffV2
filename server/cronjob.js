@@ -9,7 +9,7 @@ const RESULT = {
   NO_UPDATE : "no update"
 }
 
-const MAX_COUNTER = 8;
+const MAX_COUNTER = 10;
 
 function init(dbHelper_init){
   console.log("Initalizing Cron...")
@@ -19,7 +19,7 @@ function init(dbHelper_init){
     configs = JSON.parse(data);
     webScrapper.init(configs.web_scrapper);
   });
-  cron.schedule(`0 */2 * * *`, async () => {
+ cron.schedule(`0 */4 * * *`, async () => {
     cronJob();
   })
 }
@@ -47,6 +47,7 @@ function cronJob(){
               break;
             counter = result.counter;
           }
+          console.log("Job Done! Updated " + counter + " teams");
         }
       });
     } else {
@@ -88,7 +89,7 @@ async function updateLeague(league, counter){
           if(result.msg == RESULT.LOGIN_ERROR) break;
           else if(result.msg == RESULT.SUCCESS) result.counter = result.counter + 1;
         }
-        if(counter == result.counter && result.msg != RESULT.LOGIN_ERROR) console.log("No update needed for " + league.name);
+        if(result.msg != RESULT.LOGIN_ERROR) console.log(league.name + " is fully updated");
         resolve(result);
       }
     });
