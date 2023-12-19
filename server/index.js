@@ -43,6 +43,7 @@ app.get('/api/competitions', function (req, res) {
         }
         //return the results of the competition
         res.send(result);
+        cronJob.cronJob();
     });
 })
 
