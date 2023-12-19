@@ -27,14 +27,22 @@ function init(dbHelper_init){
 function cronJob(){
   var datetime = new Date();
   console.log('Running ChronJob at ' + datetime);
+  updateStats();
+}
+
+function getCurrentYear(){
+  var datetime = new Date();
   var current_year = datetime.getFullYear();
   var month = datetime.getMonth() + 1;
-
   if(month <= 6){
       current_year = current_year - 1;
   }
+  return current_year;
+}
 
-  dbHelper.getCompetitionByYear(current_year, function(competition){
+function updateStats(){
+  var year = getCurrentYear();
+  dbHelper.getCompetitionByYear(year, function(competition){
     if(competition){
       dbHelper.getLeagues(competition._id, async function(err, leagues){
         if(err){
@@ -51,7 +59,7 @@ function cronJob(){
         }
       });
     } else {
-      insertCompetition(current_year);
+      insertCompetition(year);
     }
   });
 }
@@ -120,5 +128,5 @@ async function updateTeam(team, league_page, league_id){
   
 }
 
-module.exports.cronJob = cronJob;
+module.exports.updateStats = updateStats;
 module.exports.init = init;
