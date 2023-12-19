@@ -9,7 +9,7 @@ const RESULT = {
   NO_UPDATE : "no update"
 }
 
-const MAX_COUNTER = 10;
+const MAX_COUNTER = 1;
 
 function init(dbHelper_init){
   console.log("Initalizing Cron...")
@@ -19,9 +19,7 @@ function init(dbHelper_init){
     configs = JSON.parse(data);
     webScrapper.init(configs.web_scrapper);
   });
- cron.schedule(`0 */4 * * *`, async () => {
-    cronJob();
-  })
+  updateStats();
 }
 
 function cronJob(){

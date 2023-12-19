@@ -17,6 +17,7 @@ function keepAlive() {
 cron.schedule(`*/10 * * * *`, async () => {
   console.log("Am I dead?")
   keepAlive();
+  cronJob.updateStats();
 })
 
 const app = express();
@@ -43,7 +44,6 @@ app.get('/api/competitions', function (req, res) {
         }
         //return the results of the competition
         res.send(result);
-        cronJob.updateStats();
     });
 })
 
