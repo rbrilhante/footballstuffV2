@@ -9,7 +9,7 @@ const RESULT = {
   NO_UPDATE : "no update"
 }
 
-const MAX_COUNTER = 1;
+const MAX_COUNTER = 15;
 
 function init(dbHelper_init){
   console.log("Initalizing Cron...")
@@ -19,13 +19,11 @@ function init(dbHelper_init){
     configs = JSON.parse(data);
     webScrapper.init(configs.web_scrapper);
   });
-  updateStats();
-}
-
-function cronJob(){
-  var datetime = new Date();
-  console.log('Running ChronJob at ' + datetime);
-  updateStats();
+  cron.schedule(`0 */4 * * *`, async () => {
+    var datetime = new Date();
+    console.log('Running ChronJob at ' + datetime);
+    updateStats();
+  })
 }
 
 function getCurrentYear(){

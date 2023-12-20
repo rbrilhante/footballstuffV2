@@ -28,8 +28,6 @@ function loadLeague(league_id, callback){
 	});
 }
 
-
-
 function loadTeamFormPage(team_form_page_url, callback){
 	var j = request.jar();
 	var cookie = request.cookie("jcenable=1");
