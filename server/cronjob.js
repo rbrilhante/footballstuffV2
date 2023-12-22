@@ -2,6 +2,7 @@ var cron = require('node-cron');
 var webScrapper = require('./webscrapper/webscrapper.js');
 var fs = require('fs');
 var configs;
+var goSleep = 0;
 
 const RESULT = {
   SUCCESS : "success",
@@ -19,10 +20,15 @@ function init(dbHelper_init){
     configs = JSON.parse(data);
     webScrapper.init(configs.web_scrapper);
   });
-  cron.schedule(`0 */4 * * *`, async () => {
-    var datetime = new Date();
-    console.log('Running ChronJob at ' + datetime);
-    updateStats();
+  cron.schedule(`0 */2 * * *`, async () => {
+    if(goSleep > 0){
+      console.log("I need to rest a bit...");
+      goSleep--;
+    } else {
+      var datetime = new Date();
+      console.log('Running ChronJob at ' + datetime);
+      updateStats();
+    }
   })
 }
 
@@ -47,8 +53,10 @@ function updateStats(){
           counter = 0;
           for(var i = 0; i < leagues.length && counter < MAX_COUNTER; i++){
             var result = await updateLeague(leagues[i], counter);
-            if(result.msg == RESULT.LOGIN_ERROR)
+            if(result.msg == RESULT.LOGIN_ERROR){
+              goSleep = 2;
               break;
+            }
             counter = result.counter;
           }
           console.log("Job Done! Updated " + counter + " teams");
