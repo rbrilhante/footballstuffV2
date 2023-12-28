@@ -60,6 +60,9 @@ function updateStats(){
             counter = result.counter;
           }
           console.log("Job Done! Updated " + counter + " teams");
+          if(counter == 0 && goSleep == 0){
+            goSleep = 1;
+          }
         }
       });
     } else {
