@@ -33,6 +33,11 @@ function getCurrentYear(){
 }
 
 function updateStats(){
+  if(goSleep > 0){
+    console.log("I need to rest a bit...");
+    goSleep--;
+    return;
+  }
   console.log("Updating stats!");
   var year = getCurrentYear();
   dbHelper.getCompetitionByYear(year, function(competition){
