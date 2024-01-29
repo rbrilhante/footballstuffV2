@@ -20,16 +20,6 @@ function init(dbHelper_init){
     configs = JSON.parse(data);
     webScrapper.init(configs.web_scrapper);
   });
-  cron.schedule(`0 */2 * * *`, async () => {
-    if(goSleep > 0){
-      console.log("I need to rest a bit...");
-      goSleep--;
-    } else {
-      var datetime = new Date();
-      console.log('Running ChronJob at ' + datetime);
-      updateStats();
-    }
-  })
 }
 
 function getCurrentYear(){
@@ -43,6 +33,7 @@ function getCurrentYear(){
 }
 
 function updateStats(){
+  console.log("Updating stats!");
   var year = getCurrentYear();
   dbHelper.getCompetitionByYear(year, function(competition){
     if(competition){
@@ -53,15 +44,15 @@ function updateStats(){
           counter = 0;
           for(var i = 0; i < leagues.length && counter < MAX_COUNTER; i++){
             var result = await updateLeague(leagues[i], counter);
+            counter = result.counter;
             if(result.msg == RESULT.LOGIN_ERROR){
-              goSleep = 2;
+              goSleep = 25;
               break;
             }
-            counter = result.counter;
           }
           console.log("Job Done! Updated " + counter + " teams");
           if(counter == 0 && goSleep == 0){
-            goSleep = 1;
+            goSleep = 15;
           }
         }
       });
@@ -86,11 +77,11 @@ function insertCompetition(current_year){
   }
 }
 
-async function updateLeague(league, counter){
+async function updateLeague(league, curr_counter){
   return new Promise(function(resolve) {
     var result = {
       msg : "",
-      counter : counter
+      counter : curr_counter
     } 
     webScrapper.loadLeague(league.league_id, async function(error, league_page){
       if(error){
