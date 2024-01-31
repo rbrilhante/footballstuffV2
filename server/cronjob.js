@@ -34,7 +34,7 @@ function getCurrentYear(){
 
 function updateStats(){
   if(goSleep > 0){
-    console.log("I need to rest a bit...");
+    console.log("I need to rest a bit...for " + goSleep + " more cycles");
     goSleep--;
     return;
   }

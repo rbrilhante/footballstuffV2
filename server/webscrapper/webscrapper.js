@@ -7,16 +7,8 @@ function init(init_configs){
 }
 
 function loadLeague(league_id, callback){
-	var j = request.jar();
 	var url = configs.base_url + configs.league_page + league_id;
-	var cookie = request.cookie("jcenable=1");
-	j.setCookie(cookie, url);
-	var options = {
-  		url: url,
-  		jar: j,
-  		encoding: 'binary'
-	}
-	request(options, function(error, response, html){
+	request({url: url, headers: {Cookie: "jcenable=1; jcenable_v1=1"}}, function(error, response, html){
 		if(!error && !html.includes('cookies')){
 			var league_page = cheerio.load(html);
 			callback(null, league_page);
@@ -29,15 +21,7 @@ function loadLeague(league_id, callback){
 }
 
 function loadTeamFormPage(team_form_page_url, callback){
-	var j = request.jar();
-	var cookie = request.cookie("jcenable=1");
-	j.setCookie(cookie, team_form_page_url);
-	var options = {
-  		url: team_form_page_url,
-  		jar: j,
-  		encoding: 'binary'
-	}
-	request(options, function(error, response, html){
+	request({url: team_form_page_url, headers: {Cookie: "jcenable=1; jcenable_v1=1"}}, function(error, response, html){
 		if(!error && !html.includes('utilizadores registrados') && !html.includes('cookies')){
 			var team_form_page = cheerio.load(html);
 			callback(null, team_form_page);
