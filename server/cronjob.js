@@ -10,7 +10,7 @@ const RESULT = {
   NO_UPDATE : "no update"
 }
 
-const MAX_COUNTER = 15;
+const MAX_COUNTER = 1;
 
 function init(dbHelper_init){
   console.log("Initalizing Cron...")
@@ -51,7 +51,7 @@ function updateStats(){
             var result = await updateLeague(leagues[i], counter);
             counter = result.counter;
             if(result.msg == RESULT.LOGIN_ERROR){
-              goSleep = 25;
+              //goSleep = 25;
               break;
             }
           }
