@@ -51,12 +51,11 @@ function updateStats(){
             var result = await updateLeague(leagues[i], counter);
             counter = result.counter;
             if(result.msg == RESULT.LOGIN_ERROR){
-              //goSleep = 25;
               break;
             }
           }
           console.log("Job Done! Updated " + counter + " teams");
-          if(counter == 0 && goSleep == 0){
+          if(counter == 0){
             goSleep = 15;
           }
         }
