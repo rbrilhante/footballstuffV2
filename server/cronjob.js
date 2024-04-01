@@ -47,15 +47,17 @@ function updateStats(){
           console.log(err);
         } else {
           counter = 0;
+          message = "";
           for(var i = 0; i < leagues.length && counter < MAX_COUNTER; i++){
             var result = await updateLeague(leagues[i], counter);
             counter = result.counter;
             if(result.msg == RESULT.LOGIN_ERROR){
+              message = result.msg;
               break;
             }
           }
           console.log("Job Done! Updated " + counter + " teams");
-          if(counter == 0){
+          if(counter == 0 && message != RESULT.LOGIN_ERROR){
             goSleep = 15;
           }
         }
@@ -99,7 +101,7 @@ async function updateLeague(league, curr_counter){
           if(result.msg == RESULT.LOGIN_ERROR) break;
           else if(result.msg == RESULT.SUCCESS) result.counter = result.counter + 1;
         }
-        if(result.msg != RESULT.LOGIN_ERROR) console.log(league.name + " is fully updated");
+        if(result.msg != RESULT.LOGIN_ERROR && result.counter != MAX_COUNTER) console.log(league.name + " is fully updated");
         resolve(result);
       }
     });
