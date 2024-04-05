@@ -97,14 +97,14 @@ function getTeamStats(team_form_page, team_name){
 		var result = team_page.eq(index).children().eq(0).text();
 		if(index >= start_index){
 			form.push(result);
-			var goals_string = team_page.eq(index).children().eq(4).text();
+			var goals_string = team_page.eq(index).children().eq(5).text();
 			var num_goals = parseInt(goals_string.charAt(0)) + parseInt(goals_string.slice(-1));
 			total_goals += num_goals;
 		}
 		/*This piece of code has an hack so that a migration of db is not needed.
 		The variables of the + goals have wrong names  */
 		if(result == 'V'){
-			var goals_string = team_page.eq(index).children().eq(4).text()
+			var goals_string = team_page.eq(index).children().eq(5).text()
 			var num_goals = parseInt(goals_string.charAt(0)) + parseInt(goals_string.slice(-1));
 			var isHome = team_page.eq(index).children().eq(3).text() === team_name;
 			if(num_goals < 5)
