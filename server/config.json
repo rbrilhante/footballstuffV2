@@ -2,27 +2,27 @@
 	"competitions":
 	[
 		{
-		"year": "2023",
+		"year": "2024",
 		"leagues": [
 			{ 
 				"name": "Spain",
-				"web_id": "175576"
+				"web_id": "187411"
 			},
 			{ 
 				"name": "England",
-				"web_id": "175435"
+				"web_id": "187394"
 			},
 			{ 
 				"name": "Germany",
-				"web_id": "175746"
+				"web_id": "187732"
 			},
 			{ 
 				"name": "Italy",
-				"web_id": "175839"
+				"web_id": "187734"
 			},
 			{ 
 				"name": "France",
-				"web_id": "175730"
+				"web_id": "187466"
 			}
 
 		]}
