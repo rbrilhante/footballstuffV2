@@ -3,7 +3,7 @@ var webScrapper = require('./webscrapper/webscrapper.js');
 var fs = require('fs');
 var configs;
 var goSleep = 0;
-var maxCounter = 15;
+const MAX_COUNTER = 1;
 
 const RESULT = {
   SUCCESS : "success",
@@ -47,7 +47,7 @@ function updateStats(){
         } else {
           counter = 0;
           message = "";
-          for(var i = 0; i < leagues.length && counter < maxCounter; i++){
+          for(var i = 0; i < leagues.length && counter < MAX_COUNTER; i++){
             var result = await updateLeague(leagues[i], counter);
             counter = result.counter;
             if(result.msg == RESULT.LOGIN_ERROR){
@@ -56,12 +56,8 @@ function updateStats(){
             }
           }
           console.log("Job Done! Updated " + counter + " teams");
-          if(message == RESULT.LOGIN_ERROR){
-            maxCounter = 1;
-          } else if(counter == 0){
+          if(counter == 0 && message != RESULT.LOGIN_ERROR){
             goSleep = 15;
-          } else {
-            maxCounter = 15;
           }
         }
       });
@@ -99,12 +95,12 @@ async function updateLeague(league, curr_counter){
         resolve(result);
       } else {
         var teams = webScrapper.getTeams(league_page);
-        for (var i = 0; i < teams.length && result.counter < maxCounter; i++){
+        for (var i = 0; i < teams.length && result.counter < MAX_COUNTER; i++){
           result.msg = await updateTeam(teams[i], league_page, league.league_id);
           if(result.msg == RESULT.LOGIN_ERROR) break;
           else if(result.msg == RESULT.SUCCESS) result.counter = result.counter + 1;
         }
-        if(result.msg != RESULT.LOGIN_ERROR && result.counter != maxCounter) console.log(league.name + " is fully updated");
+        if(result.msg != RESULT.LOGIN_ERROR && result.counter != MAX_COUNTER) console.log(league.name + " is fully updated");
         resolve(result);
       }
     });
