@@ -47,7 +47,7 @@ function updateStats(){
         } else {
           counter = 0;
           message = "";
-          for(var i = 0; i < leagues.length && counter < MAX_COUNTER; i++){
+          for(var i = 0; i < leagues.length; i++){
             var result = await updateLeague(leagues[i], counter);
             counter = result.counter;
             if(result.msg == RESULT.LOGIN_ERROR){
@@ -58,6 +58,9 @@ function updateStats(){
           console.log("Job Done! Updated " + counter + " teams");
           if(counter == 0 && message != RESULT.LOGIN_ERROR){
             goSleep = 15;
+          }
+          if(message == RESULT.LOGIN_ERROR){
+            goSleep = 5;
           }
         }
       });
@@ -95,12 +98,12 @@ async function updateLeague(league, curr_counter){
         resolve(result);
       } else {
         var teams = webScrapper.getTeams(league_page);
-        for (var i = 0; i < teams.length && result.counter < MAX_COUNTER; i++){
+        for (var i = 0; i < teams.length; i++){
           result.msg = await updateTeam(teams[i], league_page, league.league_id);
           if(result.msg == RESULT.LOGIN_ERROR) break;
           else if(result.msg == RESULT.SUCCESS) result.counter = result.counter + 1;
         }
-        if(result.msg != RESULT.LOGIN_ERROR && result.counter != MAX_COUNTER) console.log(league.name + " is fully updated");
+        if(result.msg != RESULT.LOGIN_ERROR) console.log(league.name + " is fully updated");
         resolve(result);
       }
     });
