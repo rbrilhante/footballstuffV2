@@ -58,7 +58,7 @@ function updateStats(){
             }
           }
           console.log("Job Done! Updated " + counter + " teams");
-          console.log("Last waiting time for login error was " + lastRestingCycle + "cycles ago");
+          console.log("Last waiting time for login was " + lastRestingCycle + " cycles ago");
           if(message != RESULT.LOGIN_ERROR){
             lastRestingCycle = restingCycle;
             restingCycle = 0;
