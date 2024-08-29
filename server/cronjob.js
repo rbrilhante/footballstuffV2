@@ -3,7 +3,8 @@ var webScrapper = require('./webscrapper/webscrapper.js');
 var fs = require('fs');
 var configs;
 var goSleep = 0;
-const MAX_COUNTER = 1;
+var restingCycle = 0;
+var lastRestingCycle = 0;
 
 const RESULT = {
   SUCCESS : "success",
@@ -35,6 +36,7 @@ function updateStats(){
   if(goSleep > 0){
     console.log("I need to rest a bit...for " + goSleep + " more cycles");
     goSleep--;
+    restingCycle++;
     return;
   }
   console.log("Updating stats!");
@@ -56,11 +58,16 @@ function updateStats(){
             }
           }
           console.log("Job Done! Updated " + counter + " teams");
-          if(counter == 0 && message != RESULT.LOGIN_ERROR){
-            goSleep = 15;
+          console.log("Last waiting time for login error was " + lastRestingCycle + "cycles ago");
+          if(message != RESULT.LOGIN_ERROR){
+            lastRestingCycle = restingCycle;
+            restingCycle = 0;
+            if(counter = 0)
+              goSleep = 15;
           }
           if(message == RESULT.LOGIN_ERROR){
             goSleep = 5;
+            restingCycle++;
           }
         }
       });
