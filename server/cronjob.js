@@ -64,12 +64,10 @@ function updateStats(){
             lastRestingCycle = restingCycle;
             restingCycle = 0;
             lastCounter = counter;
-            if(counter == 0){
+            if(counter == 0)
               goSleep = 15;
-            }
           }
           if(message == RESULT.LOGIN_ERROR){
-            goSleep = 5;
             console.log("No updates since " + restingCycle + " cycles");
             restingCycle++;
           }
