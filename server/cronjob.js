@@ -5,6 +5,7 @@ var configs;
 var goSleep = 0;
 var restingCycle = 0;
 var lastRestingCycle = 0;
+var lastCounter = 0;
 
 const RESULT = {
   SUCCESS : "success",
@@ -58,15 +59,18 @@ function updateStats(){
             }
           }
           console.log("Job Done! Updated " + counter + " teams");
-          console.log("Last waiting time for login was " + lastRestingCycle + " cycles ago");
+          console.log("Last update was " + lastRestingCycle + " cycles ago and it updated " + lastCounter + " teams");
           if(message != RESULT.LOGIN_ERROR){
             lastRestingCycle = restingCycle;
             restingCycle = 0;
-            if(counter = 0)
+            lastCounter = counter;
+            if(counter == 0){
               goSleep = 15;
+            }
           }
           if(message == RESULT.LOGIN_ERROR){
             goSleep = 5;
+            console.log("No updates since " + restingCycle + " cycles");
             restingCycle++;
           }
         }
