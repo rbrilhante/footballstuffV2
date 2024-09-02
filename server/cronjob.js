@@ -61,12 +61,11 @@ function updateStats(){
           }
           console.log("Job Done! Updated " + counter + " teams");
 
-          if(message == RESULT.LOGIN_ERROR){
-            if(counter > 0){
-              dbHelper.saveCycle(restingCycle, counter);
-            } else {
-              restingCycle++
-            }   
+          if(counter > 0 && restingCycle > 0){
+            dbHelper.saveCycle(restingCycle, counter);
+            restingCycle = 0;
+          } else if(counter == 0 && message == RESULT.LOGIN_ERROR){
+            restingCycle++;
           }
           goSleep = 150;
         }
