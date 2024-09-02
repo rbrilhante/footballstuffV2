@@ -71,6 +71,7 @@ app.get('/api/teams', function (req, res) {
             res.send(err);
         }
         //return the results of the competition
+        console.log(result);
         res.send(result);
     });
 })

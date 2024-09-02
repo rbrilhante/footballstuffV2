@@ -6,7 +6,7 @@ var goSleep = 0;
 var restingCycle = 0;
 var lastRestingCycle = 0;
 
-const MAX_COUNTER = 1;
+const MAX_COUNTER = 50;
 
 const RESULT = {
   SUCCESS : "success",
@@ -61,18 +61,16 @@ function updateStats(){
           }
           console.log("Job Done! Updated " + counter + " teams");
           console.log("Last resting cycle took " + lastRestingCycle + " minutes");
-          if(message != RESULT.LOGIN_ERROR){
-            if(restingCycle != 0){
-              lastRestingCycle = restingCycle;
-              restingCycle = 0;
-            }
-            if(counter == 0)
-              goSleep = 15;
+          if(message != RESULT.LOGIN_ERROR && restingCycle != 0){
+            lastRestingCycle = restingCycle;
+            restingCycle = 0;
           }
           if(message == RESULT.LOGIN_ERROR){
             console.log("No updates since " + restingCycle + " cycles");
             restingCycle++;
           }
+          if(counter == 0)
+              goSleep = 150;
         }
       });
     } else {
