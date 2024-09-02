@@ -58,6 +58,7 @@ function getTeamInfo(league_page, team){
 	var name = team_page.eq(2).children().first().text();
 	var games = team_page.eq(4).children().first().text();
 	var results_page_url = configs.base_url + team_page.eq(4).children().last().attr('href');
+	var team_id = new URLSearchParams(results_page_url).get('equipa');
 	var wins = team_page.eq(5).children().first().text();
 	var draws = team_page.eq(6).children().first().text();
 	var losses = team_page.eq(7).children().first().text();
@@ -71,7 +72,7 @@ function getTeamInfo(league_page, team){
  	var away_wins = team_page.eq(22).children().first().text();
   	var away_draws = team_page.eq(23).children().first().text();
  	var away_losses = team_page.eq(24).children().first().text();
-	return {'league_pos' : league_pos, 'name': name,
+	return {'league_pos' : league_pos, 'name': name, 'team_id' : team_id,
 			'games':games, 'results_link':results_page_url, 'wins': wins, 'draws': draws, 'losses': losses,
 			'home_games': home_games, 'home_results_link': home_results_page_url, 'home_wins': home_wins, 'home_draws': home_draws, 'home_losses': home_losses, 
 			'away_games': away_games, 'away_results_link': away_results_page_url, 'away_wins': away_wins, 'away_draws': away_draws, 'away_losses': away_losses};
