@@ -7,6 +7,8 @@ var restingCycle = 0;
 var lastRestingCycle = 0;
 var lastCounter = 0;
 
+const MAX_COUNTER = 1;
+
 const RESULT = {
   SUCCESS : "success",
   LOGIN_ERROR : "login error",
@@ -50,7 +52,7 @@ function updateStats(){
         } else {
           counter = 0;
           message = "";
-          for(var i = 0; i < leagues.length; i++){
+          for(var i = 0; i < leagues.length && counter < MAX_COUNTER; i++){
             //dbHelper.deleteTeams(leagues[i].league_id);
             var result = await updateLeague(leagues[i], counter);
             counter = result.counter;
@@ -108,12 +110,12 @@ async function updateLeague(league, curr_counter){
         resolve(result);
       } else {
         var teams = webScrapper.getTeams(league_page);
-        for (var i = 0; i < teams.length; i++){
+        for (var i = 0; i < teams.length && result.counter < MAX_COUNTER; i++){
           result.msg = await updateTeam(teams[i], league_page, league.league_id);
           if(result.msg == RESULT.LOGIN_ERROR) break;
           else if(result.msg == RESULT.SUCCESS) result.counter = result.counter + 1;
         }
-        if(result.msg != RESULT.LOGIN_ERROR) console.log(league.name + " is fully updated");
+        if(result.msg != RESULT.LOGIN_ERROR && result.counter != MAX_COUNTER) console.log(league.name + " is fully updated");
         resolve(result);
       }
     });

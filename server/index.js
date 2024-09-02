@@ -14,7 +14,7 @@ function keepAlive() {
   return http.get('/api/keepalive').then((response) => console.log(response.data));
 }
 
-cron.schedule(`*/10 * * * *`, async () => {
+cron.schedule(`* * * * *`, async () => {
   console.log("Am I dead?")
   cronJob.updateStats();
   keepAlive();
