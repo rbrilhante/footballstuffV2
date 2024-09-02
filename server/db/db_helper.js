@@ -2,6 +2,7 @@ var mongoose = require('mongoose');
 var Competition = require('./models/competition.js');
 var League = require('./models/league.js');
 var Team = require('./models/team.js');
+var Updates = require('./models/updates.js');
 var db;
 
 function connect(callback){
@@ -132,6 +133,19 @@ function saveTeam(team, league_id, team_info, stats){
 	});
 }
 
+function saveCycle(cycles, updated_teams){
+	var updates = new Updates();
+	updates.set({
+		date : new Date(),
+		cycles : cycles,
+		updated_teams : updated_teams
+	});
+	updates.save(function (err) {
+		if (err) return err;
+		else console.log('Saved a new cycle');
+    });
+}
+
 module.exports.connect = connect;
 module.exports.getLeague = getLeague;
 module.exports.getLeagues = getLeagues;
@@ -143,4 +157,5 @@ module.exports.getCompetitions = getCompetitions;
 module.exports.saveCompetition = saveCompetition;
 module.exports.saveLeague = saveLeague;
 module.exports.saveTeam = saveTeam;
+module.exports.saveCycle = saveCycle;
 

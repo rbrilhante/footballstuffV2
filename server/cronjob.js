@@ -4,7 +4,6 @@ var fs = require('fs');
 var configs;
 var goSleep = 0;
 var restingCycle = 0;
-var lastRestingCycle = 0;
 
 const MAX_COUNTER = 50;
 
@@ -38,6 +37,7 @@ function updateStats(){
   if(goSleep > 0){
     console.log("I need to rest a bit...for " + goSleep + " more cycles");
     goSleep--;
+    restingCycle++;
     return;
   }
   console.log("Updating stats!");
@@ -60,17 +60,15 @@ function updateStats(){
             }
           }
           console.log("Job Done! Updated " + counter + " teams");
-          console.log("Last resting cycle took " + lastRestingCycle + " minutes");
-          if(message != RESULT.LOGIN_ERROR && restingCycle != 0){
-            lastRestingCycle = restingCycle;
-            restingCycle = 0;
-          }
+
           if(message == RESULT.LOGIN_ERROR){
-            console.log("No updates since " + restingCycle + " cycles");
-            restingCycle++;
+            if(counter > 0){
+              dbHelper.saveCycle(restingCycle, counter);
+            } else {
+              restingCycle++
+            }   
           }
-          if(counter == 0)
-              goSleep = 150;
+          goSleep = 150;
         }
       });
     } else {
