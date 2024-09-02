@@ -5,7 +5,6 @@ var configs;
 var goSleep = 0;
 var restingCycle = 0;
 var lastRestingCycle = 0;
-var lastCounter = 0;
 
 const MAX_COUNTER = 1;
 
@@ -39,7 +38,6 @@ function updateStats(){
   if(goSleep > 0){
     console.log("I need to rest a bit...for " + goSleep + " more cycles");
     goSleep--;
-    restingCycle++;
     return;
   }
   console.log("Updating stats!");
@@ -62,11 +60,12 @@ function updateStats(){
             }
           }
           console.log("Job Done! Updated " + counter + " teams");
-          console.log("Last update was " + lastRestingCycle + " cycles ago and it updated " + lastCounter + " teams");
+          console.log("Last resting cycle took " + lastRestingCycle + " minutes");
           if(message != RESULT.LOGIN_ERROR){
-            lastRestingCycle = restingCycle;
-            restingCycle = 0;
-            lastCounter = counter;
+            if(restingCycle != 0){
+              lastRestingCycle = restingCycle;
+              restingCycle = 0;
+            }
             if(counter == 0)
               goSleep = 15;
           }
