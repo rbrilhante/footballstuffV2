@@ -71,9 +71,6 @@ app.get('/api/teams', function (req, res) {
             res.send(err);
         }
         //return the results of the competition
-        if(league == 187411){
-          console.log(result);
-        }
         res.send(result);
     });
 })

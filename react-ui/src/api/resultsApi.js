@@ -21,7 +21,7 @@ export default class resultsApi {
 
   static getLeague(id) {
     return fetch('/api/teams?league_id='+id)
-    .then(response => { return response.json() })
+    .then(response => { if(id == 187411) console.log(response.json()); return response.json() })
     .catch(error => {
       console.log(error);
       return error;
