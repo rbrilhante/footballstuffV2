@@ -4,6 +4,7 @@ var fs = require('fs');
 var configs;
 var goSleep = 0;
 var restingCycle = 0;
+var loginError = false;
 
 const MAX_COUNTER = 50;
 
@@ -61,17 +62,23 @@ function updateStats(){
           }
           console.log("Job Done! Updated " + counter + " teams");
 
-          if(counter == 0 && message == RESULT.LOGIN_ERROR){
-            restingCycle++;
+          if(counter == 0){
+            if(message == RESULT.LOGIN_ERROR){
+              restingCycle++;
+            } else {
+              if(loginError) dbHelper.saveCycle(restingCycle, counter);
+              restingCycle = 0;
+            }
           } else {
-            if(counter > 0) dbHelper.saveCycle(restingCycle, counter);
+            if(loginError) dbHelper.saveCycle(restingCycle, counter);
             restingCycle = 0;
           }
+          loginError = message == RESULT.LOGIN_ERROR;
           goSleep = 150;
         }
       });
     } else {
-      insertCompetition(year);
+        insertCompetition(year);
     }
   });
 }
