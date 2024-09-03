@@ -21,7 +21,7 @@ export default class resultsApi {
 
   static getLeague(id) {
     return fetch('/api/teams?league_id='+id)
-    .then(response => { console.log(response.json()); return response.json() })
+    .then(response => { return response.json() })
     .catch(error => {
       console.log(error);
       return error;
