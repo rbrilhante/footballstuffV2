@@ -42,7 +42,7 @@ export function getLeague(id) {
   return function(dispatch) {
     dispatch(loadingLeague());
     resultsApi.getLeague(id).then(resp => {
-        console.log(resp);
+        if(id == 187411) console.log(resp);
         return dispatch(receivedLeague(resp));
       });
   }
