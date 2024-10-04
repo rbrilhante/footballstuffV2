@@ -127,6 +127,9 @@ async function updateTeam(team, league_page, league_id){
   return new Promise(function(resolve) {
     var web_team = webScrapper.getTeamInfo(league_page, team);
     dbHelper.getTeam(web_team.team_id, league_id, function(team){
+      if(team.form[0] == ""){
+        console.log(web_team.name + " doesn't have form");
+      }
       if(team.games != web_team.games || team.form[0] == ""){
         console.log('Updating ' + web_team.name);
         webScrapper.loadTeamFormPage(web_team.results_link, function(error, form_page){
