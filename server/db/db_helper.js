@@ -133,6 +133,16 @@ function saveTeam(team, league_id, team_info, stats){
 	});
 }
 
+function saveTeamPos(team, position){
+	team.set({
+		league_pos : position,
+	});
+    team.save(function (err, db_team) {
+		if (err) console.log(err);
+		else console.log('Saved ' + db_team.name + ' postion');
+	});
+}
+
 function saveCycle(cycles, updated_teams){
 	var updates = new Updates();
 	updates.set({
@@ -157,5 +167,6 @@ module.exports.getCompetitions = getCompetitions;
 module.exports.saveCompetition = saveCompetition;
 module.exports.saveLeague = saveLeague;
 module.exports.saveTeam = saveTeam;
+module.exports.saveTeamPos = saveTeamPos;
 module.exports.saveCycle = saveCycle;
 
