@@ -125,7 +125,7 @@ function saveTeam(team, league_id, team_info, stats){
 		away_wins_plus_2: stats.away_wins_plus_2,
 		away_wins_plus_3: stats.away_wins_plus_3,
 		away_wins_minus_5: stats.away_wins_minus_5,
-		away_results_link: team_info.away_results_link,
+		away_results_link: team_info.away_results_link
 	});
     team.save(function (err, db_team) {
 		if (err) console.log(err);
@@ -135,7 +135,7 @@ function saveTeam(team, league_id, team_info, stats){
 
 function saveTeamPos(team, position){
 	team.set({
-		league_pos : position,
+		league_pos : position
 	});
     team.save(function (err, db_team) {
 		if (err) console.log(err);
