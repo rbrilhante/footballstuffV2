@@ -116,7 +116,8 @@ async function updateLeague(league, curr_counter){
           if(result.msg == RESULT.LOGIN_ERROR) break;
           else if(result.msg == RESULT.SUCCESS) result.counter = result.counter + 1;
         }
-        if(result.msg != RESULT.LOGIN_ERROR && result.counter != MAX_COUNTER) console.log(league.name + " is fully updated");
+        if(result.msg != RESULT.LOGIN_ERROR && result.counter != MAX_COUNTER) 
+          console.log(league.name + " is fully updated");
         resolve(result);
       }
     });
@@ -127,6 +128,9 @@ async function updateTeam(team, league_page, league_id){
   return new Promise(function(resolve) {
     var web_team = webScrapper.getTeamInfo(league_page, team);
     dbHelper.getTeam(web_team.team_id, league_id, function(team){
+      if(web_team.name == "Toulouse"){
+        console.log(web_team);
+      }
       if(team.games != web_team.games || team.form.length == 0){
         console.log('Updating ' + web_team.name);
         webScrapper.loadTeamFormPage(web_team.results_link, function(error, form_page){
