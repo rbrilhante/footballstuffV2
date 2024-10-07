@@ -16,7 +16,7 @@ function loadLeague(league_id, callback){
 	  encoding: "binary"
   	}
 	request(options, function(error, response, html){
-		console.log(response);
+		console.log(html);
 		if(!error && !html.includes('utilizadores registrados') && !html.includes('cookies')){
 			var league_page = cheerio.load(html);
 			callback(null, league_page);
