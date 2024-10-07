@@ -12,11 +12,10 @@ function loadLeague(league_id, callback){
 		url: url,
 		headers: {
 			Cookie: "jcenable=1; jcenable_v1=1",
-		  },
-	  encoding: "binary"
+		},
+		encoding: "binary"
   	}
 	request(options, function(error, response, html){
-		console.log(html);
 		if(!error && !html.includes('utilizadores registrados') && !html.includes('cookies')){
 			var league_page = cheerio.load(html);
 			callback(null, league_page);

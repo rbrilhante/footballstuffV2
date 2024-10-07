@@ -6,12 +6,11 @@ var goSleep = 0;
 var restingCycle = 0;
 var loginError = false;
 
-const MAX_COUNTER = 50;
-
 const RESULT = {
   SUCCESS : "success",
   LOGIN_ERROR : "login error",
-  NO_UPDATE : "no update"
+  NO_UPDATE : "no update",
+  LEAGUE_ERROR : "not able to load the league"
 }
 
 function init(dbHelper_init){
@@ -101,7 +100,7 @@ function insertCompetition(current_year){
 async function updateLeague(league, curr_counter){
   return new Promise(function(resolve) {
     var result = {
-      msg : "",
+      msg : RESULT.LEAGUE_ERROR,
       counter : curr_counter
     } 
     webScrapper.loadLeague(league.league_id, async function(error, league_page){
@@ -111,14 +110,13 @@ async function updateLeague(league, curr_counter){
         resolve(result);
       } else {
         var teams = webScrapper.getTeams(league_page);
-        console.log(teams.length);
         for (var i = 0; i < teams.length && result.counter < MAX_COUNTER; i++){
           result.msg = await updateTeam(teams[i], league_page, league.league_id);
           if(result.msg == RESULT.LOGIN_ERROR) break;
           else if(result.msg == RESULT.SUCCESS) result.counter = result.counter + 1;
         }
-        if(result.msg != RESULT.LOGIN_ERROR && result.counter != MAX_COUNTER) 
-          console.log(league.name + " is fully updated");
+        if (result.msg == RESULT.LEAGUE_ERROR) console.log("Could not load " + league.name);
+        else if(result.msg != RESULT.LOGIN_ERROR) console.log(league.name + " is fully updated");
         resolve(result);
       }
     });
