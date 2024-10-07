@@ -16,13 +16,14 @@ function loadLeague(league_id, callback){
 	  encoding: "binary"
   }
 	request(options, function(error, response, html){
-		if(!error && !html.includes('cookies')){
+		if(!error && !html.includes('utilizadores registrados') && !html.includes('cookies')){
 			var league_page = cheerio.load(html);
 			callback(null, league_page);
         } else {
         	if(error){
         		callback(error);
-        	} else callback('cookies');
+        	} else if (html.includes('cookies')) callback('cookies');
+        	else callback('lack of login');
         }
 	});
 }
