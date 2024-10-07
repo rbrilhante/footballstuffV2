@@ -20,7 +20,7 @@ function loadLeague(league_id, callback){
 			var league_page = cheerio.load(html);
 			if(league_id == 187466){
 				console.log("it starts here");
-				console.log(league_page);
+				console.log(html);
 				console.log("it ends here");
 			}
 			callback(null, league_page);
