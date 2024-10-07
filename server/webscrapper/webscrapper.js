@@ -18,6 +18,11 @@ function loadLeague(league_id, callback){
 	request(options, function(error, response, html){
 		if(!error && !html.includes('utilizadores registrados') && !html.includes('cookies')){
 			var league_page = cheerio.load(html);
+			if(league_id == 187466){
+				console.log("it starts here");
+				console.log(league_page);
+				console.log("it ends here");
+			}
 			callback(null, league_page);
         } else {
         	if(error){
