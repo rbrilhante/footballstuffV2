@@ -50,7 +50,7 @@ function updateStats(){
         } else {
           counter = 0;
           message = "";
-          for(var i = 0; i < leagues.length && counter < MAX_COUNTER; i++){
+          for(var i = 0; i < leagues.length; i++){
             //dbHelper.deleteTeams(leagues[i].league_id);
             var result = await updateLeague(leagues[i], counter);
             counter = result.counter;
@@ -110,7 +110,7 @@ async function updateLeague(league, curr_counter){
         resolve(result);
       } else {
         var teams = webScrapper.getTeams(league_page);
-        for (var i = 0; i < teams.length && result.counter < MAX_COUNTER; i++){
+        for (var i = 0; i < teams.length; i++){
           result.msg = await updateTeam(teams[i], league_page, league.league_id);
           if(result.msg == RESULT.LOGIN_ERROR) break;
           else if(result.msg == RESULT.SUCCESS) result.counter = result.counter + 1;
