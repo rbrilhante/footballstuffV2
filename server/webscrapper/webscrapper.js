@@ -8,16 +8,15 @@ function init(init_configs){
 
 function loadLeague(league_id, callback){
 	var url = configs.base_url + configs.league_page + league_id;
-	if(league_id == 187466)
-		url = "https://www.zerozero.pt/competicao/ligue-1?simp=0"
 	var options = {
 		url: url,
 		headers: {
 			Cookie: "jcenable=1; jcenable_v1=1",
 		  },
 	  encoding: "binary"
-  }
+  	}
 	request(options, function(error, response, html){
+		console.log(response);
 		if(!error && !html.includes('utilizadores registrados') && !html.includes('cookies')){
 			var league_page = cheerio.load(html);
 			callback(null, league_page);
