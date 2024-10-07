@@ -111,6 +111,7 @@ async function updateLeague(league, curr_counter){
         resolve(result);
       } else {
         var teams = webScrapper.getTeams(league_page);
+        console.log(teams.length);
         for (var i = 0; i < teams.length && result.counter < MAX_COUNTER; i++){
           result.msg = await updateTeam(teams[i], league_page, league.league_id);
           if(result.msg == RESULT.LOGIN_ERROR) break;

@@ -8,6 +8,8 @@ function init(init_configs){
 
 function loadLeague(league_id, callback){
 	var url = configs.base_url + configs.league_page + league_id;
+	if(league_id == 187466)
+		url = "https://www.zerozero.pt/competicao/ligue-1?simp=0"
 	var options = {
 		url: url,
 		headers: {
