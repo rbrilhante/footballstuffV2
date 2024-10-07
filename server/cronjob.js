@@ -9,8 +9,7 @@ var loginError = false;
 const RESULT = {
   SUCCESS : "success",
   LOGIN_ERROR : "login error",
-  NO_UPDATE : "no update",
-  LEAGUE_ERROR : "not able to load the league"
+  NO_UPDATE : "no update"
 }
 
 function init(dbHelper_init){
@@ -100,12 +99,12 @@ function insertCompetition(current_year){
 async function updateLeague(league, curr_counter){
   return new Promise(function(resolve) {
     var result = {
-      msg : RESULT.LEAGUE_ERROR,
+      msg : "",
       counter : curr_counter
     } 
     webScrapper.loadLeague(league.league_id, async function(error, league_page){
       if(error){
-        console.log('Could not get league of ' + league.name + ' due to '+ error);
+        console.log('Could not get league of ' + league.name + ' due to ' + error);
         result.msg = RESULT.LOGIN_ERROR
         resolve(result);
       } else {
@@ -115,8 +114,7 @@ async function updateLeague(league, curr_counter){
           if(result.msg == RESULT.LOGIN_ERROR) break;
           else if(result.msg == RESULT.SUCCESS) result.counter = result.counter + 1;
         }
-        if (result.msg == RESULT.LEAGUE_ERROR) console.log("Could not load " + league.name);
-        else if(result.msg != RESULT.LOGIN_ERROR) console.log(league.name + " is fully updated");
+        if(result.msg != RESULT.LOGIN_ERROR) console.log(league.name + " is fully updated");
         resolve(result);
       }
     });

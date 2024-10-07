@@ -8,9 +8,6 @@ function init(init_configs){
 
 function loadLeague(league_id, callback){
 	var url = configs.base_url + configs.league_page + league_id;
-	if(league_id == 187466){
-		url = "https://www.zerozero.pt/competicao/ligue-1?simp=0"
-	}
 	var options = {
 		url: url,
 		headers: {
@@ -19,14 +16,16 @@ function loadLeague(league_id, callback){
 		encoding: "binary"
   	}
 	request(options, function(error, response, html){
-		if(!error && !html.includes('utilizadores registrados') && !html.includes('cookies')){
+		var conditions = ["Temporariamente Suspenso", "utilizadores registrados", "cookies"];
+		if(!error && !conditions.some(el => html.includes(el))){
 			var league_page = cheerio.load(html);
 			callback(null, league_page);
         } else {
         	if(error){
         		callback(error);
         	} else if (html.includes('cookies')) callback('cookies');
-        	else callback('lack of login');
+			else if (html.includes('Temporariamente Suspenso')) callback('suspended page');
+			else callback('lack of login');
         }
 	});
 }
