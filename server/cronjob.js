@@ -80,7 +80,7 @@ function updateStats(){
           }
           loginError = message == ERRORS.LOGIN_ERROR;
           
-          if(loginError || RESULT.some(el => message == el))
+          if(loginError || Object.values(RESULT).some(el => message == el))
             goSleep = 150;
         }
       });
@@ -113,8 +113,8 @@ async function updateLeague(league, curr_counter){
     } 
     webScrapper.loadLeague(league.league_id, async function(error, league_page){
       if(error){
-        console.log('Could not get ' + league.name + ' due to ' + ERRORS[error]);
-        result.msg = ERRORS[error];
+        result.msg = Object.values(ERRORS)[error];
+        console.log('Could not get ' + league.name + ' due to ' + result.msg);
         resolve(result);
       } else {
         var teams = webScrapper.getTeams(league_page);
@@ -123,7 +123,7 @@ async function updateLeague(league, curr_counter){
           if(result.msg == ERRORS.LOGIN_ERROR) break;
           else if(result.msg == RESULT.SUCCESS) result.counter = result.counter + 1;
         }
-        if(!ERRORS.some(el => result.msg == el)) console.log(league.name + " is fully updated");
+        if(!Object.values(ERRORS).some(el => result.msg == el)) console.log(league.name + " is fully updated");
         resolve(result);
       }
     });
@@ -138,8 +138,9 @@ async function updateTeam(team, league_page, league_id){
         console.log('Updating ' + web_team.name);
         webScrapper.loadTeamFormPage(web_team.results_link, function(error, form_page){
           if(error){
-            console.log('Could not get ' + league.name + ' due to ' + ERRORS[error]);
-            resolve(ERRORS[error]);
+            error = Object.values(ERRORS)[error];
+            console.log('Could not get ' + team.name + ' due to ' + error);
+            resolve(error);
           } else {
             var stats = webScrapper.getTeamStats(form_page, web_team.name);
             dbHelper.saveTeam(team, league_id, web_team, stats);
