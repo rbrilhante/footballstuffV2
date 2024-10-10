@@ -49,9 +49,10 @@ function updateStats(){
             //dbHelper.deleteTeams(leagues[i].league_id);
             var result = await updateLeague(leagues[i], counter);
             counter = result.counter;
-            if(result.msg == ERRORS.LOGIN_ERROR){
+            if(Object.values(ERRORS).some(el => result.msg == el)){
               message = result.msg;
-              break;
+              if(message == ERRORS.LOGIN_ERROR)
+                break;
             }
           }
           console.log("Job Done! Updated " + counter + " teams");
@@ -69,8 +70,7 @@ function updateStats(){
           }
           loginError = message == ERRORS.LOGIN_ERROR;
           
-          console.log(message);
-          if(loginError || Object.values(RESULT).some(el => message == el))
+          if(loginError || message == "")
             goSleep = 150;
         }
       });
