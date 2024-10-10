@@ -5,7 +5,8 @@ var LeagueSchema = new Schema({
  league_id: Number,
  competition_id: String,
  name: String,
- match_day: Number
+ web_id: String,
+ match_day: Number,
  //teams: [{type: Schema.ObjectId, ref: 'Team'}]
 });
 

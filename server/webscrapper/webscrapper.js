@@ -6,11 +6,10 @@ function init(init_configs){
 	configs = init_configs;
 }
 
-function loadLeague(league_id, callback){
-	var url = configs.base_url + configs.league_page.replace("${league_id}", league_id);
-	console.log("url: " + url);
+function loadLeague(web_id, callback){
+	var url = configs.base_url + configs.league_page.replace("${web_id}", web_id);
 	var options = {
-		url: "https://www.zerozero.pt/edicao/liga-espanhola/187411?simp=0",
+		url: url,
 		headers: {
 			Cookie: "jcenable=1; jcenable_v1=1",
 		},

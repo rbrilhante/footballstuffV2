@@ -99,7 +99,7 @@ function insertCompetition(current_year){
   if(leagues){
     dbHelper.saveCompetition(current_year, leagues.size, function(competition){
       leagues.forEach(function(league){
-        dbHelper.saveLeague(league.name, league.web_id, competition._id);
+        dbHelper.saveLeague(league, competition._id);
       });
     });
   }
@@ -111,7 +111,7 @@ async function updateLeague(league, curr_counter){
       msg : "",
       counter : curr_counter
     } 
-    webScrapper.loadLeague(league.league_id, async function(error, league_page){
+    webScrapper.loadLeague(league.web_id, async function(error, league_page){
       if(error){
         result.msg = Object.values(ERRORS)[error];
         console.log('Could not get ' + league.name + ' due to ' + result.msg);

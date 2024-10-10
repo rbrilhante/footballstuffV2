@@ -14,7 +14,7 @@ function connect(callback){
 	});
 }
 
-function getLeague(league_id, ){
+function getLeague(league_id){
 	League.findOne({'league_id': league_id}, function(err, league){
 		return league;
 	});
@@ -85,11 +85,12 @@ function saveCompetition(year, num_leagues, callback){
 
 }
 
-function saveLeague(name, id, competition_id){
+function saveLeague(league, competition_id){
 	var league = new League();
 	league.set({
-		name : name,
-		league_id : id,
+		name : league.name,
+		league_id : league.league_id,
+		web_id: league.web_id,
 		competition_id : competition_id
 	});
 	league.save(function (err, db_league) {

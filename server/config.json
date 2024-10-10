@@ -6,23 +6,28 @@
 		"leagues": [
 			{ 
 				"name": "Spain",
-				"web_id": "liga-espanhola/187411"
+				"league_id" : "187411",
+				"web_id": "liga-espanhola"
 			},
 			{ 
 				"name": "England",
-				"web_id": "187394"
+				"league_id": "187394",
+				"web_id": "liga-inglesa"
 			},
 			{ 
 				"name": "Germany",
-				"web_id": "187732"
+				"league_id": "187732",
+				"web_id": "1-bundesliga"
 			},
 			{ 
 				"name": "Italy",
-				"web_id": "187734"
+				"league_id": "187734",
+				"web_id": "liga-italiana"
 			},
 			{ 
 				"name": "France",
-				"web_id": "187466"
+				"league_id": "187466",
+				"web_id": "ligue-1"
 			}
 
 		]}
@@ -30,7 +35,7 @@
 	"web_scrapper":
 	{
 		"base_url": "http://www.zerozero.pt",
-		"league_page": "/edicao/${league_id}?simp=0",
+		"league_page": "/competicao/${web_id}?simp=0",
 		"table_id": "edition_table",
 		"team_form": "team_games",
 		"result_id": "form"
