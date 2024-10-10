@@ -8,6 +8,7 @@ function init(init_configs){
 
 function loadLeague(web_id, callback){
 	var url = configs.base_url + configs.league_page.replace("${web_id}", web_id);
+	console.log(url);
 	var options = {
 		url: url,
 		headers: {
