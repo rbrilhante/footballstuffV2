@@ -8,9 +8,16 @@ var loginError = false;
 
 const RESULT = {
   SUCCESS : "success",
-  LOGIN_ERROR : "login error",
-  NO_UPDATE : "no update"
+  NO_UPDATE : "no update",
 }
+
+const ERRORS = {
+  UNKNOWN : "unknown",
+  COOKIES : "cookies",
+  SUSPENDED : "suspended page",
+  LOGIN_ERROR : "lack of login"
+}
+
 
 function init(dbHelper_init){
   console.log("Initalizing Cron...")
@@ -53,7 +60,7 @@ function updateStats(){
             //dbHelper.deleteTeams(leagues[i].league_id);
             var result = await updateLeague(leagues[i], counter);
             counter = result.counter;
-            if(result.msg == RESULT.LOGIN_ERROR){
+            if(result.msg == ERROR.LOGIN_ERROR){
               message = result.msg;
               break;
             }
@@ -61,7 +68,7 @@ function updateStats(){
           console.log("Job Done! Updated " + counter + " teams");
 
           if(counter == 0){
-            if(message == RESULT.LOGIN_ERROR){
+            if(message == ERROR.LOGIN_ERROR){
               restingCycle++;
             } else {
               if(loginError) dbHelper.saveCycle(restingCycle, counter);
@@ -71,8 +78,10 @@ function updateStats(){
             if(loginError) dbHelper.saveCycle(restingCycle, counter);
             restingCycle = 0;
           }
-          loginError = message == RESULT.LOGIN_ERROR;
-          goSleep = 150;
+          loginError = message == ERROR.LOGIN_ERROR;
+          
+          if(loginError || RESULT.some(el => message == el))
+            goSleep = 150;
         }
       });
     } else {
@@ -104,17 +113,17 @@ async function updateLeague(league, curr_counter){
     } 
     webScrapper.loadLeague(league.league_id, async function(error, league_page){
       if(error){
-        console.log('Could not get league of ' + league.name + ' due to ' + error);
-        result.msg = RESULT.LOGIN_ERROR
+        console.log('Could not get ' + league.name + ' due to ' + ERROR[error]);
+        result.msg = ERROR[error];
         resolve(result);
       } else {
         var teams = webScrapper.getTeams(league_page);
         for (var i = 0; i < teams.length; i++){
           result.msg = await updateTeam(teams[i], league_page, league.league_id);
-          if(result.msg == RESULT.LOGIN_ERROR) break;
+          if(result.msg == ERROR.LOGIN_ERROR) break;
           else if(result.msg == RESULT.SUCCESS) result.counter = result.counter + 1;
         }
-        if(result.msg != RESULT.LOGIN_ERROR) console.log(league.name + " is fully updated");
+        if(!ERROR.some(el => result.msg == el)) console.log(league.name + " is fully updated");
         resolve(result);
       }
     });
@@ -129,8 +138,8 @@ async function updateTeam(team, league_page, league_id){
         console.log('Updating ' + web_team.name);
         webScrapper.loadTeamFormPage(web_team.results_link, function(error, form_page){
           if(error){
-            console.log('Could not get form of ' + web_team.name + ' due to '+ error);
-            resolve(RESULT.LOGIN_ERROR);
+            console.log('Could not get ' + league.name + ' due to ' + ERROR[error]);
+            resolve(ERROR[error]);
           } else {
             var stats = webScrapper.getTeamStats(form_page, web_team.name);
             dbHelper.saveTeam(team, league_id, web_team, stats);

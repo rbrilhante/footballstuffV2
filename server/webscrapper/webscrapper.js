@@ -22,10 +22,10 @@ function loadLeague(league_id, callback){
 			callback(null, league_page);
         } else {
         	if(error){
-        		callback(error);
-        	} else if (html.includes('cookies')) callback('cookies');
-			else if (html.includes('Temporariamente Suspenso')) callback('suspended page');
-			else callback('lack of login');
+        		callback(0);
+        	} else if (html.includes('cookies')) callback(1);
+			else if (html.includes('Temporariamente Suspenso')) callback(2);
+			else callback(3);
         }
 	});
 }
@@ -39,14 +39,16 @@ function loadTeamFormPage(team_form_page_url, callback){
 		encoding: "binary"
 	}
 	request(options, function(error, response, html){
-		if(!error && !html.includes('utilizadores registrados') && !html.includes('cookies')){
+		var conditions = ["Temporariamente Suspenso", "utilizadores registrados", "cookies"];
+		if(!error && !conditions.some(el => html.includes(el))){
 			var team_form_page = cheerio.load(html);
 			callback(null, team_form_page);
         } else {
         	if(error){
-        		callback(error);
-        	} else if (html.includes('cookies')) callback('cookies');
-        	else callback('lack of login');
+        		callback(0);
+        	} else if (html.includes('cookies')) callback(1);
+			else if (html.includes('Temporariamente Suspenso')) callback(2);
+			else callback(3);
         }
 	})
 }
