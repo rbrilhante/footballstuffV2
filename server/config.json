@@ -34,7 +34,7 @@
 	],
 	"web_scrapper":
 	{
-		"base_url": "http://www.zerozero.pt",
+		"base_url": "https://www.zerozero.pt",
 		"league_page": "/competicao/${web_id}?simp=0",
 		"table_id": "edition_table",
 		"team_form": "team_games",
