@@ -8,7 +8,7 @@ function init(init_configs){
 
 function loadLeague(league_id, callback){
 	var url = configs.base_url + configs.league_page.replace("${league_id}", league_id);
-	console.log("test: " + test);
+	console.log("url: " + url);
 	var options = {
 		url: "https://www.zerozero.pt//edicao/liga-espanhola/187411?simp=0",
 		headers: {
