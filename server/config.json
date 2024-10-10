@@ -6,7 +6,7 @@
 		"leagues": [
 			{ 
 				"name": "Spain",
-				"web_id": "187411"
+				"web_id": "liga-espanhola/187411"
 			},
 			{ 
 				"name": "England",
@@ -30,7 +30,7 @@
 	"web_scrapper":
 	{
 		"base_url": "http://www.zerozero.pt",
-		"league_page": "/edicao.php?simp=0&id_edicao=",
+		"league_page": "/edicao/${league_id}?simp=0",
 		"table_id": "edition_table",
 		"team_form": "team_games",
 		"result_id": "form"

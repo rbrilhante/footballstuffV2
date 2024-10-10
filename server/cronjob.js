@@ -18,7 +18,6 @@ const ERRORS = {
   LOGIN_ERROR : "lack of login"
 }
 
-
 function init(dbHelper_init){
   console.log("Initalizing Cron...")
   dbHelper = dbHelper_init;
@@ -27,16 +26,6 @@ function init(dbHelper_init){
     configs = JSON.parse(data);
     webScrapper.init(configs.web_scrapper);
   });
-}
-
-function getCurrentYear(){
-  var datetime = new Date();
-  var current_year = datetime.getFullYear();
-  var month = datetime.getMonth() + 1;
-  if(month <= 6){
-      current_year = current_year - 1;
-  }
-  return current_year;
 }
 
 function updateStats(){
@@ -80,6 +69,7 @@ function updateStats(){
           }
           loginError = message == ERRORS.LOGIN_ERROR;
           
+          console.log(message);
           if(loginError || Object.values(RESULT).some(el => message == el))
             goSleep = 150;
         }
@@ -88,6 +78,16 @@ function updateStats(){
         insertCompetition(year);
     }
   });
+}
+
+function getCurrentYear(){
+  var datetime = new Date();
+  var current_year = datetime.getFullYear();
+  var month = datetime.getMonth() + 1;
+  if(month <= 6){
+      current_year = current_year - 1;
+  }
+  return current_year;
 }
 
 function insertCompetition(current_year){
