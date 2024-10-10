@@ -85,12 +85,12 @@ function saveCompetition(year, num_leagues, callback){
 
 }
 
-function saveLeague(league, competition_id){
+function saveLeague(league_info, competition_id){
 	var league = new League();
 	league.set({
-		name : league.name,
-		league_id : league.league_id,
-		web_id: league.web_id,
+		name : league_info.name,
+		league_id : league_info.league_id,
+		web_id: league_info.web_id,
 		competition_id : competition_id
 	});
 	league.save(function (err, db_league) {
