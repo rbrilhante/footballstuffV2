@@ -139,7 +139,7 @@ async function updateTeam(team, league_page, league_id){
         webScrapper.loadTeamFormPage(web_team.results_link, function(error, form_page){
           if(error){
             error = Object.values(ERRORS)[error];
-            console.log('Could not get ' + team.name + ' due to ' + error);
+            console.log('Could not get form of ' + web_team.name + ' due to ' + error);
             resolve(error);
           } else {
             var stats = webScrapper.getTeamStats(form_page, web_team.name);

@@ -9,7 +9,7 @@ function init(init_configs){
 function loadLeague(league_id, callback){
 	var url = configs.base_url + configs.league_page + league_id;
 	var options = {
-		url: url,
+		url: "https://www.zerozero.pt/competicao/liga-espanhola?simp=0",
 		headers: {
 			Cookie: "jcenable=1; jcenable_v1=1",
 		},
