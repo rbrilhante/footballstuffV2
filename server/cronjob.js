@@ -36,7 +36,8 @@ function updateStats(){
     return;
   }
   console.log("Updating stats!");
-  var year = configs.year;
+  var year = configs.competitions.year;
+  console.log(year);
   dbHelper.getCompetitionByYear(year, function(competition){
     if(competition){
       dbHelper.getLeagues(competition._id, async function(err, leagues){
