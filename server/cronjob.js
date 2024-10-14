@@ -38,7 +38,7 @@ function updateStats(){
   console.log("Updating stats!");
   var year = configs.competitions.year;
   dbHelper.getCompetitionByYear(year, function(competition){
-    if(!competition){
+    if(competition){
       dbHelper.getLeagues(competition._id, async function(err, leagues){
         if(err){
           console.log(err);
@@ -82,18 +82,13 @@ function updateStats(){
 
 function insertCompetition(current_year){
   var leagues = configs.competitions.leagues;
-  console.log(leagues);
-  //configs.competitions.forEach(function(competition){
-    //if(competition.year == current_year)
-      //leagues = competition.leagues;
-  //});
-  /*if(leagues){
+  if(leagues){
     dbHelper.saveCompetition(current_year, leagues.size, function(competition){
       leagues.forEach(function(league){
         dbHelper.saveLeague(league, competition._id);
       });
     });
-  }*/
+  }
 }
 
 async function updateLeague(league, curr_counter){
