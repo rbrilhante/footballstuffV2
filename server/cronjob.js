@@ -36,7 +36,7 @@ function updateStats(){
     return;
   }
   console.log("Updating stats!");
-  var year = getCurrentYear();
+  var year = configs.year;
   dbHelper.getCompetitionByYear(year, function(competition){
     if(competition){
       dbHelper.getLeagues(competition._id, async function(err, leagues){
@@ -75,19 +75,10 @@ function updateStats(){
         }
       });
     } else {
-        insertCompetition(year);
+      console.log("no competition")
+      //insertCompetition(year);
     }
   });
-}
-
-function getCurrentYear(){
-  var datetime = new Date();
-  var current_year = datetime.getFullYear();
-  var month = datetime.getMonth() + 1;
-  if(month <= 6){
-      current_year = current_year - 1;
-  }
-  return current_year;
 }
 
 function insertCompetition(current_year){
