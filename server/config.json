@@ -1,7 +1,6 @@
 {
 	"competitions":
-	[
-		{
+	{
 		"year": 2024,
 		"leagues": [
 			{ 
@@ -30,8 +29,9 @@
 				"web_id": "ligue-1"
 			}
 
-		]}
-	],
+		]
+	}
+	,
 	"web_scrapper":
 	{
 		"base_url": "https://www.zerozero.pt",
