@@ -105,6 +105,8 @@ function getTeamStats(team_form_page, team_name){
 			form.push(result);
 			var goals_string = team_page.eq(index).children().eq(5).text();
 			var num_goals = parseInt(goals_string.charAt(0)) + parseInt(goals_string.slice(-1));
+			if(isNaN(num_goals))
+				num_goals = 0;
 			total_goals += num_goals;
 		}
 		/*This piece of code has an hack so that a migration of db is not needed.
@@ -112,8 +114,10 @@ function getTeamStats(team_form_page, team_name){
 		if(result == 'V'){
 			var goals_string = team_page.eq(index).children().eq(5).text()
 			var num_goals = parseInt(goals_string.charAt(0)) + parseInt(goals_string.slice(-1));
+			if(isNaN(num_goals))
+				num_goals = 0;
 			var isHome = team_page.eq(index).children().eq(3).text() === team_name;
-			if(num_goals < 5)
+			if(num_goals > 0 && num_goals < 5)
 				isHome ? home_wins_minus_5++ : away_wins_minus_5++;
 			if(num_goals > 1)
 				isHome ? home_wins_plus_2++ : away_wins_plus_2++;
