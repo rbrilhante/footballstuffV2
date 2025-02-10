@@ -16,6 +16,7 @@ function loadLeague(web_id, callback){
 		encoding: "binary"
   	}
 	request(options, function(error, response, html){
+		console.log(html);
 		var conditions = ["Temporariamente Suspenso", "utilizadores registrados", "cookies"];
 		if(!error && !conditions.some(el => html.includes(el))){
 			var league_page = cheerio.load(html);
