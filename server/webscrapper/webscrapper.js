@@ -11,7 +11,7 @@ function loadLeague(web_id, callback){
 	var options = {
 		url: url,
 		headers: {
-			Cookie: "jcenable=1; jcenable_v1=1",
+			Cookie: "zz_first_page_v1=1; notification-preference=denied; FORCE_SITE_VERSION_v1=desktop; PHPSESSID=liup7spicrub38epebcplfp3q6; pvc_date=1739180337; pvc=1; FORCE_MODALIDADE_v1=1; jcenable_v1=1;",
 		},
 		encoding: "binary"
   	}
