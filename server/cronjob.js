@@ -70,7 +70,7 @@ function updateStats(){
           }
           loginError = message == ERRORS.LOGIN_ERROR;
           
-          if(loginError || message == "")
+          if(loginError || message == "" || message == ERRORS.COOKIES)
             goSleep = 150;
         }
       });
