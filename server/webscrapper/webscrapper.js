@@ -11,11 +11,12 @@ function loadLeague(web_id, callback){
 	var options = {
 		url: url,
 		headers: {
-			Cookie: "jcenabled_v1=1; zz_first_page_v1=1; FORCE_MODALIDADE_v1=1; FORCE_SITE_VERSION_v1=desktop; PHPSESSID=7sasb7n99orc22hca8asenq425; pvc=1; pvc_date=1739300494",
+			Cookie: "jcenable=1; jcenable_v1=1",
 		},
 		encoding: "binary"
   	}
 	request(options, function(error, response, html){
+		console.log(response);
 		var conditions = ["Temporariamente Suspenso", "utilizadores registrados", "cookies"];
 		if(!error && !conditions.some(el => html.includes(el))){
 			var league_page = cheerio.load(html);
