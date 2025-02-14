@@ -18,18 +18,29 @@ function loadLeague(web_id, callback){
 		jar: true,
 		followAllRedirects: true,
   	}
-	request(options, function(error, response, html){
-		var conditions = ["Temporariamente Suspenso", "utilizadores registrados", "cookies"];
-		if(!error && !conditions.some(el => html.includes(el))){
-			var league_page = cheerio.load(html);
-			callback(null, league_page);
-		} else {
-			if(error){
-				callback(0);
-			} else if (html.includes('cookies')) callback(1);
-			else if (html.includes('Temporariamente Suspenso')) callback(2);
-			else callback(3);
+	request(options, (error, response, body) => {
+		if (error) {
+			console.error('Error:', error);
+			return;
 		}
+
+		console.log('Cookies Set:', jar.getCookies(options.url)); // Debugging: See stored cookies
+		console.log('First Request Done!');
+
+		// Second request with stored cookies
+		request(options, function(error, response, html){
+			var conditions = ["Temporariamente Suspenso", "utilizadores registrados", "cookies"];
+			if(!error && !conditions.some(el => html.includes(el))){
+				var league_page = cheerio.load(html);
+				callback(null, league_page);
+			} else {
+				if(error){
+					callback(0);
+				} else if (html.includes('cookies')) callback(1);
+				else if (html.includes('Temporariamente Suspenso')) callback(2);
+				else callback(3);
+			}
+		});
 	});
 }
 
