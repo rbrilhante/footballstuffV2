@@ -1,14 +1,15 @@
 var request = require('request');
 var cheerio = require('cheerio');
 var configs;
-const jar = request.jar();
-
 function init(init_configs){
 	configs = init_configs;
 }
 
 function loadLeague(web_id, callback){
 	var url = configs.base_url + configs.league_page.replace("${web_id}", web_id);
+
+	var jar = request.jar();
+
 	var options = {
 		url: url,
 		headers: {
@@ -16,7 +17,7 @@ function loadLeague(web_id, callback){
 			'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8',
 			'Referer': 'https://google.com/',
 		},
-		jar: true,
+		jar: jar,
 		followAllRedirects: true,
   	}
 	request(options, (error, response, body) => {
