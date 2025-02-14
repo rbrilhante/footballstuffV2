@@ -19,7 +19,7 @@
     "mongodb": "^3.6.3",
     "mongoose": "^5.13.15",
     "node-cron": "^1.2.1",
-    "request-promise": "^2.88.0"
+    "request": "^2.88.0"
   },
   "repository": {
     "type": "git",

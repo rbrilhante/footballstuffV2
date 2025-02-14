@@ -1,4 +1,4 @@
-var request = require('request-promise');
+var request = require('request');
 var cheerio = require('cheerio');
 var configs;
 
@@ -18,7 +18,7 @@ function loadLeague(web_id, callback){
 		jar: true,
 		followAllRedirects: true,
   	}
-	request(options).then(html => {
+	request(options, function(error, response, html){
 		var conditions = ["Temporariamente Suspenso", "utilizadores registrados", "cookies"];
 		if(!error && !conditions.some(el => html.includes(el))){
 			var league_page = cheerio.load(html);
