@@ -4,7 +4,6 @@ var configs;
 
 function init(init_configs){
 	configs = init_configs;
-	request = request.defaults({jar: true});
 }
 
 function loadLeague(web_id, callback){
@@ -14,20 +13,12 @@ function loadLeague(web_id, callback){
 		headers: {
 			Cookie: "jcenable=1; jcenable_v1=1",
 		},
-		encoding: "binary"
+		encoding: "binary",
+		jar: true
   	}
-	//console.log("First options: " + options.headers);
-	request(url, function(error, response, html){
+	request(options, function(error, response, html){
 		var cookies = response.headers['set-cookie'];
-		options = {
-			url: url,
-			headers: {
-				Cookie: cookies,
-			},
-			encoding: "binary"
-		},
-		//console.log("Second options: " + options.headers);
-		request(url, function(error, response, html){
+		request(options, function(error, response, html){
 			var conditions = ["Temporariamente Suspenso", "utilizadores registrados", "cookies"];
 			if(!error && !conditions.some(el => html.includes(el))){
 				var league_page = cheerio.load(html);
