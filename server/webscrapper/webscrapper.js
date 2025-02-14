@@ -1,4 +1,4 @@
-var request = require('request');
+var request = require('request-promise');
 var cheerio = require('cheerio');
 var configs;
 
@@ -11,26 +11,25 @@ function loadLeague(web_id, callback){
 	var options = {
 		url: url,
 		headers: {
-			Cookie: "jcenable=1; jcenable_v1=1",
+			'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36',
+			'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8',
+			'Referer': 'https://google.com/',
 		},
-		encoding: "binary",
-		jar: true
+		jar: true,
+		followAllRedirects: true,
   	}
-	request(options, function(error, response, html){
-		var cookies = response.headers['set-cookie'];
-		request(options, function(error, response, html){
-			var conditions = ["Temporariamente Suspenso", "utilizadores registrados", "cookies"];
-			if(!error && !conditions.some(el => html.includes(el))){
-				var league_page = cheerio.load(html);
-				callback(null, league_page);
-			} else {
-				if(error){
-					callback(0);
-				} else if (html.includes('cookies')) callback(1);
-				else if (html.includes('Temporariamente Suspenso')) callback(2);
-				else callback(3);
-			}
-		})
+	request(options).then(html => {
+		var conditions = ["Temporariamente Suspenso", "utilizadores registrados", "cookies"];
+		if(!error && !conditions.some(el => html.includes(el))){
+			var league_page = cheerio.load(html);
+			callback(null, league_page);
+		} else {
+			if(error){
+				callback(0);
+			} else if (html.includes('cookies')) callback(1);
+			else if (html.includes('Temporariamente Suspenso')) callback(2);
+			else callback(3);
+		}
 	});
 }
 

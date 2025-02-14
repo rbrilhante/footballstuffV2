@@ -122,7 +122,7 @@ async function updateTeam(team, league_page, league_id){
     dbHelper.getTeam(web_team.team_id, league_id, function(team){
       if(team.games != web_team.games || team.form.length == 0){
         console.log('Updating ' + web_team.name);
-        webScrapper.loadTeamFormPage(web_team.results_link, function(error, form_page){
+        /*webScrapper.loadTeamFormPage(web_team.results_link, function(error, form_page){
           if(error){
             error = Object.values(ERRORS)[error];
             console.log('Could not get form of ' + web_team.name + ' due to ' + error);
@@ -132,7 +132,7 @@ async function updateTeam(team, league_page, league_id){
             dbHelper.saveTeam(team, league_id, web_team, stats);
             resolve(RESULT.SUCCESS);
           }
-        });
+        });*/
       } else if(team.league_pos != web_team.league_pos){
         console.log('Updating ' + web_team.name + ' league position');
         dbHelper.saveTeamPos(team, web_team.league_pos);
