@@ -16,7 +16,15 @@ function loadLeague(web_id, callback){
 		encoding: "binary"
   	}
 	request(options, function(error, response, html){
-		console.log(response.headers);
+		var cookies = response.headers['set-cookie'];
+		console.log(cookies);
+		options = {
+			url: url,
+			headers: {
+				Cookie: cookies,
+			},
+			encoding: "binary"
+		},
 		request(options, function(error, response, html){
 			var conditions = ["Temporariamente Suspenso", "utilizadores registrados", "cookies"];
 			if(!error && !conditions.some(el => html.includes(el))){
