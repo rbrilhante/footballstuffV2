@@ -15,6 +15,7 @@ function loadLeague(web_id, callback){
 		},
 		encoding: "binary"
   	}
+	console.log("First options: " + options);
 	request(options, function(error, response, html){
 		var cookies = response.headers['set-cookie'];
 		console.log(cookies);
@@ -25,6 +26,7 @@ function loadLeague(web_id, callback){
 			},
 			encoding: "binary"
 		},
+		console.log("Second options: " + options);
 		request(options, function(error, response, html){
 			var conditions = ["Temporariamente Suspenso", "utilizadores registrados", "cookies"];
 			if(!error && !conditions.some(el => html.includes(el))){
