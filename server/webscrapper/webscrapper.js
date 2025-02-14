@@ -16,18 +16,20 @@ function loadLeague(web_id, callback){
 		encoding: "binary"
   	}
 	request(options, function(error, response, html){
-		console.log(response.Cookie);
-		var conditions = ["Temporariamente Suspenso", "utilizadores registrados", "cookies"];
-		if(!error && !conditions.some(el => html.includes(el))){
-			var league_page = cheerio.load(html);
-			callback(null, league_page);
-        } else {
-        	if(error){
-        		callback(0);
-        	} else if (html.includes('cookies')) callback(1);
-			else if (html.includes('Temporariamente Suspenso')) callback(2);
-			else callback(3);
-        }
+		console.log(response.headers);
+		request(options, function(error, response, html){
+			var conditions = ["Temporariamente Suspenso", "utilizadores registrados", "cookies"];
+			if(!error && !conditions.some(el => html.includes(el))){
+				var league_page = cheerio.load(html);
+				callback(null, league_page);
+			} else {
+				if(error){
+					callback(0);
+				} else if (html.includes('cookies')) callback(1);
+				else if (html.includes('Temporariamente Suspenso')) callback(2);
+				else callback(3);
+			}
+		})
 	});
 }
 
