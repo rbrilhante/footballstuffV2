@@ -1,6 +1,7 @@
 var request = require('request');
 var cheerio = require('cheerio');
 var configs;
+const jar = request.jar();
 
 function init(init_configs){
 	configs = init_configs;
