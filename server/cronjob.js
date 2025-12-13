@@ -45,7 +45,6 @@ async function updateStats() {
     for (var i = 0; i < leagues.length; i++) {
       //dbHelper.deleteTeams(leagues[i].league_id);
       var result = await updateLeague(leagues[i], counter);
-      console.log("am I waiting?")
       counter = result.counter;
       if (Object.values(ERRORS).some(el => result.msg == el)) {
         message = result.msg;
@@ -99,9 +98,10 @@ async function updateLeague(league, curr_counter) {
         resolve(result);
       } else {
         var league_id = league_page.Sid;
+        //dbHelper.deleteTeams(league_id);
         var teams = league_page.LeagueTable.L[0].Tables[0].team;
         for (var i = 0; i < teams.length; i++) {
-          result.msg = await updateTeam(teams[i], league_id);
+          result.msg = await updateTeam(teams[i], league_id, league.web_id);
           if (result.msg == ERRORS.LOGIN_ERROR) break;
           else if (result.msg == RESULT.SUCCESS) result.counter = result.counter + 1;
         }
@@ -112,16 +112,16 @@ async function updateLeague(league, curr_counter) {
   });
 }
 
-async function updateTeam(team, league_id) {
+async function updateTeam(team, web_league_id, league_id) {
   var web_team = webScrapper.getTeamInfo(team);
   var team = await dbHelper.getTeam(web_team.team_id, league_id)
   if (team.games != web_team.games || team.form.length == 0) {
     console.log('Updating ' + web_team.name);
-    webScrapper.loadTeamFormPage(web_team, league_id, async function (error, form) {
+    webScrapper.loadTeamFormPage(web_team, web_league_id, async function (error, form) {
       if (error) {
         error = Object.values(ERRORS)[error];
         console.log('Could not get form of ' + web_team.name + ' due to ' + error);
-        resolve(error);
+        return error;
       } else {
         var stats = webScrapper.getTeamStats(form, web_team.name);
         await dbHelper.saveTeam(team, league_id, web_team, stats);

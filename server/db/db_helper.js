@@ -26,8 +26,9 @@ async function getTeams(league_id) {
 	return await Team.find({ 'league_id': league_id }).sort('league_pos');
 }
 
-function deleteTeams(league_id) {
-	Team.deleteMany({ 'league_id': league_id });
+async function deleteTeams(league_id) {
+	console.log(await Team.deleteMany({ 'league_id': league_id }));
+	console.log(await Team.deleteMany({ 'league_id': null }));
 }
 
 async function getCompetitions() {
