@@ -26,8 +26,8 @@ app.use(express.static(path.resolve(__dirname, '../react-ui/build')));
 
 var dbHelper = require('./db/db_helper.js');
 
-dbHelper.connect(function(isConnected){
-  if(!isConnected){
+dbHelper.connect(function (isConnected) {
+  if (!isConnected) {
     console.log('Not Connected...');
   } else {
     console.log('Connected!!!');
@@ -36,43 +36,43 @@ dbHelper.connect(function(isConnected){
 });
 
 app.get('/api/competitions', function (req, res) {
-    console.log("Requesting competitions");
+  console.log("Requesting competitions");
 
-    dbHelper.getCompetitions(function(err, result){
-        if (err){
-            res.send(err);
-        }
-        //return the results of the competition
-        res.send(result);
-    });
+  dbHelper.getCompetitions(function (err, result) {
+    if (err) {
+      res.send(err);
+    }
+    //return the results of the competition
+    res.send(result);
+  });
 })
 
 app.get('/api/leagues', function (req, res) {
-    console.log("Requesting leagues");
+  console.log("Requesting leagues");
 
-    var competition = req.query.competition_id;
+  var competition = req.query.competition_id;
 
-    dbHelper.getLeagues(competition, function(err, result){
-        if (err){
-            res.send(err);
-        }
-        //return the results of the competition
-        res.send(result);
-    });  
+  dbHelper.getLeagues(competition, function (err, result) {
+    if (err) {
+      res.send(err);
+    }
+    //return the results of the competition
+    res.send(result);
+  });
 })
 
 app.get('/api/teams', function (req, res) {
-    console.log("Requesting teams");
+  console.log("Requesting teams");
 
-    var league = req.query.league_id;
+  var league = req.query.league_id;
 
-    dbHelper.getTeams(league, function(err, result){
-        if (err){
-            res.send(err);
-        }
-        //return the results of the competition
-        res.send(result);
-    });
+  dbHelper.getTeams(league, function (err, result) {
+    if (err) {
+      res.send(err);
+    }
+    //return the results of the competition
+    res.send(result);
+  });
 })
 
 // Keep alive answer
@@ -81,7 +81,7 @@ app.get('/api/keepalive', function (req, res) {
 });
 
 // All remaining requests return the React app, so it can handle routing.
-app.get('*', function(request, response) {
+app.get('*', function (request, response) {
   response.sendFile(path.resolve(__dirname, '../react-ui/build', 'index.html'));
 });
 

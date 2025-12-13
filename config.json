@@ -1,0 +1,35 @@
+{
+	"competitions": {
+		"year": 2025,
+		"leagues": [
+			{
+				"name": "Spain",
+				"web_id": "75"
+			},
+			{
+				"name": "England",
+				"web_id": "65"
+			},
+			{
+				"name": "Germany",
+				"web_id": "67"
+			},
+			{
+				"name": "Italy",
+				"web_id": "77"
+			},
+			{
+				"name": "France",
+				"web_id": "68"
+			}
+		]
+	},
+	"web_scrapper": {
+		"league_page": "https://prod-cdn-public-api.livescore.com/v1/api/app/competition/${league_id}/leagueTable/?locale=en",
+		"teams_form_base_url": "https://www.livescore.com/_next/data/TCCRNIuBry_Wmz-mKIAAC/en/football/team/${team_name}/${team_id}/results/${league_id}.json",
+		"league_page1": "/competicao/${web_id}?simp=0",
+		"table_id": "edition_table",
+		"team_form": "team_games",
+		"result_id": "form"
+	}
+}
