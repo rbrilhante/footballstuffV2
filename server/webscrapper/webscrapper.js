@@ -11,7 +11,6 @@ function init(init_configs) {
 
 function loadLeague(web_id, callback) {
 	var url = configs.league_page.replace("${league_id}", web_id);
-	console.log(url);
 	axios.get(url).then((response) => {
 		callback(null, response.data.Stages[0]);
 	}).catch((error) => {
