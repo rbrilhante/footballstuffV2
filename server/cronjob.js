@@ -24,7 +24,6 @@ function init(dbHelper_init) {
     if (err) throw err;
     configs = JSON.parse(data);
     webScrapper.init(configs.web_scrapper);
-    updateStats();
   });
 }
 
