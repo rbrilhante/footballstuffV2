@@ -24,10 +24,11 @@ function init(dbHelper_init) {
     if (err) throw err;
     configs = JSON.parse(data);
     webScrapper.init(configs.web_scrapper);
+    updateStats();
   });
 }
 
-function updateStats() {
+async function updateStats() {
   if (goSleep > 0) {
     console.log("I need to rest a bit...for " + goSleep + " more cycles");
     goSleep--;
@@ -36,59 +37,53 @@ function updateStats() {
   }
   console.log("Updating stats!");
   var year = configs.competitions.year;
-  dbHelper.getCompetitionByYear(year, function (competition) {
-    if (competition) {
-      console.log("Found a competition!");
-      dbHelper.getLeagues(competition._id, async function (err, leagues) {
-        if (err) {
-          console.log(err);
-        } else {
-          counter = 0;
-          message = "";
-          for (var i = 0; i < leagues.length; i++) {
-            //dbHelper.deleteTeams(leagues[i].league_id);
-            var result = await updateLeague(leagues[i], counter);
-            counter = result.counter;
-            if (Object.values(ERRORS).some(el => result.msg == el)) {
-              message = result.msg;
-              if (message == ERRORS.LOGIN_ERROR)
-                break;
-            }
-          }
-          console.log("Job Done! Updated " + counter + " teams");
-
-          if (counter == 0) {
-            if (message == ERRORS.LOGIN_ERROR) {
-              restingCycle++;
-            } else {
-              if (loginError) dbHelper.saveCycle(restingCycle, counter);
-              restingCycle = 0;
-            }
-          } else {
-            if (loginError) dbHelper.saveCycle(restingCycle, counter);
-            restingCycle = 0;
-          }
-          loginError = message == ERRORS.LOGIN_ERROR;
-
-          if (loginError || message == "" || message == ERRORS.COOKIES)
-            goSleep = 150;
-        }
-      });
-    } else {
-      insertCompetition(year);
+  var competition = await dbHelper.getCompetitionByYear(year)
+  if (competition) {
+    console.log("Found a competition!");
+    var leagues = await dbHelper.getLeagues(competition._id);
+    counter = 0;
+    message = "";
+    for (var i = 0; i < leagues.length; i++) {
+      //dbHelper.deleteTeams(leagues[i].league_id);
+      var result = await updateLeague(leagues[i], counter);
+      console.log("am I waiting?")
+      counter = result.counter;
+      if (Object.values(ERRORS).some(el => result.msg == el)) {
+        message = result.msg;
+        if (message == ERRORS.LOGIN_ERROR)
+          break;
+      }
     }
-  });
+    console.log("Job Done! Updated " + counter + " teams");
+
+    if (counter == 0) {
+      if (message == ERRORS.LOGIN_ERROR) {
+        restingCycle++;
+      } else {
+        if (loginError) dbHelper.saveCycle(restingCycle, counter);
+        restingCycle = 0;
+      }
+    } else {
+      if (loginError) dbHelper.saveCycle(restingCycle, counter);
+      restingCycle = 0;
+    }
+    loginError = message == ERRORS.LOGIN_ERROR;
+
+    if (loginError || message == "" || message == ERRORS.COOKIES)
+      goSleep = 150;
+  } else {
+    insertCompetition(year);
+  }
 }
 
-function insertCompetition(current_year) {
+async function insertCompetition(current_year) {
   var leagues = configs.competitions.leagues;
   if (leagues) {
-    dbHelper.saveCompetition(current_year, leagues.size, function (competition) {
-      leagues.forEach(function (league) {
-        dbHelper.saveLeague(league, competition._id);
-        console.log("Saved " + league.name);
-      });
-    });
+    var competition = await dbHelper.saveCompetition(current_year, leagues.length)
+    for (var i = 0; i < leagues.length; i++) {
+      await dbHelper.saveLeague(leagues[i], competition._id);
+      console.log("Saved " + leagues[i].name);
+    }
   }
 }
 
@@ -119,32 +114,28 @@ async function updateLeague(league, curr_counter) {
 }
 
 async function updateTeam(team, league_id) {
-  return new Promise(function (resolve) {
-    var web_team = webScrapper.getTeamInfo(team);
-    dbHelper.getTeam(web_team.team_id, league_id, function (team) {
-      if (team.games != web_team.games || team.form.length == 0) {
-        console.log('Updating ' + web_team.name);
-        webScrapper.loadTeamFormPage(web_team, league_id, function (error, form) {
-          if (error) {
-            error = Object.values(ERRORS)[error];
-            console.log('Could not get form of ' + web_team.name + ' due to ' + error);
-            resolve(error);
-          } else {
-            var stats = webScrapper.getTeamStats(form, web_team.name);
-            dbHelper.saveTeam(team, league_id, web_team, stats);
-            resolve(RESULT.SUCCESS);
-          }
-        });
-      } else if (team.league_pos != web_team.league_pos) {
-        console.log('Updating ' + web_team.name + ' league position');
-        dbHelper.saveTeamPos(team, web_team.league_pos);
-        resolve(RESULT.SUCCESS);
+  var web_team = webScrapper.getTeamInfo(team);
+  var team = await dbHelper.getTeam(web_team.team_id, league_id)
+  if (team.games != web_team.games || team.form.length == 0) {
+    console.log('Updating ' + web_team.name);
+    webScrapper.loadTeamFormPage(web_team, league_id, async function (error, form) {
+      if (error) {
+        error = Object.values(ERRORS)[error];
+        console.log('Could not get form of ' + web_team.name + ' due to ' + error);
+        resolve(error);
       } else {
-        resolve(RESULT.NO_UPDATE);
+        var stats = webScrapper.getTeamStats(form, web_team.name);
+        await dbHelper.saveTeam(team, league_id, web_team, stats);
+        return RESULT.SUCCESS;
       }
     });
-  })
-
+  } else if (team.league_pos != web_team.league_pos) {
+    console.log('Updating ' + web_team.name + ' league position');
+    await dbHelper.saveTeamPos(team, web_team.league_pos);
+    return RESULT.SUCCESS;
+  } else {
+    return RESULT.NO_UPDATE;
+  }
 }
 
 module.exports.updateStats = updateStats;

@@ -14,75 +14,46 @@ function connect(callback) {
 	});
 }
 
-function getLeague(league_id) {
-	League.findOne({ 'league_id': league_id }, function (err, league) {
-		return league;
-	});
+async function getLeague(league_id) {
+	return await League.findOne({ 'league_id': league_id });
 }
 
-function getLeagues(competition_id, callback) {
-	League.find({ 'competition_id': competition_id }, function (err, leagues) {
-		if (err) {
-			callback(err);
-		}
-		callback(null, leagues);
-	});
+async function getLeagues(competition_id) {
+	return await League.find({ 'competition_id': competition_id });
 }
 
-function getTeams(league_id, callback) {
-	Team.find({ 'league_id': league_id }, function (err, teams) {
-		if (err) {
-			callback(err);
-		}
-		//return the results of the competition
-		callback(null, teams);
-	}).sort('league_pos');
+async function getTeams(league_id) {
+	return await Team.find({ 'league_id': league_id }).sort('league_pos');
 }
 
 function deleteTeams(league_id) {
-	Team.deleteMany({ 'league_id': league_id }, function (err) {
-		if (err) console.log(err);
-	});
+	Team.deleteMany({ 'league_id': league_id });
 }
 
-function getCompetitions(callback) {
-	Competition.find(function (err, competition) {
-		if (err) {
-			callback(err);
-		}
-		callback(null, competition);
-	}).sort({ year: -1 });
+async function getCompetitions() {
+	return await Competition.find().sort({ year: -1 });
 }
 
-function getCompetitionByYear(year, callback) {
-	Competition.findOne({ 'year': year }, function (err, competition) {
-		callback(competition);
-	});
+async function getCompetitionByYear(year) {
+	return await Competition.findOne({ 'year': year })
 }
 
-function getTeam(team_id, league_id, callback) {
-	Team.findOne({ 'team_id': team_id, 'league_id': league_id }, function (err, db_team) {
-		var team;
-		if (db_team) {
-			team = db_team;
-		} else {
-			team = new Team();
-		}
-		callback(team);
-	});
+async function getTeam(team_id, league_id) {
+	var team = await Team.findOne({ 'team_id': team_id, 'league_id': league_id });
+	if (team) {
+		return team;
+	} else {
+		return new Team();
+	}
 }
 
-function saveCompetition(year, num_leagues, callback) {
+async function saveCompetition(year, num_leagues) {
 	var competition = new Competition();
 	competition.set({
 		year: year,
 		num_leagues: num_leagues
 	})
-	competition.save(function (err, db_competition) {
-		if (err) return err;
-		else callback(db_competition);
-	});
-
+	return await competition.save();
 }
 
 function saveLeague(league_info, competition_id) {
@@ -93,12 +64,10 @@ function saveLeague(league_info, competition_id) {
 		web_id: league_info.web_id,
 		competition_id: competition_id
 	});
-	league.save(function (err, db_league) {
-		if (err) return err;
-	});
+	league.save();
 }
 
-function saveTeam(team, league_id, team_info, stats) {
+async function saveTeam(team, league_id, team_info, stats) {
 	team.set({
 		league_id: league_id,
 		name: team_info.name,
@@ -128,33 +97,25 @@ function saveTeam(team, league_id, team_info, stats) {
 		away_wins_minus_5: stats.away_wins_minus_5,
 		away_results_link: team_info.away_results_link
 	});
-	team.save(function (err, db_team) {
-		if (err) console.log(err);
-		else console.log('Saved ' + db_team.name);
-	});
+	var db_team = await team.save();
+	if (db_team) console.log('Saved ' + db_team.name);
 }
 
-function saveTeamPos(team, position) {
+async function saveTeamPos(team, position) {
 	team.set({
 		league_pos: position
 	});
-	team.save(function (err, db_team) {
-		if (err) console.log(err);
-		else console.log('Saved ' + db_team.name + ' postion');
-	});
+	if (await team.save()) console.log('Saved ' + team.name + ' postion');
 }
 
-function saveCycle(cycles, updated_teams) {
+async function saveCycle(cycles, updated_teams) {
 	var updates = new Updates();
 	updates.set({
 		date: new Date(),
 		cycles: cycles,
 		updated_teams: updated_teams
 	});
-	updates.save(function (err) {
-		if (err) return err;
-		else console.log('Saved a new cycle');
-	});
+	if (await updates.save()) console.log('Saved a new cycle');
 }
 
 module.exports.connect = connect;

@@ -35,44 +35,32 @@ dbHelper.connect(function (isConnected) {
   }
 });
 
-app.get('/api/competitions', function (req, res) {
+app.get('/api/competitions', async function (req, res) {
   console.log("Requesting competitions");
 
-  dbHelper.getCompetitions(function (err, result) {
-    if (err) {
-      res.send(err);
-    }
-    //return the results of the competition
-    res.send(result);
-  });
+  var result = await dbHelper.getCompetitions();
+  //return the results of the competition
+  res.send(result);
 })
 
-app.get('/api/leagues', function (req, res) {
+app.get('/api/leagues', async function (req, res) {
   console.log("Requesting leagues");
 
   var competition = req.query.competition_id;
 
-  dbHelper.getLeagues(competition, function (err, result) {
-    if (err) {
-      res.send(err);
-    }
-    //return the results of the competition
-    res.send(result);
-  });
-})
+  var result = await dbHelper.getLeagues(competition);
+  //return the results of the competition
+  res.send(result);
+});
 
-app.get('/api/teams', function (req, res) {
+app.get('/api/teams', async function (req, res) {
   console.log("Requesting teams");
 
   var league = req.query.league_id;
 
-  dbHelper.getTeams(league, function (err, result) {
-    if (err) {
-      res.send(err);
-    }
-    //return the results of the competition
-    res.send(result);
-  });
+  var result = await dbHelper.getTeams(league);
+  //return the results of the competition
+  res.send(result);
 })
 
 // Keep alive answer
