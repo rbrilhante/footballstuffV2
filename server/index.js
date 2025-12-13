@@ -81,7 +81,7 @@ app.get('/api/keepalive', function (req, res) {
 });
 
 // All remaining requests return the React app, so it can handle routing.
-app.get('*', function (request, response) {
+app.get('/{*any}', function (request, response) {
   response.sendFile(path.resolve(__dirname, '../react-ui/build', 'index.html'));
 });
 

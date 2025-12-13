@@ -6,7 +6,7 @@ var Updates = require('./models/updates.js');
 var db;
 
 function connect(callback) {
-	mongoose.connect('mongodb+srv://scoresdb:sc0res@standings.sw9pe.mongodb.net/standings', { useNewUrlParser: true, useUnifiedTopology: true });
+	mongoose.connect('mongodb+srv://scoresdb:sc0res@standings.sw9pe.mongodb.net/standings');
 	db = mongoose.connection;
 	db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 	db.once('open', function () {
