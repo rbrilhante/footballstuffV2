@@ -91,7 +91,7 @@ async function updateLeague(league, curr_counter) {
       msg: "",
       counter: curr_counter
     }
-    webScrapper.loadLeague(league.web_id, async function (error, league_page) {
+    webScrapper.loadLeague(league.league_id, async function (error, league_page) {
       if (error) {
         result.msg = Object.values(ERRORS)[error];
         console.log('Could not get ' + league.name + ' due to ' + result.msg);
@@ -100,7 +100,7 @@ async function updateLeague(league, curr_counter) {
         var league_id = league_page.Sid;
         var teams = league_page.LeagueTable.L[0].Tables[0].team;
         for (var i = 0; i < teams.length; i++) {
-          result.msg = await updateTeam(teams[i], league_id, league.web_id);
+          result.msg = await updateTeam(teams[i], league_id, league.league_id);
           if (result.msg == ERRORS.LOGIN_ERROR) break;
           else if (result.msg == RESULT.SUCCESS) result.counter = result.counter + 1;
         }
