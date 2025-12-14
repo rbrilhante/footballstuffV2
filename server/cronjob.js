@@ -98,7 +98,6 @@ async function updateLeague(league, curr_counter) {
         resolve(result);
       } else {
         var league_id = league_page.Sid;
-        //dbHelper.deleteTeams(league_id);
         var teams = league_page.LeagueTable.L[0].Tables[0].team;
         for (var i = 0; i < teams.length; i++) {
           result.msg = await updateTeam(teams[i], league_id, league.web_id);

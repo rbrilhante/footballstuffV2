@@ -1,4 +1,4 @@
-import React , { Component } from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 import { getCompetitions, getLeaguesById } from './actions/resultsActions';
@@ -21,61 +21,62 @@ class App extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if(nextProps.competitions){
-      this.setState({competitions: nextProps.competitions, year: nextProps.competitions[0].year});
+    if (nextProps.competitions) {
+      this.setState({ competitions: nextProps.competitions, year: nextProps.competitions[0].year });
       this.props.dispatch(getLeaguesById(nextProps.competitions[0]._id));
     }
-    if(nextProps.leagues){
-      this.setState({leagues: nextProps.leagues, league: nextProps.leagues[0].league_id});
+    if (nextProps.leagues) {
+      this.setState({ leagues: nextProps.leagues, league: nextProps.leagues[0].league_id });
     }
-    this.setState({loading: nextProps.loading})
+    this.setState({ loading: nextProps.loading })
   }
 
   onChangedCompetition(competition_id, year) {
-    this.setState({year: year});
+    this.setState({ year: year });
     this.props.dispatch(getLeaguesById(competition_id));
   }
 
   onChangedLeague(league_id) {
-    this.setState({league: league_id});
+    this.setState({ league: league_id });
   }
 
   render() {
-    var tabs = <ReactLoading className="loader" type="spin" color="#444" height='50px' width='50px'/>;
+    var tabs = <ReactLoading className="loader" type="spin" color="#444" height='50px' width='50px' />;
     var dropdown = "";
     var homeRoute = "";
 
-    if(this.state && this.state.competitions && !this.state.loading){
-      dropdown = <DropdownButton 
-                title={this.state.year}>
-                  {this.state.competitions.map((competition, index) => {
-                    var activeClass;
-                    if(this.state.year === competition.year) activeClass='active';
-                    return <Dropdown.Item onSelect={()=>this.onChangedCompetition(competition._id, competition.year)}>{competition.year}</Dropdown.Item>
-                    })
-                  }
-               </DropdownButton>
+    if (this.state && this.state.competitions && !this.state.loading) {
+      dropdown = <DropdownButton
+        title={this.state.year}>
+        {this.state.competitions.map((competition, index) => {
+          var activeClass;
+          if (this.state.year === competition.year) activeClass = 'active';
+          return <Dropdown.Item onSelect={() => this.onChangedCompetition(competition._id, competition.year)}>{competition.year}</Dropdown.Item>
+        })
+        }
+      </DropdownButton>
     }
-    if(this.state && this.state.leagues && !this.state.loading){
+    if (this.state && this.state.leagues && !this.state.loading) {
       tabs = <Nav className="flex-column" variant="pills" onSelect={this.onChangedLeague}>
-              {this.state.leagues.map(league => {
-                var activeClass;
-                if(this.state.league === league.league_id) activeClass='active';
-                return <Nav.Item className={activeClass}><Nav.Link eventKey={league.league_id}>{league.name}</Nav.Link></Nav.Item>})}
-             </Nav>
+        {this.state.leagues.map(league => {
+          var activeClass;
+          if (this.state.league === league.league_id) activeClass = 'active';
+          return <Nav.Item className={activeClass}><Nav.Link eventKey={league.league_id}>{league.name}</Nav.Link></Nav.Item>
+        })}
+      </Nav>
     }
 
-    return (  
-        <div className='main-container'>
-          {dropdown}
-          <BrowserRouter>
-            <div>
-              {tabs}
-              <TableComponent league_id={this.state ? this.state.league : null}/>
-            </div>
-          </BrowserRouter>
-        </div>
-      
+    return (
+      <div className='main-container'>
+        {dropdown}
+        <BrowserRouter>
+          <div>
+            {tabs}
+            <TableComponent league_id={this.state ? this.state.league : null} />
+          </div>
+        </BrowserRouter>
+      </div>
+
     );
   }
 }

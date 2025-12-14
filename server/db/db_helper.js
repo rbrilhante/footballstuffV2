@@ -61,8 +61,7 @@ function saveLeague(league_info, competition_id) {
 	var league = new League();
 	league.set({
 		name: league_info.name,
-		league_id: league_info.league_id,
-		web_id: league_info.web_id,
+		league_id: league_info.web_id,
 		competition_id: competition_id
 	});
 	league.save();
