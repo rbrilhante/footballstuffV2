@@ -4,30 +4,36 @@
 		"leagues": [
 			{
 				"name": "Spain",
-				"web_id": "75"
+				"web_id": "75",
+				"zero_zero": "liga-espanhola"
 			},
 			{
 				"name": "England",
-				"web_id": "65"
+				"web_id": "65",
+				"zero_zero": "liga-inglesa"
 			},
 			{
 				"name": "Germany",
-				"web_id": "67"
+				"web_id": "67",
+				"zero_zero": "liga-alema"
 			},
 			{
 				"name": "Italy",
-				"web_id": "77"
+				"web_id": "77",
+				"zero_zero": "liga-italiana"
 			},
 			{
 				"name": "France",
-				"web_id": "68"
+				"web_id": "68",
+				"zero_zero": "liga-francesa"
 			}
 		]
 	},
 	"web_scrapper": {
 		"league_page": "https://prod-cdn-public-api.livescore.com/v1/api/app/competition/${league_id}/leagueTable/?locale=en",
 		"teams_form_base_url": "https://www.livescore.com/_next/data/TCCRNIuBry_Wmz-mKIAAC/en/football/team/${team_name}/${team_id}/results/${league_id}.json",
-		"league_page1": "/competicao/${web_id}?simp=0",
+		"zero_zero_competitions_base_url": "https://www.zerozero.pt/competicao/",
+		"zero_zero_base_url": "https://www.zerozero.pt",
 		"table_id": "edition_table",
 		"team_form": "team_games",
 		"result_id": "form"

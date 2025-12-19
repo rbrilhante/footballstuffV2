@@ -1,55 +1,38 @@
-var request = require('request');
 var cheerio = require('cheerio');
 var axios = require('axios');
 var configs;
-var league_page;
-var team_form_page;
 
 function init(init_configs) {
 	configs = init_configs;
+
 }
 
-function loadLeague(web_id, callback) {
-	var url = configs.league_page.replace("${league_id}", web_id);
-	axios.get(url).then((response) => {
-		callback(null, response.data.Stages[0]);
-	}).catch((error) => {
-		callback(error);
-	});
-
-	/*var jar = request.jar();
-
-	var options = {
-		url: url,
-		headers: {
-			'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36',
-			'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,**;q=0.8',
-			'Referer': 'https://google.com/',
-		},
-		jar: jar,
-		followAllRedirects: true,
-	}
-	request(options, (error, response, body) => {
-		if (error) {
-			console.error('Error:', error);
-			return;
+async function loadZLeague(league_zero_zero) {
+	var url = configs.zero_zero_competitions_base_url + league_zero_zero;
+	var response = await axios.get(url);
+	if (response.status == 200) {
+		var conditions = ["Temporariamente Suspenso", "utilizadores registrados", "cookies"];
+		if (!conditions.some(el => response.data.includes(el))) {
+			var league_page = cheerio.load(response.data);
+			return league_page;
+		} else {
+			if (response.data.includes('cookies')) return 1;
+			else if (response.data.includes('Temporariamente Suspenso')) return 2;
+			else return 3;
 		}
+	} else {
+		return null;
+	}
+}
 
-		// Second request with stored cookies
-		request(options, function (error, response, html) {
-			var conditions = ["Temporariamente Suspenso", "utilizadores registrados", "cookies"];
-			if (!error && !conditions.some(el => html.includes(el))) {
-				var league_page = cheerio.load(html);
-				callback(null, league_page);
-			} else {
-				if (error) {
-					callback(0);
-				} else if (html.includes('cookies')) callback(1);
-				else if (html.includes('Temporariamente Suspenso')) callback(2);
-				else callback(3);
-			}
-		});
-	});*/
+async function loadLeague(web_id) {
+	var url = configs.league_page.replace("${league_id}", web_id);
+	var response = await axios.get(url);
+	if (response.status == 200) {
+		return response.data.Stages[0];
+	} else {
+		return null;
+	}
 }
 
 async function loadTeamFormPage(team, league_id) {
@@ -61,47 +44,19 @@ async function loadTeamFormPage(team, league_id) {
 		console.log(response.statusText);
 		return null;
 	}
-	/*.then((response) => {
-		callback(null, response.data.pageProps.initialData.eventsByMatchType[0].Events);
-	}).catch((error) => {
-		callback(error);
-	});
-	/* var jar = request.jar();
-
-	var options = {
-		url: team_form_page_url,
-		headers: {
-			'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36',
-			'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,**;q=0.8',
-			'Referer': 'https://google.com/',
-		},
-		jar: jar,
-		followAllRedirects: true,
-	}
-	request(options, (error, response, body) => {
-		if (error) {
-			console.error('Error:', error);
-			return;
-		}
-
-		request(options, function (error, response, html) {
-			var conditions = ["Temporariamente Suspenso", "utilizadores registrados", "cookies"];
-			if (!error && !conditions.some(el => html.includes(el))) {
-				var team_form_page = cheerio.load(html);
-				callback(null, team_form_page);
-			} else {
-				if (error) {
-					callback(0);
-				} else if (html.includes('cookies')) callback(1);
-				else if (html.includes('Temporariamente Suspenso')) callback(2);
-				else callback(3);
-			}
-		});
-	}) */
 }
 
 function getTeams(league_page) {
 	return league_page('#' + configs.table_id + ' tbody tr');
+}
+
+function getTeamLink(league_links, team) {
+	var team_page = league_links(team).children();
+	var team_name = team_page.eq(2).children().first().text();
+	var results_page_url = team_page.eq(4).children().last().attr('href');
+	return {
+		'name': team_name, 'url': configs.zero_zero_base_url + results_page_url
+	};
 }
 
 function getTeamInfo(team) {
@@ -167,3 +122,5 @@ module.exports.loadTeamFormPage = loadTeamFormPage;
 module.exports.getTeams = getTeams;
 module.exports.getTeamInfo = getTeamInfo;
 module.exports.getTeamStats = getTeamStats;
+module.exports.loadZLeague = loadZLeague;
+module.exports.getTeamLink = getTeamLink;

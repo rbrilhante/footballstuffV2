@@ -77,7 +77,7 @@ async function saveTeam(team, league_id, team_info, stats) {
 		wins: team_info.wins,
 		draws: team_info.draws,
 		losses: team_info.losses,
-		results_link: team_info.results_link,
+		results_link: team.results_link,
 		form: stats.form,
 		avg_goals_last_5: stats.avg_goals_last_5,
 		home_games: team_info.home_games,
