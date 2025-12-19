@@ -6,18 +6,14 @@ var cronJob = require('./cronjob.js');
 
 const PORT = process.env.PORT || 4000;
 
-const http = axios.create({
-  baseURL: 'https://rbrilhante.onrender.com'
-});
-
 function keepAlive() {
-  return http.get('/api/keepalive').then((response) => console.log(response.data));
+  return axios.get('https://rbrilhante.onrender.com/api/keepalive').then((response) => console.log(response.data)).catch((error) => console.log("Messed up..."));
 }
 
 cron.schedule(`* * * * *`, async () => {
   console.log("Am I dead?")
+  await keepAlive();
   cronJob.updateStats();
-  keepAlive();
 })
 
 const app = express();

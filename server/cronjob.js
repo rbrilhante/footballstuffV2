@@ -41,6 +41,7 @@ async function updateStats() {
   if (competition) {
     console.log("Found a competition!");
     var leagues = await dbHelper.getLeagues(competition._id);
+    await getAllTeamLinks();
     counter = 0;
     message = "";
     for (var i = 0; i < leagues.length; i++) {
@@ -136,10 +137,6 @@ async function updateTeam(team, web_league_id, league_id) {
 }
 
 async function getTeamLink(team) {
-  let team_with_link = league_links.find(result => result.team_name == team.name)
-  if (team_with_link)
-    return team_with_link.link;
-  await getAllTeamLinks();
   return league_links.find(result => result.team_name == team.name);
 }
 

@@ -9,7 +9,10 @@ function init(init_configs) {
 
 async function loadZLeague(league_zero_zero) {
 	var url = configs.zero_zero_competitions_base_url + league_zero_zero;
-	var response = await axios.get(url);
+	var response = await axios.get(url).catch(function (error) {
+		console.log("Error getting " + url);
+		return null;
+	});
 	if (response.status == 200) {
 		var conditions = ["Temporariamente Suspenso", "utilizadores registrados", "cookies"];
 		if (!conditions.some(el => response.data.includes(el))) {
@@ -27,7 +30,10 @@ async function loadZLeague(league_zero_zero) {
 
 async function loadLeague(web_id) {
 	var url = configs.league_page.replace("${league_id}", web_id);
-	var response = await axios.get(url);
+	var response = await axios.get(url).catch(function (error) {
+		console.log("Error getting " + url);
+		return null;
+	});
 	if (response.status == 200) {
 		return response.data.Stages[0];
 	} else {
@@ -37,7 +43,10 @@ async function loadLeague(web_id) {
 
 async function loadTeamFormPage(team, league_id) {
 	var url = configs.teams_form_base_url.replace("${team_name}", team.name).replace("${team_id}", team.team_id).replace("${league_id}", league_id);
-	var response = await axios.get(url);
+	var response = await axios.get(url).catch(function (error) {
+		console.log("Error getting " + url);
+		return null;
+	});
 	if (response.status == 200) {
 		return response.data.pageProps.initialData.eventsByMatchType[0].Events;
 	} else {
