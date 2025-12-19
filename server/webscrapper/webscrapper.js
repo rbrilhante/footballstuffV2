@@ -52,9 +52,16 @@ function loadLeague(web_id, callback) {
 	});*/
 }
 
-function loadTeamFormPage(team, league_id, callback) {
+async function loadTeamFormPage(team, league_id) {
 	var url = configs.teams_form_base_url.replace("${team_name}", team.name).replace("${team_id}", team.team_id).replace("${league_id}", league_id);
-	axios.get(url).then((response) => {
+	var response = await axios.get(url);
+	if (response.status == 200) {
+		return response.data.pageProps.initialData.eventsByMatchType[0].Events;
+	} else {
+		console.log(response.statusText);
+		return null;
+	}
+	/*.then((response) => {
 		callback(null, response.data.pageProps.initialData.eventsByMatchType[0].Events);
 	}).catch((error) => {
 		callback(error);
