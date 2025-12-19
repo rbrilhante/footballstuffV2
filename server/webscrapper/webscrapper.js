@@ -13,7 +13,7 @@ async function loadZLeague(league_zero_zero) {
 		console.log("Error getting " + url);
 		return null;
 	});
-	if (response.status == 200) {
+	if (response && response.status == 200) {
 		var conditions = ["Temporariamente Suspenso", "utilizadores registrados", "cookies"];
 		if (!conditions.some(el => response.data.includes(el))) {
 			var league_page = cheerio.load(response.data);
@@ -34,7 +34,7 @@ async function loadLeague(web_id) {
 		console.log("Error getting " + url);
 		return null;
 	});
-	if (response.status == 200) {
+	if (response && response.status == 200) {
 		return response.data.Stages[0];
 	} else {
 		return null;
@@ -47,7 +47,7 @@ async function loadTeamFormPage(team, league_id) {
 		console.log("Error getting " + url);
 		return null;
 	});
-	if (response.status == 200) {
+	if (response && response.status == 200) {
 		return response.data.pageProps.initialData.eventsByMatchType[0].Events;
 	} else {
 		console.log(response.statusText);
