@@ -63,8 +63,9 @@ function getTeamLink(league_links, team) {
 	var team_page = league_links(team).children();
 	var team_name = team_page.eq(2).children().first().text();
 	var results_page_url = team_page.eq(4).children().last().attr('href');
+	var position = team_page.eq(0).text();
 	return {
-		'name': team_name, 'url': configs.zero_zero_base_url + results_page_url
+		'name': team_name, 'url': configs.zero_zero_base_url + results_page_url, 'position': position
 	};
 }
 

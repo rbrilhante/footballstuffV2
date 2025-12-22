@@ -116,28 +116,35 @@ async function updateTeam(team, web_league_id, league_id) {
     var team_link = await getTeamLink(team);
     team.results_link = team_link;
   }
-  if (team.games != web_team.games || team.form.length == 0) {
-    console.log('Updating ' + web_team.name);
-    var result = await webScrapper.loadTeamFormPage(web_team, web_league_id);
-    if (result) {
+  console.log('Updating ' + web_team.name);
+  var result = await webScrapper.loadTeamFormPage(web_team, web_league_id);
+  if (result) {
+    if (result.length != team.games) {
       var stats = webScrapper.getTeamStats(result, web_team.name);
       await dbHelper.saveTeam(team, league_id, web_team, stats);
       return RESULT.SUCCESS;
     } else {
-      console.log('Could not get form of ' + web_team.name + ' due to ' + result);
-      return ERRORS.UNKNOWN;
+      return RESULT.NO_UPDATE;
     }
-    /*} else if (team.league_pos != web_team.league_pos) {
-      console.log('Updating ' + web_team.name + ' league position');
-      await dbHelper.saveTeamPos(team, web_team.league_pos);
-      return RESULT.SUCCESS;*/
   } else {
-    return RESULT.NO_UPDATE;
+    console.log('Could not get form of ' + web_team.name + ' due to ' + result);
+    return ERRORS.UNKNOWN;
   }
+  /*} else if (team.league_pos != web_team.league_pos) {
+    console.log('Updating ' + web_team.name + ' league position');
+    await dbHelper.saveTeamPos(team, web_team.league_pos);
+    return RESULT.SUCCESS;*/
 }
 
 async function getTeamLink(team) {
-  return league_links.find(result => result.team_name == team.name);
+  let team_link = league_links.find(result => result.team_name == team.name);
+  if (team_link) {
+    return team_link;
+  } else {
+    let league = configs.competitions.leagues.find(result => result.web_id == team.league_id);
+    let team_link = league_links.find(result => result.position == team.league_pos && result.zero_zero == league.zero_zero);
+    return team_link;
+  }
 }
 
 async function getAllTeamLinks() {
@@ -149,7 +156,7 @@ async function getAllTeamLinks() {
         var teams = webScrapper.getTeams(links);
         for (var i = 0; i < teams.length; i++) {
           var team = webScrapper.getTeamLink(links, teams[i]);
-          league_links.push({ zero_zero: league.zero_zero, team_name: team.name, link: team.url });
+          league_links.push({ zero_zero: league.zero_zero, team_name: team.name, link: team.url, position: team.position });
         }
       } else {
         var msg = Object.values(ERRORS)[links];
