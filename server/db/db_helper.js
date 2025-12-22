@@ -80,22 +80,22 @@ async function saveTeam(team, league_id, team_info, stats) {
 		results_link: team.results_link,
 		form: stats.form,
 		avg_goals_last_5: stats.avg_goals_last_5,
-		home_games: team_info.home_games,
-		home_wins: team_info.home_wins,
+		home_games: stats.home_games,
+		home_wins: stats.home_wins,
 		home_draws: team_info.home_draws,
 		home_losses: team_info.home_losses,
 		home_wins_plus_2: stats.home_wins_plus_2,
 		home_wins_plus_3: stats.home_wins_plus_3,
 		home_wins_minus_5: stats.home_wins_minus_5,
-		home_results_link: team_info.home_results_link,
-		away_games: team_info.away_games,
-		away_wins: team_info.away_wins,
+		home_results_link: team.results_link + "C",
+		away_games: stats.away_games,
+		away_wins: stats.away_wins,
 		away_draws: team_info.away_draws,
 		away_losses: team_info.away_losses,
 		away_wins_plus_2: stats.away_wins_plus_2,
 		away_wins_plus_3: stats.away_wins_plus_3,
 		away_wins_minus_5: stats.away_wins_minus_5,
-		away_results_link: team_info.away_results_link
+		away_results_link: team.results_link + "F"
 	});
 	var db_team = await team.save();
 	if (db_team) console.log('Saved ' + db_team.name);

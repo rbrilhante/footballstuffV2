@@ -78,6 +78,10 @@ function getTeamInfo(team) {
 
 function getTeamStats(team_form, team_name) {
 	var form = [];
+	var home_games = 0;
+	var away_games = 0;
+	var home_wins = 0;
+	var away_wins = 0;
 	var home_wins_plus_2 = 0;
 	var home_wins_plus_3 = 0;
 	var home_wins_minus_5 = 0;
@@ -90,6 +94,8 @@ function getTeamStats(team_form, team_name) {
 		var homeGoals = parseInt(team_form[index].Tr1);
 		var awayGoals = parseInt(team_form[index].Tr2);
 		var isHome = team_form[index].T1[0].Nm === team_name;
+
+		isHome ? home_games++ : away_games++;
 
 		var result = 'E'
 		if (homeGoals > awayGoals) {
@@ -109,6 +115,7 @@ function getTeamStats(team_form, team_name) {
 		/*This piece of code has an hack so that a migration of db is not needed.
 		The variables of the + goals have wrong names  */
 		if (result == 'V') {
+			isHome ? home_wins++ : away_wins++;
 			if (goals > 0 && goals < 5)
 				isHome ? home_wins_minus_5++ : away_wins_minus_5++;
 			if (goals > 1)
@@ -120,7 +127,7 @@ function getTeamStats(team_form, team_name) {
 	}
 	var avg_goals_last_5 = (total_goals / 5).toFixed(2);
 	return {
-		'form': form, 'avg_goals_last_5': avg_goals_last_5,
+		'form': form, 'avg_goals_last_5': avg_goals_last_5, 'home_games': home_games, 'away_games': away_games, 'home_wins': home_wins, 'away_wins': away_wins,
 		'home_wins_plus_2': home_wins_plus_2, 'home_wins_plus_3': home_wins_plus_3, 'home_wins_minus_5': home_wins_minus_5,
 		'away_wins_plus_2': away_wins_plus_2, 'away_wins_plus_3': away_wins_plus_3, 'away_wins_minus_5': away_wins_minus_5
 	};
