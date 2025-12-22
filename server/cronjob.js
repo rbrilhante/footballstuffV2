@@ -92,12 +92,13 @@ async function updateLeague(league, curr_counter) {
     msg: "",
     counter: curr_counter
   }
-  var league_page = await webScrapper.loadLeague(league.league_id)//, async function (error, league_page) {
+  var league_page = await webScrapper.loadLeague(league.league_id);
   if (league_page) {
     var league_id = league_page.Sid;
     var teams = league_page.LeagueTable.L[0].Tables[0].team;
     for (var i = 0; i < teams.length; i++) {
-      result.msg = await updateTeam(teams[i], league_id, league.league_id);
+      var team = webScrapper.getTeamInfo(teams[i]);
+      result.msg = await updateTeam(team, league_id, league.league_id);
       if (result.msg == ERRORS.LOGIN_ERROR) break;
       else if (result.msg == RESULT.SUCCESS) result.counter = result.counter + 1;
     }
@@ -109,19 +110,18 @@ async function updateLeague(league, curr_counter) {
   }
 }
 
-async function updateTeam(team, web_league_id, league_id) {
-  var web_team = webScrapper.getTeamInfo(team);
-  var team = await dbHelper.getTeam(web_team.team_id, league_id);
-  if (!team.results_link) {
-    var team_link = await getTeamLink(team);
-    team.results_link = team_link;
+async function updateTeam(web_team, web_league_id, league_id) {
+  var local_team = await dbHelper.getTeam(web_team.team_id, league_id);
+  if (!local_team.results_link) {
+    var team_link = await getTeamLink(local_team);
+    local_team.results_link = team_link;
   }
-  console.log('Updating ' + web_team.name);
   var result = await webScrapper.loadTeamFormPage(web_team, web_league_id);
   if (result) {
-    if (result.length != team.games) {
+    if (result.length != local_team.games) {
+      console.log('Updating ' + web_team.name);
       var stats = webScrapper.getTeamStats(result, web_team.name);
-      await dbHelper.saveTeam(team, league_id, web_team, stats);
+      await dbHelper.saveTeam(local_team, league_id, web_team, stats);
       return RESULT.SUCCESS;
     } else {
       return RESULT.NO_UPDATE;
@@ -137,13 +137,17 @@ async function updateTeam(team, web_league_id, league_id) {
 }
 
 async function getTeamLink(team) {
-  let team_link = league_links.find(result => result.team_name == team.name);
+  let team_link = league_links.find(result => result.team_id == team.team_id);
   if (team_link) {
-    return team_link;
+    return team_link.link;
   } else {
     let league = configs.competitions.leagues.find(result => result.web_id == team.league_id);
-    let team_link = league_links.find(result => result.position == team.league_pos && result.zero_zero == league.zero_zero);
-    return team_link;
+    var index = league_links.findIndex(result => result.team_name == team.name || (result.position == team.league_pos && result.zero_zero == league.zero_zero));
+    if (index >= 0) {
+      league_links[index].team_id = team.team_id;
+      return league_links[index].link;
+    }
+    return "";
   }
 }
 
@@ -156,7 +160,7 @@ async function getAllTeamLinks() {
         var teams = webScrapper.getTeams(links);
         for (var i = 0; i < teams.length; i++) {
           var team = webScrapper.getTeamLink(links, teams[i]);
-          league_links.push({ zero_zero: league.zero_zero, team_name: team.name, link: team.url, position: team.position });
+          league_links.push({ team_id: "", zero_zero: league.zero_zero, team_name: team.name, link: team.link, position: team.position });
         }
       } else {
         var msg = Object.values(ERRORS)[links];
