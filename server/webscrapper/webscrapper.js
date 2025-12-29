@@ -95,6 +95,10 @@ function getTeamStats(team_form, team_name) {
 		var awayGoals = parseInt(team_form[index].Tr2);
 		var isHome = team_form[index].T1[0].Nm === team_name;
 
+		if (team_name == "Villarreal") {
+			console.log(team_name + " has " + homeGoals + " home goals and " + awayGoals + " away goals");
+		}
+
 		isHome ? home_games++ : away_games++;
 
 		var result = 'E'
