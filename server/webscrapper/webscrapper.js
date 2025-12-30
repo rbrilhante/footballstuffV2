@@ -89,8 +89,9 @@ function getTeamStats(team_form, team_name) {
 	var away_wins_plus_3 = 0;
 	var away_wins_minus_5 = 0;
 	var total_goals = 0;
+	var form_count = 0;
 
-	for (index = team_form.length - 1; index >= 0; index--) {
+	for (index = 0; index < team_form.length; index++) {
 
 		if (team_form[index].Eps != "FT") continue;
 
@@ -111,8 +112,9 @@ function getTeamStats(team_form, team_name) {
 		if (isNaN(goals))
 			goals = 0;
 
-		if (index <= 4) {
-			form.push(result);
+		if (form_count < 5) {
+			form.unshift(result);
+			form_count++;
 			total_goals += goals;
 		}
 		/*This piece of code has an hack so that a migration of db is not needed.
