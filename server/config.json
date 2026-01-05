@@ -31,7 +31,7 @@
 	},
 	"web_scrapper": {
 		"league_page": "https://prod-cdn-public-api.livescore.com/v1/api/app/competition/${league_id}/leagueTable/?locale=en",
-		"teams_form_base_url": "https://www.livescore.com/_next/data/TCCRNIuBry_Wmz-mKIAAC/en/football/team/${team_name}/${team_id}/results/${league_id}.json",
+		"teams_form_base_url": "https://www.livescore.com/_next/data/m_HBSeRikcvHMDB8w4CNt/en/football/team/${team_name}/${team_id}/results/${league_id}.json",
 		"zero_zero_competitions_base_url": "https://www.zerozero.pt/competicao/",
 		"zero_zero_base_url": "https://www.zerozero.pt",
 		"table_id": "edition_table",
