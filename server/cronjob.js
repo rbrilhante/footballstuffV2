@@ -94,7 +94,7 @@ async function updateLeague(league, curr_counter) {
   }
   var league_page = await webScrapper.loadLeague(league.league_id);
   if (league_page) {
-    var league_id = league_page.Sid;
+    var league_id = league_page.CompId;
     var teams = league_page.LeagueTable.L[0].Tables[0].team;
     for (var i = 0; i < teams.length; i++) {
       var team = webScrapper.getTeamInfo(teams[i]);
@@ -126,6 +126,8 @@ async function updateTeam(web_team, web_league_id, league_id) {
     } else {
       return RESULT.NO_UPDATE;
     }
+  } else if (result.error = "redirect") {
+    updateTeam(web_team, web_league_id, league_id);
   } else {
     console.log('Could not get form of ' + web_team.name + ' due to ' + result.error);
     return ERRORS.UNKNOWN;
