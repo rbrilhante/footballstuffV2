@@ -96,7 +96,7 @@ function getTeamStats(team_form, team_name) {
 	var total_goals = 0;
 	var form_count = 0;
 
-	for (index = 0; index < team_form.length; index++) {
+	for (index = team_form.length - 1; index >= 0; index--) {
 
 		if (team_form[index].Eps != "FT") continue;
 

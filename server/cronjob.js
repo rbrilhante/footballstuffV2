@@ -118,7 +118,8 @@ async function updateTeam(web_team, web_league_id, league_id) {
   }
   var result = await webScrapper.loadTeamFormPage(web_team, web_league_id);
   if (!result.error) {
-    if (result.length != local_team.games) {
+    if (result.length != local_team.games || web_team.league_pos != local_team.league_pos ||
+      web_team.wins != local_team.wins || web_team.losses != local_team.losses) {
       console.log('Updating ' + web_team.name);
       var stats = webScrapper.getTeamStats(result, web_team.name);
       await dbHelper.saveTeam(local_team, league_id, web_team, stats);
