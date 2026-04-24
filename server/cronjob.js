@@ -55,22 +55,7 @@ async function updateStats() {
       }
     }
     console.log("Job Done! Updated " + counter + " teams");
-
-    if (counter == 0) {
-      if (message == ERRORS.LOGIN_ERROR) {
-        restingCycle++;
-      } else {
-        if (loginError) dbHelper.saveCycle(restingCycle, counter);
-        restingCycle = 0;
-      }
-    } else {
-      if (loginError) dbHelper.saveCycle(restingCycle, counter);
-      restingCycle = 0;
-    }
-    loginError = message == ERRORS.LOGIN_ERROR;
-
-    if (loginError || message == "" || message == ERRORS.COOKIES)
-      goSleep = 150;
+    goSleep = 359;
   } else {
     insertCompetition(year);
   }
@@ -118,15 +103,10 @@ async function updateTeam(web_team, web_league_id, league_id) {
   }
   var result = await webScrapper.loadTeamFormPage(web_team, web_league_id);
   if (!result.error) {
-    if (result.length != local_team.games || web_team.league_pos != local_team.league_pos ||
-      web_team.wins != local_team.wins || web_team.losses != local_team.losses) {
-      console.log('Updating ' + web_team.name);
-      var stats = webScrapper.getTeamStats(result, web_team.name);
-      await dbHelper.saveTeam(local_team, league_id, web_team, stats);
-      return RESULT.SUCCESS;
-    } else {
-      return RESULT.NO_UPDATE;
-    }
+    console.log('Updating ' + web_team.name);
+    var stats = webScrapper.getTeamStats(result, web_team.name);
+    await dbHelper.saveTeam(local_team, league_id, web_team, stats);
+    return RESULT.SUCCESS;
   } else if (result.error = "redirect") {
     updateTeam(web_team, web_league_id, league_id);
   } else {
