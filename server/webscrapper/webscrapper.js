@@ -42,13 +42,16 @@ async function loadLeague(web_id) {
 }
 
 async function loadTeamFormPage(team, league_id) {
-	var url = configs.teams_form_base_url.replace("${team_name}", team.name).replace("${team_id}", team.team_id).replace("${league_id}", league_id).replace("${id}", configs.teams_form_id);
+	var url = configs.teams_form_base_url.replace("${team_id}", team.team_id);
 	var response = await axios.get(url).catch(function (error) {
 		console.log("Error getting " + url);
 		return { error: "url error" };
 	});
 	if (response && response.status == 200) {
-		if (response.data.pageProps.initialData) return response.data.pageProps.initialData.eventsByMatchType[0].Events;
+		if (response.data.Stages) {
+			var stages = response.data.Stages.find(stage => stage.CompId == league_id);
+			return stages.Events;
+		}
 		if (response.data.pageProps.__N_REDIRECT) {
 			var id = response.data.pageProps.__N_REDIRECT.split('=')[1];
 			configs.teams_form_id = id;
